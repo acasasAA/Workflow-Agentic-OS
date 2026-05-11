@@ -29,7 +29,7 @@ The bootstrap will refuse to run without these:
 ```powershell
 # 1. Clone the framework
 cd $env:USERPROFILE
-git clone https://github.com/<you>/workflow-os.git
+git clone https://github.com/acasasAA/Workflow-Agentic-OS.git workflow-os
 cd workflow-os
 
 # 2. Run bootstrap
