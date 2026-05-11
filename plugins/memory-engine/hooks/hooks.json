@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File ${plugin_root}/hooks/ensure-deps.ps1",
+            "timeout": 120,
+            "statusMessage": "memory-engine: dependency check"
+          }
+        ]
+      }
+    ]
+  }
+}

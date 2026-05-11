@@ -1,0 +1,33 @@
+{
+  "name": "workflow-os",
+  "interface": {
+    "displayName": "Workflow OS",
+    "shortDescription": "Plugin-based agentic layer for Codex: memory continuity, project lifecycle, Jira integration"
+  },
+  "plugins": [
+    {
+      "name": "wos-onboarding",
+      "source": { "source": "local", "path": "./plugins/onboarding" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    },
+    {
+      "name": "wos-memory-engine",
+      "source": { "source": "local", "path": "./plugins/memory-engine" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    },
+    {
+      "name": "wos-jira",
+      "source": { "source": "local", "path": "./plugins/jira" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    },
+    {
+      "name": "wos-project",
+      "source": { "source": "local", "path": "./plugins/project" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

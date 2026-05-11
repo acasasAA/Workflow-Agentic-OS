@@ -1,0 +1,12 @@
+{
+  "name": "wos-onboarding",
+  "version": "0.1.0",
+  "description": "Workflow OS first-run setup. Creates workflow-os-data, asks identity/role/Jira/paths, scaffolds vault, installs the rest of the plugin set.",
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "Workflow OS — Onboarding",
+    "shortDescription": "First-run setup for Workflow OS",
+    "category": "Productivity"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mcp_servers": {
+    "memory-engine": {
+      "command": "node",
+      "args": ["${plugin_root}/mcp/server.js"],
+      "env": {
+        "WOS_SENTINEL": "${HOME}/.codex/workflow-os.json"
+      },
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File ${plugin_root}/hooks/check-installed.ps1",
+            "timeout": 10,
+            "statusMessage": "Workflow OS install check"
+          }
+        ]
+      }
+    ]
+  }
+}

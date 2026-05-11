@@ -1,0 +1,20 @@
+# Node deps — rebuilt on first SessionStart via the memory-engine ensure-deps hook
+**/node_modules/
+**/.deps-installed
+
+# Bootstrap backup files
+*.bak-*
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+
+# Codex runtime artifacts that shouldn't ride with the framework
+.codex/cache/
+**/*.log
