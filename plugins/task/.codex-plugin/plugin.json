@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "One-off Jira ticket task lifecycle for Workflow OS. Handles ticket-sized work without creating a project or workspace marker.",
   "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Task",
     "shortDescription": "One-off Jira ticket task lifecycle",

@@ -79,7 +79,7 @@ Plugins follow Codex's native contract (see https://developers.openai.com/codex/
 
 **Existing workspace import**: `$project-import` imports one selected workspace at a time. It writes `WOS.md` only to the chosen folder, creates a project-state note, and optionally sets `active_project`. Bulk importing parent folders is out of scope.
 
-**One-off ticket tasks**: `$task-new`, `$task-update`, `$task-resume`, and `$task-complete` handle ticket-sized work without creating a project or workspace marker. Tasks write `task-state` notes and can set `active_task` for short-lived context.
+**One-off ticket tasks**: `$task-new`, `$task-update`, `$task-checkpoint`, `$task-resume`, and `$task-complete` handle ticket-sized work without creating a project or workspace marker. Tasks write `task-state` notes and can set `active_task` for short-lived context. The task SessionStart hook surfaces `active_task` only when no project `WOS.md` marker is present.
 
 **Onboarding's first-run flag**: the `onboarding` plugin marks itself complete via `local.json.plugin_state.onboarding = { "disabled": true, "completed_at": ... }`. Subsequent SessionStart hooks see the flag and stay silent.
 

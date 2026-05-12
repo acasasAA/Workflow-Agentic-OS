@@ -1,11 +1,11 @@
 ---
 name: task-update
-description: Update the currently active one-off Workflow OS task. Use after progress on a ticket-sized task to refresh status, blockers, and next action without project checkpoint overhead.
+description: Lightly update the currently active one-off Workflow OS task. Use for quick status, blocker, or next-action refreshes. Use $task-checkpoint instead when the user wants a deliberate high-signal save point.
 ---
 
-# `$task-update` — Update One-Off Task
+# `$task-update` — Lightweight Task Update
 
-You are updating a task-state note for a ticket-sized task.
+You are making a lightweight task-state update for a ticket-sized task. Keep this short and operational. If the user wants a deliberate save point with narrative, blockers, and next-action capture, route them to `$task-checkpoint`.
 
 ## Step 1 — Resolve task
 
@@ -29,18 +29,18 @@ Call `mcp__memory-engine__memory_search`:
 
 Show current status and next action briefly.
 
-## Step 3 — Gather update
+## Step 3 — Gather lightweight update
 
 Ask:
 
 1. What changed?
 2. Current status: active, waiting, blocked, resolved, cancelled.
 3. Next action.
-4. Blockers, if any.
+4. Blockers, if any. Keep this brief.
 
 ## Step 4 — Write updated task-state
 
-Call `memory_write` with `type: "task-state"`, `source: "wos-task"`, and `project: "<task-slug>"`. Include the new status, next action, blockers, and a short update narrative in the body.
+Call `memory_write` with `type: "task-state"`, `source: "wos-task"`, and `project: "<task-slug>"`. Include the new status, next action, blockers, and a concise update note in the body.
 
 ## Step 5 — Optional Jira comment
 
@@ -52,4 +52,6 @@ If yes, load `${plugin_root}/../../jira/references/emoji-format.md`, draft the c
 
 - No Jira write without explicit confirmation.
 - No deletes.
-- Keep task updates short; use `$project-checkpoint` for project-level checkpoints.
+- Keep task updates short.
+- Use `$task-checkpoint` for deliberate task save points.
+- Use `$project-checkpoint` for project-level checkpoints.

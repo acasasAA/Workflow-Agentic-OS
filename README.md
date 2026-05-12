@@ -36,7 +36,7 @@ v2/
 - **Jira.** Uses Atlassian Rovo MCP from the marketplace. The `jira` plugin layers policy (no-delete `enabled_tools` allow-list) and the mandatory Workflow OS emoji format.
 - **Runtimes.** Node for MCP servers, PowerShell for hooks and install scripts.
 - **Onboarding.** `$welcome` is role-tailored for Athens IT users, validates foundation tools, defaults Jira to ASD/TPM, and records preferences.
-- **Projects and tasks.** `$project-new` starts scoped project work. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project.
+- **Projects and tasks.** `$project-new` starts scoped project work. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project, and `$task-checkpoint` creates deliberate task save points.
 - **DR.** Live local data → manual/on-demand OneDrive backup/export → GitHub Desktop versioned snapshots → SQLite regenerable from vault.
 
 ## Moving to a new machine
