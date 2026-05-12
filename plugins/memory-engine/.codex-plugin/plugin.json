@@ -6,7 +6,7 @@
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Memory Engine",
-    "shortDescription": "Local memory store: vault + SQLite FTS5 + MCP",
+    "shortDescription": "v0.1.0 · Local memory store: vault + SQLite FTS5 + MCP",
     "category": "Productivity"
   }
 }

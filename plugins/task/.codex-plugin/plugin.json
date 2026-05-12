@@ -6,7 +6,7 @@
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Task",
-    "shortDescription": "One-off Jira ticket lifecycle and lightweight orchestration",
+    "shortDescription": "v0.1.1 · One-off Jira ticket lifecycle and lightweight orchestration",
     "category": "Productivity"
   }
 }

@@ -6,7 +6,7 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Workflow OS — Jira",
-    "shortDescription": "Jira integration via Atlassian Rovo MCP, with emoji format and no-delete policy",
+    "shortDescription": "v0.1.1 · Jira integration via Atlassian Rovo MCP, with emoji format and no-delete policy",
     "category": "Productivity"
   }
 }

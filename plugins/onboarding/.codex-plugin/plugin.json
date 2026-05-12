@@ -6,7 +6,7 @@
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Onboarding",
-    "shortDescription": "Role-tailored first-run setup for Workflow OS",
+    "shortDescription": "v0.1.2 · Role-tailored first-run setup for Workflow OS",
     "category": "Productivity"
   }
 }
