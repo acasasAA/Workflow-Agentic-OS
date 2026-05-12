@@ -1,12 +1,12 @@
 {
   "name": "wos-project",
-  "version": "0.1.1",
-  "description": "Project lifecycle: new, import existing workspace, checkpoint, resume, complete. Handles both long projects and one-off tickets. Auto-resumes on SessionStart and writes session-summary notes on Stop.",
+  "version": "0.1.2",
+  "description": "Project lifecycle for scoped work: new, import, orchestrate, checkpoint, resume, complete. Auto-resumes on SessionStart and writes session-summary notes on Stop.",
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Project",
-    "shortDescription": "Project lifecycle, selective import, auto-resume, and auto-checkpoint",
+    "shortDescription": "Project lifecycle, Jira phase orchestration, selective import, and auto-resume",
     "category": "Productivity"
   }
 }

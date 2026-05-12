@@ -24,7 +24,7 @@ Derive a **slug** from the name (lowercase, hyphenated, ≤30 chars). Confirm th
 Ask the user: "Do you have an existing Jira epic or project-level ticket for this project?"
 
 - **If yes**: ask for the Jira key (e.g. `PHX-100`). Call `mcp__atlassian-rovo__get_issue` to fetch metadata. Confirm the title/type match what the user means.
-- **If no**: ask whether this should be represented in Jira as an **epic** or a **project-level ticket**. Do not offer one-off task creation here. Creation is a write op — load `${plugin_root}/../../jira/references/emoji-format.md` and draft the description in the §2 skeleton. Show the user, get explicit confirmation, then call `mcp__atlassian-rovo__create_issue`.
+- **If no**: ask whether this should be represented in Jira as an **epic** or a **project-level ticket**. Do not offer one-off task creation here. Creation is a write op — load `${plugin_root}/../jira/references/emoji-format.md` and draft the description in the §2 skeleton. Show the user, get explicit confirmation, then call `mcp__atlassian-rovo__create_issue`.
 
 Record the resulting `jira_key` (whether existing or just-created).
 
@@ -78,7 +78,7 @@ Set `active_project = "<slug>"` in `<data_root>/.agent/local.json`. (Use the mem
 
 Tell the user:
 
-> Project scaffolded. Enter Codex plan mode with `/plan` to define the phases of this project. When you exit plan mode, I'll offer to push the phases to Jira under `<jira_key>` as **tasks or subtasks** (you'll pick).
+> Project scaffolded. Enter Codex plan mode with `/plan` to define the phases of this project. When planning is done, I'll upload or update the finalized phases in Jira under `<jira_key>` as **tasks or subtasks** (you'll pick). After Jira reflects the phase structure, `$project-orchestrate` can analyze Jira and offer a dependency-aware execution graph before implementation starts.
 
 Wait for the user to run `/plan` and complete planning. (You're the LLM — the user drives plan mode; you observe.)
 
@@ -91,19 +91,25 @@ When the user exits plan mode and the plan is visible, do this:
    - If `jira_type == "epic"`, phases become **tasks** under the epic.
    - If `jira_type == "project-ticket"`, phases become **subtasks** under the project-level ticket.
    - Ask the user to confirm the shape if it's ambiguous.
-3. Show the user:
+3. Show the user a Jira write manifest:
    ```
-   Push these N items to Jira under <jira_key> as <tasks|subtasks>?
+   Jira write plan for <jira_key>
+
+   Create/update these N phase items as <tasks|subtasks>:
    1. <phase 1 title>
    2. <phase 2 title>
    ...
+
+   Link dependencies:
+   - <phase A> blocks <phase B>   # only for real dependencies
    ```
-4. On confirmation, loop calling `mcp__atlassian-rovo__create_issue` once per phase. Use the emoji-format description skeleton, filling in just the **Objective** for each. Acceptance criteria can be added later.
-5. Record each created key in the `project-state` note (call `memory_write` again to update, or surface the keys for the user to track).
+4. On explicit confirmation in the current turn, execute only the listed Jira writes. Use the emoji-format description skeleton for every description. For real dependencies, create Jira issue links when available and also record the dependency in the description. If linking fails, continue with the dependency text and report the warning.
+5. Record each created/updated key in the `project-state` note (call `memory_write` again to update, or surface the keys for the user to track).
+6. Offer `$project-orchestrate` only after Jira contains the finalized phase structure. `$project-orchestrate` analyzes Jira before implementation; it does not replace planning or phase upload.
 
 ## Hard rules
 
-- **No automatic Jira writes.** Every create gets explicit confirmation.
+- **No automatic Jira writes.** A batch write manifest may be approved once in the current turn; unlisted writes require fresh confirmation.
 - **No deletes.** If a wrong subtask gets created, the user removes it manually in Jira (per `.agent/boundaries.md` §1).
 - **No secrets in `WOS.md`, project-state, or Jira descriptions.**
 - **The slug is permanent** — once written, don't rename it. Slug collisions: ask the user to pick a new one.

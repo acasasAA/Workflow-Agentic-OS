@@ -22,7 +22,7 @@ v2/
     │   └── .codex-plugin/, mcp/, .mcp.json, hooks/, scripts/
     ├── jira/                            Atlassian Rovo MCP wrapper + emoji format
     │   └── .codex-plugin/, skills/, .mcp.json, references/
-    └── project/                         project lifecycle + selective import + auto-resume
+    ├── project/                         project lifecycle + orchestration + selective import + auto-resume
         └── .codex-plugin/, skills/, hooks/, scripts/
     └── task/                            one-off ticket task lifecycle
         └── .codex-plugin/, skills/, scripts/
@@ -36,7 +36,7 @@ v2/
 - **Jira.** Uses Atlassian Rovo MCP from the marketplace. The `jira` plugin layers policy (no-delete `enabled_tools` allow-list) and the mandatory Workflow OS emoji format.
 - **Runtimes.** Node for MCP servers, PowerShell for hooks and install scripts.
 - **Onboarding.** `$welcome` is role-tailored for Athens IT users, validates foundation tools, defaults Jira to ASD/TPM, and records preferences.
-- **Projects and tasks.** `$project-new` starts scoped project work. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project, and `$task-checkpoint` creates deliberate task save points.
+- **Projects and tasks.** `$project-new` starts scoped project work, uploads the completed plan to Jira as phases, then `$project-orchestrate` can analyze Jira and propose dependency-aware execution before implementation. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project, and `$task-orchestrate` offers lightweight orchestration only when a task has independent streams.
 - **DR.** Live local data → manual/on-demand OneDrive backup/export → GitHub Desktop versioned snapshots → SQLite regenerable from vault.
 
 ## Moving to a new machine

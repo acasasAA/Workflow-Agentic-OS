@@ -46,7 +46,7 @@ Call `memory_write` with `type: "task-state"`, `source: "wos-task"`, and `projec
 
 Ask whether to post a Jira comment only if a Jira key exists.
 
-If yes, load `${plugin_root}/../../jira/references/emoji-format.md`, draft the comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
+If yes, load `${plugin_root}/../jira/references/emoji-format.md`, draft the comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
 
 ## Hard rules
 

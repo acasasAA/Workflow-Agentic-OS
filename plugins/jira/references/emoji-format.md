@@ -1,6 +1,6 @@
 # Workflow OS — Jira Write Format (Emoji Structure)
 
-This format is mandatory for all writes to Jira originating from Workflow OS — comments, descriptions, titles, transitions. Used by the `wos-jira` plugin's skills and by every other plugin (`wos-project`) that writes to Jira through the Atlassian Rovo MCP.
+This format is mandatory for all writes to Jira originating from Workflow OS — comments, descriptions, titles, transitions. Used by the `wos-jira` plugin's skills and by every other plugin (`wos-project`, `wos-task`) that writes to Jira through the Atlassian Rovo MCP.
 
 ## 1. Comment structure
 
@@ -63,12 +63,12 @@ When Workflow OS creates a Jira work item, the description follows this skeleton
 
 ## 3. Title conventions
 
-- **Epic**: `[Epic] <Name>` — short, action-oriented (e.g. `[Epic] Migrate billing to new auth`).
-- **Task**: `<Verb> <object>` — imperative (e.g. `Implement webhook handler`). No prefix needed.
-- **Subtask**: same as task, but typically scoped narrower (e.g. `Add retry logic to webhook handler`).
-- **Ticket** (helpdesk-style): `<area>: <symptom>` (e.g. `Payments: invoice email not sent`).
+Use exactly one lead emoji at the beginning of the title, followed by concise action-oriented text. Do not stack multiple emojis.
 
-Avoid emoji in titles unless the team convention already uses them.
+- **Epic**: `🚀 [Epic] <Name>` (e.g. `🚀 [Epic] Migrate billing to new auth`).
+- **Task**: `🛠️ <Verb> <object>` (e.g. `🛠️ Implement webhook handler`).
+- **Subtask**: `🔧 <Verb> <object>` — typically scoped narrower (e.g. `🔧 Add retry logic to webhook handler`).
+- **Ticket** (helpdesk-style): `🎫 <area>: <symptom>` (e.g. `🎫 Payments: invoice email not sent`).
 
 ## 4. Transition comments
 

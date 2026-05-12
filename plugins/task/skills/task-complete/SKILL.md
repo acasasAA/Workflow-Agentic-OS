@@ -46,7 +46,7 @@ Call `mcp__memory-engine__memory_write`:
 
 If a Jira key exists, ask whether to post a completion comment.
 
-If yes, load `${plugin_root}/../../jira/references/emoji-format.md`, draft a concise ✅ comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
+If yes, load `${plugin_root}/../jira/references/emoji-format.md`, draft a concise ✅ comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
 
 Do not transition the Jira ticket unless the user explicitly asks for a transition as a separate confirmed action.
 

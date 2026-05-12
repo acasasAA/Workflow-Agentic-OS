@@ -79,8 +79,10 @@ Then it:
 After onboarding:
 - Open Obsidian on `<data_root>/vault/` — the empty vault.
 - Start project-mode work with `$project-new`.
+- After a project plan is uploaded into Jira as phases, use `$project-orchestrate` to analyze the Jira phase graph and optionally greenlight parallel work.
 - Import an existing workspace with `$project-import`; it imports one selected folder only and writes `WOS.md` only there.
 - Start one-off ticket work with `$task-new`; it does not create a project or `WOS.md`.
+- Use `$task-orchestrate` only when a one-off ticket has clearly independent work streams.
 - Save deliberate ticket/task progress with `$task-checkpoint`; quick status changes use `$task-update`.
 
 ### Recovery on a future clean machine

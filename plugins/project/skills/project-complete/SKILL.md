@@ -9,7 +9,7 @@ You are closing the currently active project.
 
 ## Step 1 — Confirm intent
 
-Resolve the active project via `${plugin_root}/../scripts/active-project.ps1`. Show the user:
+Resolve the active project via `${plugin_root}/scripts/active-project.ps1`. Show the user:
 
 ```
 About to complete: <slug> — <name>
@@ -72,7 +72,7 @@ Available transitions for <jira_key>:
 Transition to <Done|Closed|Resolved>? Or skip? (number / skip)
 ```
 
-If the user picks a transition, draft a ✅ closeout comment per the Jira emoji format (`${plugin_root}/../../jira/references/emoji-format.md` §4). Show the user, get explicit confirmation, then:
+If the user picks a transition, draft a ✅ closeout comment per the Jira emoji format (`${plugin_root}/../jira/references/emoji-format.md` §4). Show the user, get explicit confirmation, then:
 
 1. Call `mcp__atlassian-rovo__add_comment` to post the comment.
 2. Call `mcp__atlassian-rovo__transition_issue` to perform the transition.

@@ -201,8 +201,10 @@ Summarize in 5 bullets max. Tell the user:
 
 - Open Obsidian on `<data_path>/vault/`.
 - Start project-mode work with `$project-new`.
+- After a project plan is uploaded into Jira as phases, use `$project-orchestrate` when parallel orchestration may help.
 - Import an existing workspace with `$project-import`.
 - Start one-off ticket work with `$task-new`.
+- Use `$task-orchestrate` only for one-off tickets with clearly independent streams.
 
 ## Failure modes
 

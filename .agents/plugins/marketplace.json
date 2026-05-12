@@ -2,7 +2,7 @@
   "name": "workflow-os",
   "interface": {
     "displayName": "Workflow OS",
-    "shortDescription": "Plugin-based agentic layer for Codex: memory continuity, project lifecycle, Jira integration"
+    "shortDescription": "Plugin-based agentic layer for Codex: memory continuity, Jira, projects, tasks, and orchestration"
   },
   "plugins": [
     {

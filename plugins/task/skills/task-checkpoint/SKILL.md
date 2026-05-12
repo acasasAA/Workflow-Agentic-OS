@@ -67,7 +67,7 @@ Call `memory_write` again with `type: "task-state"`, `source: "wos-task"`, and `
 
 If the task has a Jira key, ask whether to post a checkpoint comment.
 
-If yes, load `${plugin_root}/../../jira/references/emoji-format.md`, draft the comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
+If yes, load `${plugin_root}/../jira/references/emoji-format.md`, draft the comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
 
 ## Hard rules
 

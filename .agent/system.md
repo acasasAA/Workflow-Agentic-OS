@@ -79,7 +79,9 @@ Plugins follow Codex's native contract (see https://developers.openai.com/codex/
 
 **Existing workspace import**: `$project-import` imports one selected workspace at a time. It writes `WOS.md` only to the chosen folder, creates a project-state note, and optionally sets `active_project`. Bulk importing parent folders is out of scope.
 
-**One-off ticket tasks**: `$task-new`, `$task-update`, `$task-checkpoint`, `$task-resume`, and `$task-complete` handle ticket-sized work without creating a project or workspace marker. Tasks write `task-state` notes and can set `active_task` for short-lived context. The task SessionStart hook surfaces `active_task` only when no project `WOS.md` marker is present.
+**Project orchestration**: `$project-orchestrate` runs only after planning is complete and Jira contains the project phase tasks/subtasks. It reads Jira as the source of truth, proposes a dependency-aware execution graph, asks for user greenlight, and uses worktree agents for file-changing phases when safe. It is explicit and user-controlled; hooks do not start orchestration.
+
+**One-off ticket tasks**: `$task-new`, `$task-update`, `$task-checkpoint`, `$task-resume`, `$task-orchestrate`, and `$task-complete` handle ticket-sized work without creating a project or workspace marker. Tasks write `task-state` notes and can set `active_task` for short-lived context. The task SessionStart hook surfaces `active_task` only when no project `WOS.md` marker is present. `$task-orchestrate` is conservative and only splits clearly independent streams.
 
 **Onboarding's first-run flag**: the `onboarding` plugin marks itself complete via `local.json.plugin_state.onboarding = { "disabled": true, "completed_at": ... }`. Subsequent SessionStart hooks see the flag and stay silent.
 

@@ -36,12 +36,13 @@ Read concrete values from `<wos_data>/.agent/local.json`:
 - `jira_tenant` — Jira Cloud base URL.
 - `github_desktop` — GitHub Desktop install path (may be null).
 - `active_project` — slug of the currently active project, or null.
+- `active_task` — slug of the currently active one-off task, or null.
 
 ## 4. Plugin model (Codex-native)
 
 Plugins follow Codex's contract: `.codex-plugin/plugin.json` manifest, `skills/<name>/SKILL.md` files invoked as `$<name>`, `hooks/hooks.json` for lifecycle handlers, `.mcp.json` for MCP servers. The framework is also a marketplace — `.agents/plugins/marketplace.json` lists all Workflow OS plugins.
 
-Currently shipped: `onboarding`, `memory-engine`, `jira`, `project`, `task`.
+Currently shipped: `onboarding`, `memory-engine`, `jira`, `project`, `task`. Project and task orchestration are explicit skills, not hooks.
 
 Codex's `/plugins` UI is authoritative for which plugins are installed and enabled. Workflow OS does not maintain a parallel registry.
 

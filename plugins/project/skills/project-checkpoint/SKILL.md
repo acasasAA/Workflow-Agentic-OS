@@ -9,7 +9,7 @@ You are writing a deliberate checkpoint for the active project.
 
 ## Step 1 — Confirm active project
 
-Call `${plugin_root}/../scripts/active-project.ps1` to resolve the active project slug. If `slug` is null, tell the user there's no active project (suggest `$project-new` or `$project-resume`) and exit.
+Call `${plugin_root}/scripts/active-project.ps1` to resolve the active project slug. If `slug` is null, tell the user there's no active project (suggest `$project-new` or `$project-resume`) and exit.
 
 ## Step 2 — Read current state
 
@@ -53,7 +53,7 @@ Call `mcp__memory-engine__memory_write`:
 
 Ask the user: "Post a 🟡 (or 🟢 / 🔴 based on blockers) comment to the project's Jira key summarizing this checkpoint?"
 
-If yes, load `${plugin_root}/../../jira/references/emoji-format.md` §1, draft the comment, get confirmation, then call `mcp__atlassian-rovo__add_comment`.
+If yes, load `${plugin_root}/../jira/references/emoji-format.md` §1, draft the comment, get confirmation, then call `mcp__atlassian-rovo__add_comment`.
 
 ## Step 6 — Update `project-state`
 
