@@ -9,7 +9,7 @@
 #   4. Writes a minimal block into ~/.codex/config.toml:
 #        features.codex_hooks = true
 #        project_doc_fallback_filenames += ["WOS.md"]
-#   5. Adds this directory as a Codex plugin marketplace.
+#   5. Adds this repo-scoped Codex plugin marketplace.
 #   6. Tells the user to install plugins via /plugins and run $welcome.
 #
 # Idempotent: safe to re-run. Backups existing files before overwriting.
@@ -52,7 +52,7 @@ $required = @(
     'AGENTS.md',
     '.agent/system.md',
     '.agent/boundaries.md',
-    'marketplace.json',
+    '.agents/plugins/marketplace.json',
     'plugins/onboarding/.codex-plugin/plugin.json',
     'plugins/memory-engine/.codex-plugin/plugin.json',
     'plugins/jira/.codex-plugin/plugin.json',

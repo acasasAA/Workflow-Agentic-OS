@@ -1,0 +1,127 @@
+{
+  "roles": [
+    {
+      "id": "help-desk",
+      "label": "Help Desk",
+      "summary": "Front-line ticket triage, user support, escalation, and service desk documentation.",
+      "default_work_style": "Concise ticket-first support. Prioritize clear troubleshooting steps, escalation notes, and customer-ready updates.",
+      "jira_project_suggestions": ["ASD", "TPM"],
+      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP"],
+      "tailoring_questions": [
+        "Which queues or request types do you work most often?",
+        "Which systems do you commonly reference while troubleshooting?",
+        "What SLA, priority, or escalation rules should Workflow OS remember?",
+        "Do you prefer concise ticket notes or fuller troubleshooting logs?",
+        "What kinds of user updates should Workflow OS help draft?"
+      ]
+    },
+    {
+      "id": "it-operations",
+      "label": "IT Operations",
+      "summary": "Operational reliability, systems coordination, incident response, service health, and recurring IT workflows.",
+      "default_work_style": "Operationally direct. Track current state, blockers, owners, next actions, and service impact.",
+      "jira_project_suggestions": ["ASD", "TPM"],
+      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Azure CLI"],
+      "tailoring_questions": [
+        "Which services, queues, or operational areas are in your day-to-day scope?",
+        "What recurring checks, handoffs, or status updates should Workflow OS help with?",
+        "Which incidents or service-health signals matter most?",
+        "What level of detail should checkpoints capture for operational continuity?",
+        "Which teams or stakeholders do you coordinate with most?"
+      ]
+    },
+    {
+      "id": "system-administration",
+      "label": "System Administration",
+      "summary": "Server, endpoint, identity, access, automation, and infrastructure administration.",
+      "default_work_style": "Change-control oriented. Capture commands, validation, rollback notes, affected systems, and access boundaries.",
+      "jira_project_suggestions": ["ASD", "TPM"],
+      "recommended_tools": ["Atlassian Rovo MCP", "Azure CLI", "AWS CLI or AWS MCP", "SharePoint MCP"],
+      "tailoring_questions": [
+        "Which platforms or system areas do you administer?",
+        "What change-control details should Workflow OS always capture?",
+        "Which automation tools or shells do you use most?",
+        "What approval or maintenance-window rules should Workflow OS remember?",
+        "What should be treated as high-risk before execution?"
+      ]
+    },
+    {
+      "id": "project-management",
+      "label": "Project Management",
+      "summary": "Project planning, delivery tracking, stakeholder updates, risks, dependencies, and Jira coordination.",
+      "default_work_style": "Plan and status oriented. Emphasize milestones, owners, risks, dependencies, and crisp stakeholder updates.",
+      "jira_project_suggestions": ["ASD", "TPM"],
+      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Power BI CLI/MCP"],
+      "tailoring_questions": [
+        "Which boards, programs, or portfolios do you manage?",
+        "What project status format do you prefer?",
+        "Which risks, dependencies, or blockers should be highlighted by default?",
+        "How often do you want checkpoint summaries?",
+        "Who are the main stakeholder groups for updates?"
+      ]
+    },
+    {
+      "id": "development-dba",
+      "label": "Development / DBA",
+      "summary": "Application development, database work, integrations, data fixes, and technical delivery.",
+      "default_work_style": "Implementation-focused. Track design decisions, test evidence, migrations, data safety, and release notes.",
+      "jira_project_suggestions": ["ASD", "TPM"],
+      "recommended_tools": ["Atlassian Rovo MCP", "GitHub Desktop", "Azure CLI", "AWS CLI or AWS MCP", "Power BI CLI/MCP"],
+      "tailoring_questions": [
+        "Which codebases, databases, or integrations do you work on most?",
+        "What testing or validation evidence should Workflow OS capture?",
+        "What database safety rules or approval gates matter?",
+        "How should technical decisions and tradeoffs be recorded?",
+        "Which deployment or release workflows should Workflow OS remember?"
+      ]
+    },
+    {
+      "id": "it-leadership",
+      "label": "IT Leadership",
+      "summary": "People leadership, service delivery, portfolio visibility, risk management, and executive communication.",
+      "subroles": ["Supervisor", "Manager", "Director", "VP", "Exec VP"],
+      "default_work_style": "Outcome and visibility oriented. Prefer summaries that surface risk, ownership, impact, and decisions.",
+      "jira_project_suggestions": ["ASD", "TPM"],
+      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Power BI CLI/MCP"],
+      "tailoring_questions_by_subrole": {
+        "Supervisor": [
+          "Which team or queue do you supervise?",
+          "What daily or weekly operational signals matter most?",
+          "What escalation patterns should Workflow OS watch for?",
+          "What coaching, handoff, or coverage notes should be captured?"
+        ],
+        "Manager": [
+          "Which teams, services, or projects are in your scope?",
+          "What status rollup format do you prefer?",
+          "Which risks, blockers, and ownership details should be highlighted?",
+          "What recurring meetings or reporting cycles should Workflow OS support?"
+        ],
+        "Director": [
+          "Which departments, programs, or service areas are in your scope?",
+          "What portfolio-level outcomes should Workflow OS track?",
+          "What risk, budget, staffing, or compliance signals should be elevated?",
+          "What level of detail do you prefer for drilldowns?"
+        ],
+        "VP": [
+          "Which strategic outcomes do you care about most?",
+          "Which boards, programs, or service areas should be visible by default?",
+          "How often do you want executive summaries?",
+          "What level of detail should Workflow OS default to: executive summary, operational rollup, or issue-level drilldown?"
+        ],
+        "Exec VP": [
+          "Which enterprise outcomes and risks should Workflow OS prioritize?",
+          "Which leadership groups or business units are in your scope?",
+          "What summary cadence and format do you prefer?",
+          "What should always be escalated instead of buried in project detail?"
+        ]
+      }
+    }
+  ],
+  "product_defaults": {
+    "jira_project_keys": ["ASD", "TPM"],
+    "jira_project_notes": {
+      "ASD": "Main IT ticketing system; default for Athens IT users.",
+      "TPM": "IT team project management board; default for Athens IT project work."
+    }
+  }
+}

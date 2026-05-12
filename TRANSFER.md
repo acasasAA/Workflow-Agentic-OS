@@ -10,7 +10,7 @@ Mechanical checklist for moving the v2 framework to a new machine.
    Get-ChildItem -Recurse -File | Measure-Object
    ```
 2. Push the v2 contents to a private GitHub repo named `workflow-os` via GitHub Desktop.
-   - Repo root = the **contents of `v2/`**, not the `v2/` folder itself. `AGENTS.md`, `marketplace.json`, `.agent/`, `plugins/`, etc. should be at the repo root.
+   - Repo root = the **contents of `v2/`**, not the `v2/` folder itself. `AGENTS.md`, `.agents/plugins/marketplace.json`, `.agent/`, `plugins/`, etc. should be under the repo root.
 
 ## On the new machine (clean install)
 
@@ -52,7 +52,7 @@ Inside Codex:
 ```
 /plugins
 ```
-Install at minimum `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will offer to install the other three (`wos-memory-engine`, `wos-jira`, `wos-project`) as part of its flow.
+Install at minimum `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation of the other three (`wos-memory-engine`, `wos-jira`, `wos-project`) as part of its flow.
 
 ```
 $welcome
@@ -63,12 +63,14 @@ Walk through the onboarding questions. When it finishes, you'll have a working W
 ### What `$welcome` does
 
 The onboarding skill (the only thing in `wos-onboarding`) asks for:
-- Identity (username, display name, role, work style).
-- Paths (data root, OneDrive backup folder, GitHub Desktop install).
-- Jira tenant URL and primary project keys.
+- Identity and polished role profile (Help Desk, IT Operations, System Administration, Project Management, Development / DBA, or IT Leadership with subrole).
+- Role-tailoring answers that shape defaults and preferences.
+- Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, Obsidian, Atlassian Rovo MCP, Outlook Email/Calendar recommended; other tools optional by role).
+- Paths (framework engine path, local data root, optional OneDrive backup/export folder, GitHub Desktop install).
+- Jira tenant URL and primary project keys, defaulting Athens users to ASD and TPM only.
 
 Then it:
-- Creates `<data_root>/` with `vault/`, `memory/`, `.index/`, `.logs/`, `.agent/`.
+- Creates local `<data_root>/` with `vault/`, `memory/`, `.index/`, `.logs/`, `.agent/`.
 - Writes `<data_root>/.agent/local.json` with all answers.
 - Writes `<data_root>/memory/users/<username>/preferences.md`.
 - Installs the remaining three plugins via the marketplace.
@@ -77,6 +79,7 @@ Then it:
 After onboarding:
 - Open Obsidian on `<data_root>/vault/` — the empty vault.
 - Start your first project with `$project-new`.
+- Import an existing workspace with `$project-import`; it imports one selected folder only and writes `WOS.md` only there.
 
 ### Recovery on a future clean machine
 
@@ -96,6 +99,17 @@ pwsh -File "<framework_root>/plugins/memory-engine/scripts/reindex.ps1" -Force
 - `workflow-os-data/.index/` — regenerable from the vault; don't transfer.
 - `workflow-os-data/.logs/` — local-only; don't transfer.
 - Any `plugins/*/mcp/node_modules/` — `npm install` runs automatically on first SessionStart.
+
+## Developer test reset
+
+End-user onboarding is intended to be one-and-done. During product testing only, you can reset and rerun onboarding by:
+
+1. Back up `~/.codex/workflow-os.json`.
+2. Set `data_root` to `null` and `installed` to `false`.
+3. Optionally remove the sandbox data root used for the test run.
+4. Open a fresh Codex session and run `$welcome` again.
+
+Do not present this as a normal end-user uninstall/reset workflow.
 
 ## Sanity check after install
 

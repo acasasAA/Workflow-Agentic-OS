@@ -1,0 +1,34 @@
+{
+  "tiers": {
+    "required": [
+      "Codex CLI",
+      "Git",
+      "Node.js"
+    ],
+    "recommended": [
+      "GitHub Desktop",
+      "Obsidian",
+      "Atlassian Rovo MCP",
+      "Outlook Email MCP",
+      "Outlook Calendar MCP"
+    ],
+    "optional_role_based": [
+      "SharePoint MCP",
+      "Azure CLI",
+      "AWS CLI or AWS MCP",
+      "Power BI CLI/MCP",
+      "Power Automate CLI/MCP",
+      "Microsoft Learn CLI",
+      "Superpowers Plugin"
+    ]
+  },
+  "install_guidance": {
+    "package_manager_preference": ["winget", "choco"],
+    "requires_confirmation": true,
+    "notes": [
+      "Report installed-but-not-on-PATH separately from missing.",
+      "Do not run install commands without explicit user confirmation.",
+      "If a connector or MCP is installed through Codex UI rather than a system package, direct the user to the relevant plugin or connector flow."
+    ]
+  }
+}

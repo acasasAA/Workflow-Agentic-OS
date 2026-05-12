@@ -7,6 +7,8 @@ description: Start a new Workflow OS project. Asks for name, description, and Ji
 
 You are creating a new Workflow OS project. This is the entry point for all scoped work.
 
+If the user already has an existing workspace folder they want to bring into Workflow OS, direct them to `$project-import` instead. `$project-new` is for brand-new work; `$project-import` is for one selected existing folder.
+
 ## Step 1 — Name & description
 
 Ask:

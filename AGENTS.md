@@ -39,7 +39,7 @@ Read concrete values from `<wos_data>/.agent/local.json`:
 
 ## 4. Plugin model (Codex-native)
 
-Plugins follow Codex's contract: `.codex-plugin/plugin.json` manifest, `skills/<name>/SKILL.md` files invoked as `$<name>`, `hooks/hooks.json` for lifecycle handlers, `.mcp.json` for MCP servers. The framework is also a marketplace — `marketplace.json` at the repo root lists all Workflow OS plugins.
+Plugins follow Codex's contract: `.codex-plugin/plugin.json` manifest, `skills/<name>/SKILL.md` files invoked as `$<name>`, `hooks/hooks.json` for lifecycle handlers, `.mcp.json` for MCP servers. The framework is also a marketplace — `.agents/plugins/marketplace.json` lists all Workflow OS plugins.
 
 Currently shipped: `onboarding`, `memory-engine`, `jira`, `project`.
 

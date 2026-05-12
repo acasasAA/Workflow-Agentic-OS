@@ -7,7 +7,10 @@
 #   { "slug": "<slug>", "source": "marker"|"local"|"none", "marker_dir": "<path-or-null>" }
 
 [CmdletBinding()]
-param([string]$Cwd = (Get-Location).Path)
+param(
+    [string]$Cwd = (Get-Location).Path,
+    [string]$Set
+)
 
 $ErrorActionPreference = 'Continue'
 
@@ -38,6 +41,39 @@ function Get-MarkerSlug {
         }
     } catch { }
     return $null
+}
+
+if ($PSBoundParameters.ContainsKey('Set')) {
+    $sentinelPath = Join-Path $env:USERPROFILE '.codex/workflow-os.json'
+    if (-not (Test-Path $sentinelPath)) {
+        [ordered]@{
+            ok = $false
+            error = 'Workflow OS sentinel not found'
+        } | ConvertTo-Json -Compress
+        exit 1
+    }
+
+    try {
+        $s = Get-Content $sentinelPath -Raw | ConvertFrom-Json
+        if (-not $s.data_root) { throw 'data_root is not set in sentinel' }
+        $localPath = Join-Path $s.data_root '.agent/local.json'
+        if (-not (Test-Path $localPath)) { throw "local.json not found at $localPath" }
+        $local = Get-Content $localPath -Raw | ConvertFrom-Json
+        $local.active_project = if ([string]::IsNullOrWhiteSpace($Set)) { $null } else { $Set }
+        $local | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $localPath -Encoding UTF8
+        [ordered]@{
+            ok = $true
+            active_project = $local.active_project
+            local_json = $localPath
+        } | ConvertTo-Json -Compress
+        exit 0
+    } catch {
+        [ordered]@{
+            ok = $false
+            error = $_.Exception.Message
+        } | ConvertTo-Json -Compress
+        exit 1
+    }
 }
 
 $slug = $null

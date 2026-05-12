@@ -4,14 +4,14 @@ This is the system layer. It defines *how* Workflow OS operates. Per-user prefer
 
 ## 1. Architecture in one paragraph
 
-Workflow OS is a plugin host that runs inside Codex. Plugins bundle prompts, hooks, scripts, and MCP servers to deliver coherent capabilities. Memory is a local Obsidian vault indexed by SQLite FTS5, accessed exclusively through the `memory-engine` MCP server. Backup is OneDrive (continuous) plus GitHub (versioned snapshots). Jira is the primary external work surface, accessed read-only by default through the `jira` plugin's MCP wrapper.
+Workflow OS is a plugin host that runs inside Codex. Plugins bundle prompts, hooks, scripts, and MCP servers to deliver coherent capabilities. Memory is a local Obsidian vault indexed by SQLite FTS5, accessed exclusively through the `memory-engine` MCP server. Backup/export can use OneDrive on demand plus GitHub Desktop versioned snapshots. Jira is the primary external work surface, accessed through the `jira` plugin's MCP wrapper with write confirmation and no-delete allow-lists.
 
 ## 2. The two repositories
 
 - **`workflow-os`** (framework) — plugins, skills, schemas, scripts. Cloned from GitHub. Shared across users. Contains no PII.
 - **`workflow-os-data`** (user data) — vault, index, preferences, project state, local config. Created by the `onboarding` plugin on first run. Never committed to the framework repo.
 
-Framework path is recorded as `framework_root` in `local.json`. Data path is `data_root`.
+Framework path is recorded as `framework_root` in `local.json`. Data path is `data_root` and defaults to `C:\Users\<user>\workflow-os-data` for deployability. OneDrive backup is recorded separately as `onedrive_backup`.
 
 ## 3. Memory model
 
@@ -72,7 +72,11 @@ Plugins follow Codex's native contract (see https://developers.openai.com/codex/
 - **Hooks**: `<plugin>/hooks/hooks.json` referenced by the manifest's `hooks` field; uses Codex's native event names (`SessionStart`, `PreToolUse`, `PostToolUse`, `PermissionRequest`, `UserPromptSubmit`, `Stop`).
 - **MCP servers**: `<plugin>/.mcp.json` referenced by `mcpServers`. Servers are merged into Codex's runtime MCP config on install.
 
-**Install**: framework ships a `marketplace.json` at the repo root listing all plugins. User runs `codex plugin marketplace add <framework_root>` (the `bootstrap.ps1` does this). Individual plugins are then installed via Codex's `/plugins` UI or CLI. Onboarding handles installing the rest of the plugin set.
+**Install**: framework ships `.agents/plugins/marketplace.json` listing all plugins. User runs `codex plugin marketplace add <framework_root>` (the `bootstrap.ps1` does this). Individual plugins are then installed via Codex's `/plugins` UI or CLI. Onboarding guides installing the rest of the plugin set when headless install is unavailable.
+
+**Role-tailored onboarding**: `$welcome` uses role manifests for Help Desk, IT Operations, System Administration, Project Management, Development / DBA, and IT Leadership subroles. Roles tailor defaults and preferences but do not restrict core capabilities.
+
+**Existing workspace import**: `$project-import` imports one selected workspace at a time. It writes `WOS.md` only to the chosen folder, creates a project-state note, and optionally sets `active_project`. Bulk importing parent folders is out of scope.
 
 **Onboarding's first-run flag**: the `onboarding` plugin marks itself complete via `local.json.plugin_state.onboarding = { "disabled": true, "completed_at": ... }`. Subsequent SessionStart hooks see the flag and stay silent.
 
@@ -94,7 +98,7 @@ Hook scripts receive a JSON object on stdin (session_id, cwd, hook_event_name, e
 | Tier | Mechanism | Recovery |
 |---|---|---|
 | 1 | Local disk | n/a — primary |
-| 2 | OneDrive continuous sync | restore from OneDrive recycle bin or version history |
+| 2 | OneDrive manual/on-demand backup/export | restore from OneDrive recycle bin or version history |
 | 3 | GitHub Desktop versioned snapshots of `workflow-os-data` | `git clone` private data repo |
 | 4 | SQLite index | `reindex.ps1` regenerates from vault |
 

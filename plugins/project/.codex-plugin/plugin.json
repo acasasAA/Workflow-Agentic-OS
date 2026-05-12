@@ -1,12 +1,12 @@
 {
   "name": "wos-project",
-  "version": "0.1.0",
-  "description": "Project lifecycle: new, checkpoint, resume, complete. Handles both long projects and one-off tickets (a ticket is just a small project). Auto-resumes on SessionStart and writes session-summary notes on Stop.",
+  "version": "0.1.1",
+  "description": "Project lifecycle: new, import existing workspace, checkpoint, resume, complete. Handles both long projects and one-off tickets. Auto-resumes on SessionStart and writes session-summary notes on Stop.",
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Project",
-    "shortDescription": "Project lifecycle with auto-resume and auto-checkpoint",
+    "shortDescription": "Project lifecycle, selective import, auto-resume, and auto-checkpoint",
     "category": "Productivity"
   }
 }
