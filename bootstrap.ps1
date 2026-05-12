@@ -153,6 +153,6 @@ Write-Host "  1. Open a new Codex session (so it loads the global AGENTS.md and 
 Write-Host "  2. Type:  /plugins"
 Write-Host "     Install at minimum:  wos-onboarding"
 Write-Host "     (Onboarding will offer to install the other three for you.)"
-Write-Host "  3. Type:  `$welcome"
+Write-Host '  3. Type:  $welcome'
 Write-Host "  4. Answer the onboarding questions. Workflow OS data will be created."
 Write-Host ""
