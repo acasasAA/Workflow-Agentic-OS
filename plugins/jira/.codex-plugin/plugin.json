@@ -1,6 +1,6 @@
 {
   "name": "wos-jira",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Workflow OS policy + skills wrapper over the Atlassian Rovo MCP. Enforces emoji-formatted writes and a no-delete allow-list. Provides three direct-Jira convenience skills.",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",

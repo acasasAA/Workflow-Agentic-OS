@@ -1,6 +1,6 @@
 {
   "name": "wos-onboarding",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Workflow OS first-run setup. Creates local workflow-os-data, runs role-tailored onboarding, validates foundation tools, configures Jira/OneDrive defaults, scaffolds vault, and guides core plugin install.",
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
