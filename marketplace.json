@@ -28,6 +28,12 @@
       "source": { "source": "local", "path": "./plugins/project" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Productivity"
+    },
+    {
+      "name": "wos-task",
+      "source": { "source": "local", "path": "./plugins/task" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
     }
   ]
 }

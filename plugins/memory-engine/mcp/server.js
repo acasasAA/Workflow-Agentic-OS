@@ -24,7 +24,7 @@ import crypto from 'crypto';
 // ─── Bootstrap ──────────────────────────────────────────────────────────────
 
 const VALID_TYPES = new Set([
-  'project-state', 'checkpoint', 'decision', 'worklog',
+  'project-state', 'task-state', 'checkpoint', 'decision', 'worklog',
   'session-summary', 'reference', 'preference'
 ]);
 
@@ -223,7 +223,7 @@ const tools = [
         type:    { type: 'string', enum: [...VALID_TYPES] },
         source:  { type: 'string', description: 'Plugin name or "user".' },
         body:    { type: 'string', description: 'Markdown body of the note.' },
-        project: { type: 'string', description: 'Project slug; null for non-project notes.' },
+        project: { type: 'string', description: 'Project or task slug; null for non-scoped notes.' },
         title:   { type: 'string', description: 'Optional title used for the filename slug.' },
         frontmatter_extras: { type: 'object', description: 'Additional frontmatter fields (e.g. phase, blockers, jira_key).' }
       }

@@ -52,7 +52,7 @@ Inside Codex:
 ```
 /plugins
 ```
-Install at minimum `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation of the other three (`wos-memory-engine`, `wos-jira`, `wos-project`) as part of its flow.
+Install at minimum `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation of the other core plugins (`wos-memory-engine`, `wos-jira`, `wos-project`, `wos-task`) as part of its flow.
 
 ```
 $welcome
@@ -73,13 +73,14 @@ Then it:
 - Creates local `<data_root>/` with `vault/`, `memory/`, `.index/`, `.logs/`, `.agent/`.
 - Writes `<data_root>/.agent/local.json` with all answers.
 - Writes `<data_root>/memory/users/<username>/preferences.md`.
-- Installs the remaining three plugins via the marketplace.
+- Installs the remaining core plugins via the marketplace.
 - Marks itself complete (`plugin_state.wos-onboarding.disabled = true`).
 
 After onboarding:
 - Open Obsidian on `<data_root>/vault/` — the empty vault.
-- Start your first project with `$project-new`.
+- Start project-mode work with `$project-new`.
 - Import an existing workspace with `$project-import`; it imports one selected folder only and writes `WOS.md` only there.
+- Start one-off ticket work with `$task-new`; it does not create a project or `WOS.md`.
 
 ### Recovery on a future clean machine
 
@@ -129,4 +130,4 @@ codex plugin marketplace list
 codex /plugins
 ```
 
-If marketplace lists `workflow-os` and `/plugins` shows the four `wos-*` plugins enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate auto-resume.
+If marketplace lists `workflow-os` and `/plugins` shows the five `wos-*` plugins enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate project auto-resume.

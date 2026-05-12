@@ -39,6 +39,7 @@ project: <slug or null>
 | Type | Written by | Carries |
 |---|---|---|
 | `project-state` | `project` | name, Jira key, phase, status, next milestone |
+| `task-state` | `task` | Jira key, status, priority, owner, next action |
 | `checkpoint` | `project` | phase, blockers, next_actions, narrative |
 | `decision` | `project`, user | choice + rationale + alternatives |
 | `worklog` | `project` | what got done, time spent, Jira worklog link |
@@ -46,7 +47,7 @@ project: <slug or null>
 | `reference` | any | URL, Jira key, doc path |
 | `preference` | `onboarding`, user | per-user how-they-work notes |
 
-Plugin-defined extra frontmatter (e.g. `phase`, `blockers`, `jira_key`) is pass-through — memory-engine stores it and exposes it for filtered search but doesn't validate values.
+Plugin-defined extra frontmatter (e.g. `phase`, `blockers`, `jira_key`, `task_slug`) is pass-through — memory-engine stores it and exposes it for filtered search but doesn't validate values.
 
 ### 3.3 What memory remembers
 
@@ -77,6 +78,8 @@ Plugins follow Codex's native contract (see https://developers.openai.com/codex/
 **Role-tailored onboarding**: `$welcome` uses role manifests for Help Desk, IT Operations, System Administration, Project Management, Development / DBA, and IT Leadership subroles. Roles tailor defaults and preferences but do not restrict core capabilities.
 
 **Existing workspace import**: `$project-import` imports one selected workspace at a time. It writes `WOS.md` only to the chosen folder, creates a project-state note, and optionally sets `active_project`. Bulk importing parent folders is out of scope.
+
+**One-off ticket tasks**: `$task-new`, `$task-update`, `$task-resume`, and `$task-complete` handle ticket-sized work without creating a project or workspace marker. Tasks write `task-state` notes and can set `active_task` for short-lived context.
 
 **Onboarding's first-run flag**: the `onboarding` plugin marks itself complete via `local.json.plugin_state.onboarding = { "disabled": true, "completed_at": ... }`. Subsequent SessionStart hooks see the flag and stay silent.
 

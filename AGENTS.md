@@ -41,7 +41,7 @@ Read concrete values from `<wos_data>/.agent/local.json`:
 
 Plugins follow Codex's contract: `.codex-plugin/plugin.json` manifest, `skills/<name>/SKILL.md` files invoked as `$<name>`, `hooks/hooks.json` for lifecycle handlers, `.mcp.json` for MCP servers. The framework is also a marketplace — `.agents/plugins/marketplace.json` lists all Workflow OS plugins.
 
-Currently shipped: `onboarding`, `memory-engine`, `jira`, `project`.
+Currently shipped: `onboarding`, `memory-engine`, `jira`, `project`, `task`.
 
 Codex's `/plugins` UI is authoritative for which plugins are installed and enabled. Workflow OS does not maintain a parallel registry.
 

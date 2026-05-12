@@ -119,10 +119,11 @@ Core plugin set for every role:
 - `wos-memory-engine`
 - `wos-jira`
 - `wos-project`
+- `wos-task`
 
 Try to install remaining core plugins only if a real headless install verb exists in this CLI. If not available, instruct the user:
 
-> Type `/plugins` in Codex, then install: `wos-memory-engine`, `wos-jira`, `wos-project`. Press Enter here when done.
+> Type `/plugins` in Codex, then install: `wos-memory-engine`, `wos-jira`, `wos-project`, `wos-task`. Press Enter here when done.
 
 Do not make plugins optional by role.
 
@@ -167,7 +168,8 @@ Create:
   "github_desktop": "<path-or-null>",
   "tool_status": {},
   "active_project": null,
-  "installed_plugins": ["wos-onboarding", "wos-memory-engine", "wos-jira", "wos-project"],
+  "active_task": null,
+  "installed_plugins": ["wos-onboarding", "wos-memory-engine", "wos-jira", "wos-project", "wos-task"],
   "plugin_state": {
     "wos-onboarding": { "disabled": true, "completed_at": "<ISO timestamp>" }
   }
@@ -198,8 +200,9 @@ Confirm:
 Summarize in 5 bullets max. Tell the user:
 
 - Open Obsidian on `<data_path>/vault/`.
-- Start new work with `$project-new`.
+- Start project-mode work with `$project-new`.
 - Import an existing workspace with `$project-import`.
+- Start one-off ticket work with `$task-new`.
 
 ## Failure modes
 

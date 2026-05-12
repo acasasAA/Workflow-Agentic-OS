@@ -56,7 +56,8 @@ $required = @(
     'plugins/onboarding/.codex-plugin/plugin.json',
     'plugins/memory-engine/.codex-plugin/plugin.json',
     'plugins/jira/.codex-plugin/plugin.json',
-    'plugins/project/.codex-plugin/plugin.json'
+    'plugins/project/.codex-plugin/plugin.json',
+    'plugins/task/.codex-plugin/plugin.json'
 )
 foreach ($rel in $required) {
     $full = Join-Path $FrameworkRoot $rel

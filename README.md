@@ -1,6 +1,6 @@
 # Workflow OS v2 — Draft
 
-A plugin-based agentic layer for Codex. Four plugins: `onboarding`, `memory-engine`, `jira`, `project`. The repo IS the marketplace — Codex installs plugins from this directory via `codex plugin marketplace add`.
+A plugin-based agentic layer for Codex. Five plugins: `onboarding`, `memory-engine`, `jira`, `project`, `task`. The repo IS the marketplace — Codex installs plugins from this directory via `codex plugin marketplace add`.
 
 This is a clean-slate draft, staged for review before moving to the real `workflow-os` repo on the new machine.
 
@@ -11,7 +11,7 @@ v2/
 ├── AGENTS.md                            global agent manual (→ ~/.codex/AGENTS.md)
 ├── bootstrap.ps1                        one-shot installer for new machines
 ├── TRANSFER.md                          new-machine setup checklist
-├── .agents/plugins/marketplace.json     lists the four plugins for Codex's marketplace
+├── .agents/plugins/marketplace.json     lists the Workflow OS plugins for Codex's marketplace
 ├── .agent/
 │   ├── system.md                        core engine manual
 │   └── boundaries.md                    safety rails (→ ~/.codex/AGENTS.override.md)
@@ -24,6 +24,8 @@ v2/
     │   └── .codex-plugin/, skills/, .mcp.json, references/
     └── project/                         project lifecycle + selective import + auto-resume
         └── .codex-plugin/, skills/, hooks/, scripts/
+    └── task/                            one-off ticket task lifecycle
+        └── .codex-plugin/, skills/, scripts/
 ```
 
 ## Design summary
@@ -34,7 +36,7 @@ v2/
 - **Jira.** Uses Atlassian Rovo MCP from the marketplace. The `jira` plugin layers policy (no-delete `enabled_tools` allow-list) and the mandatory Workflow OS emoji format.
 - **Runtimes.** Node for MCP servers, PowerShell for hooks and install scripts.
 - **Onboarding.** `$welcome` is role-tailored for Athens IT users, validates foundation tools, defaults Jira to ASD/TPM, and records preferences.
-- **Projects.** `$project-new` starts new work. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there.
+- **Projects and tasks.** `$project-new` starts scoped project work. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project.
 - **DR.** Live local data → manual/on-demand OneDrive backup/export → GitHub Desktop versioned snapshots → SQLite regenerable from vault.
 
 ## Moving to a new machine

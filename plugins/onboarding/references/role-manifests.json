@@ -3,7 +3,7 @@
     {
       "id": "help-desk",
       "label": "Help Desk",
-      "summary": "Front-line ticket triage, user support, escalation, and service desk documentation.",
+      "summary": "Front-line ticket triage, one-off task handling, user support, escalation, and service desk documentation.",
       "default_work_style": "Concise ticket-first support. Prioritize clear troubleshooting steps, escalation notes, and customer-ready updates.",
       "jira_project_suggestions": ["ASD", "TPM"],
       "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP"],
@@ -18,7 +18,7 @@
     {
       "id": "it-operations",
       "label": "IT Operations",
-      "summary": "Operational reliability, systems coordination, incident response, service health, and recurring IT workflows.",
+      "summary": "Operational reliability, one-off ticket execution, systems coordination, incident response, service health, and recurring IT workflows.",
       "default_work_style": "Operationally direct. Track current state, blockers, owners, next actions, and service impact.",
       "jira_project_suggestions": ["ASD", "TPM"],
       "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Azure CLI"],

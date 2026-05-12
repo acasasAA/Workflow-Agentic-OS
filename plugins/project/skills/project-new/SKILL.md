@@ -1,13 +1,15 @@
 ---
 name: project-new
-description: Start a new Workflow OS project. Asks for name, description, and Jira linkage (existing key OR creates one). Writes the initial project-state memory note, sets active_project in local.json, drops a WOS.md marker in cwd, then hands off to Codex plan mode for phase scoping. Use whenever the user is starting a new piece of scoped work — whether a long project or a one-off ticket (a ticket is just a tiny project here).
+description: Start a new Workflow OS project. Use strictly for scoped project work with phases, a workspace, or ongoing continuity. Writes the initial project-state memory note, sets active_project in local.json, drops a WOS.md marker in cwd, then hands off to Codex plan mode for phase scoping.
 ---
 
 # `$project-new` — Start a Workflow OS Project
 
-You are creating a new Workflow OS project. This is the entry point for all scoped work.
+You are creating a new Workflow OS project. This skill is strictly for project-mode work: scoped initiatives with phases, a working directory, durable continuity, or a larger delivery outcome.
 
-If the user already has an existing workspace folder they want to bring into Workflow OS, direct them to `$project-import` instead. `$project-new` is for brand-new work; `$project-import` is for one selected existing folder.
+If the user asks for a one-off Jira ticket, support task, quick operational item, or work that does not need a workspace marker and phase plan, stop and route them to `$task-new`. Do not continue inside `$project-new`.
+
+If the user already has an existing workspace folder they want to bring into Workflow OS, stop and route them to `$project-import`.
 
 ## Step 1 — Name & description
 
@@ -19,10 +21,10 @@ Derive a **slug** from the name (lowercase, hyphenated, ≤30 chars). Confirm th
 
 ## Step 2 — Jira linkage
 
-Ask the user: "Do you have an existing Jira epic or ticket for this work?"
+Ask the user: "Do you have an existing Jira epic or project-level ticket for this project?"
 
 - **If yes**: ask for the Jira key (e.g. `PHX-100`). Call `mcp__atlassian-rovo__get_issue` to fetch metadata. Confirm the title/type match what the user means.
-- **If no**: ask whether this should be a Jira **epic** (multi-phase project) or a **ticket** (one-off task / support work). Offer to create it. Creation is a write op — load `${plugin_root}/../../jira/references/emoji-format.md` and draft the description in the §2 skeleton. Show the user, get explicit confirmation, then call `mcp__atlassian-rovo__create_issue`.
+- **If no**: ask whether this should be represented in Jira as an **epic** or a **project-level ticket**. Do not offer one-off task creation here. Creation is a write op — load `${plugin_root}/../../jira/references/emoji-format.md` and draft the description in the §2 skeleton. Show the user, get explicit confirmation, then call `mcp__atlassian-rovo__create_issue`.
 
 Record the resulting `jira_key` (whether existing or just-created).
 
@@ -40,7 +42,7 @@ Call `mcp__memory-engine__memory_write`:
   "frontmatter_extras": {
     "name": "<name>",
     "jira_key": "<key>",
-    "jira_type": "epic|ticket",
+    "jira_type": "epic|project-ticket",
     "phase": null,
     "status": "active",
     "next_milestone": null
@@ -87,7 +89,7 @@ When the user exits plan mode and the plan is visible, do this:
 1. Extract phases from the plan as a numbered list.
 2. Decide parent/child shape:
    - If `jira_type == "epic"`, phases become **tasks** under the epic.
-   - If `jira_type == "ticket"`, phases become **subtasks** under the ticket.
+   - If `jira_type == "project-ticket"`, phases become **subtasks** under the project-level ticket.
    - Ask the user to confirm the shape if it's ambiguous.
 3. Show the user:
    ```
