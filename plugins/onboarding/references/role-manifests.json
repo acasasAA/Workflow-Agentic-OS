@@ -36,7 +36,11 @@
       "summary": "Server, endpoint, identity, access, automation, and infrastructure administration.",
       "default_work_style": "Change-control oriented. Capture commands, validation, rollback notes, affected systems, and access boundaries.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Azure CLI", "AWS CLI or AWS MCP", "SharePoint connector"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Azure CLI", "Azure DevOps CLI Extension", "AWS CLI or AWS MCP/connector", "Microsoft Learn MCP/CLI", "Superpowers Plugin", "SharePoint connector"],
+      "codex_work_mode_guidance": {
+        "for_coding": "Recommended when administering infrastructure, scripts, automation, cloud resources, or config changes because it gives more technical detail and command-level control.",
+        "for_everyday_work": "Useful for intake triage, stakeholder updates, routine documentation, and non-technical coordination."
+      },
       "tailoring_questions": [
         "Which platforms or system areas do you administer?",
         "What change-control details should Workflow OS always capture?",
@@ -66,9 +70,16 @@
       "summary": "Application development, database work, integrations, data fixes, and technical delivery.",
       "default_work_style": "Implementation-focused. Track design decisions, test evidence, migrations, data safety, and release notes.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "GitHub Desktop", "Azure CLI", "AWS CLI or AWS MCP", "Power BI CLI/MCP"],
+      "tracking_systems": ["Jira", "Azure Boards"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Azure DevOps CLI Extension", "Azure Boards", "GitHub Desktop", "Azure CLI", "AWS CLI or AWS MCP/connector", "Microsoft Learn MCP/CLI", "Superpowers Plugin", "Power BI CLI/MCP"],
+      "codex_work_mode_guidance": {
+        "for_coding": "Default recommendation for implementation, DBA work, Azure Boards/Jira ticket work, scripts, tests, migrations, and releases.",
+        "for_everyday_work": "Useful for email, meeting prep, status drafting, and non-code planning while keeping the same Workflow OS role profile."
+      },
       "tailoring_questions": [
         "Which codebases, databases, or integrations do you work on most?",
+        "Which Azure DevOps organization, project, and Azure Boards areas/teams do you use?",
+        "Which work tracking system is primary for development work: Azure Boards, Jira, or both equally?",
         "What testing or validation evidence should Workflow OS capture?",
         "What database safety rules or approval gates matter?",
         "How should technical decisions and tradeoffs be recorded?",
@@ -80,9 +91,48 @@
       "label": "IT Leadership",
       "summary": "People leadership, service delivery, portfolio visibility, risk management, and executive communication.",
       "subroles": ["Supervisor", "Manager", "Director", "VP", "Exec VP"],
+      "director_focus_options": [
+        {
+          "id": "dev-dba-director",
+          "label": "Dev / DBA Director",
+          "inherits_role_id": "development-dba",
+          "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Azure DevOps CLI Extension", "Azure Boards", "GitHub Desktop", "Azure CLI", "AWS CLI or AWS MCP/connector", "Microsoft Learn MCP/CLI", "Superpowers Plugin", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP"],
+          "extra_questions": [
+            "Which Azure Boards projects, repos, databases, or release streams need director-level visibility?",
+            "When you act as a developer/DBA, should Workflow OS default to hands-on implementation detail or leadership rollups?",
+            "Which engineering risks should be elevated before they become delivery risks?"
+          ]
+        },
+        {
+          "id": "project-management-director",
+          "label": "Project Management Director",
+          "inherits_role_id": "project-management",
+          "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP", "Azure Boards"],
+          "extra_questions": [
+            "Which project portfolios, boards, or delivery programs need director-level visibility?",
+            "Should Workflow OS prioritize milestone rollups, dependency tracking, executive status, or project risk?",
+            "Which PM reporting cadence and audience should Workflow OS optimize for?"
+          ]
+        },
+        {
+          "id": "it-director",
+          "label": "IT Director",
+          "inherits_role_id": "it-leadership",
+          "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Azure CLI", "AWS CLI or AWS MCP/connector", "Microsoft Learn MCP/CLI", "Power BI CLI/MCP"],
+          "extra_questions": [
+            "Which IT service areas, teams, and executive outcomes should be visible by default?",
+            "Should Workflow OS emphasize operational health, project delivery, staffing, risk, budget, or compliance first?",
+            "Which issues require escalation instead of being summarized?"
+          ]
+        }
+      ],
       "default_work_style": "Outcome and visibility oriented. Prefer summaries that surface risk, ownership, impact, and decisions.",
       "jira_project_suggestions": ["ASD", "TPM"],
       "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP"],
+      "codex_work_mode_guidance": {
+        "for_coding": "Use when the leader is also hands-on with development, DBA, automation, infrastructure, or technical review work.",
+        "for_everyday_work": "Use for executive summaries, planning, project coordination, meetings, email, and low-technical-detail status work."
+      },
       "tailoring_questions_by_subrole": {
         "Supervisor": [
           "Which team or queue do you supervise?",
@@ -97,6 +147,7 @@
           "What recurring meetings or reporting cycles should Workflow OS support?"
         ],
         "Director": [
+          "Are you the Dev / DBA Director, Project Management Director, or IT Director?",
           "Which departments, programs, or service areas are in your scope?",
           "What portfolio-level outcomes should Workflow OS track?",
           "What risk, budget, staffing, or compliance signals should be elevated?",

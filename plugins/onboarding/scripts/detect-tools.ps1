@@ -54,6 +54,51 @@ function Test-Command {
     }
 }
 
+function Test-AzExtension {
+    param(
+        [string]$Name,
+        [string]$ExtensionName
+    )
+
+    $az = Get-Command az -ErrorAction SilentlyContinue
+    if (-not $az) {
+        return [ordered]@{
+            name = $Name
+            status = 'missing'
+            path = $null
+            note = 'Azure CLI is not available on PATH'
+        }
+    }
+
+    try {
+        $raw = (& az extension list --output json 2>$null) -join "`n"
+        $extensions = $raw | ConvertFrom-Json
+        $match = $extensions | Where-Object { $_.name -eq $ExtensionName } | Select-Object -First 1
+        if ($match) {
+            return [ordered]@{
+                name = $Name
+                status = 'installed'
+                path = $az.Source
+                note = "Azure CLI extension '$ExtensionName' is installed"
+            }
+        }
+    } catch {
+        return [ordered]@{
+            name = $Name
+            status = 'installed_not_on_path'
+            path = $az.Source
+            note = "Azure CLI is available, but extension status could not be verified"
+        }
+    }
+
+    [ordered]@{
+        name = $Name
+        status = 'missing'
+        path = $az.Source
+        note = "Install with: az extension add --name $ExtensionName"
+    }
+}
+
 $localAppData = $env:LOCALAPPDATA
 $programFiles = $env:ProgramFiles
 $programFilesX86 = ${env:ProgramFiles(x86)}
@@ -66,10 +111,11 @@ $tools += Test-Command -Name 'GitHub Desktop' -CommandNames @('github') -KnownPa
 $tools += Test-Command -Name 'Obsidian' -CommandNames @('obsidian') -KnownPaths @("$localAppData\Programs\Obsidian\Obsidian.exe", "$programFiles\Obsidian\Obsidian.exe")
 $tools += Test-Command -Name 'Atlassian CLI' -CommandNames @('acli') -KnownPaths @("$localAppData\Programs\Atlassian\ACLI\acli.exe")
 $tools += Test-Command -Name 'Azure CLI' -CommandNames @('az') -KnownPaths @("$programFiles\Microsoft SDKs\Azure\CLI2\wbin\az.cmd")
+$tools += Test-AzExtension -Name 'Azure DevOps CLI Extension' -ExtensionName 'azure-devops'
 $tools += Test-Command -Name 'AWS CLI' -CommandNames @('aws') -KnownPaths @("$programFiles\Amazon\AWSCLIV2\aws.exe")
 $tools += Test-Command -Name 'Power Automate CLI/MCP' -CommandNames @('pac')
 $tools += Test-Command -Name 'Power BI CLI/MCP' -CommandNames @('pbi', 'powerbi')
-$tools += Test-Command -Name 'Microsoft Learn CLI' -CommandNames @('mslearn', 'learn')
+$tools += Test-Command -Name 'Microsoft Learn MCP/CLI' -CommandNames @('mslearn', 'learn')
 
 $packageManagers = @()
 foreach ($pm in @('winget', 'choco', 'scoop')) {
@@ -93,5 +139,5 @@ try {
     package_managers = $packageManagers
     tools = $tools
     mcp_list_output = $mcpList
-    mcp_note = 'Connector-backed apps such as Atlassian Rovo, Outlook, Calendar, and SharePoint may require Codex plugin/connector UI install. Atlassian CLI (`acli`) is a local companion for deterministic Jira fallback operations.'
+    mcp_note = 'Connector-backed apps such as Atlassian Rovo, Outlook, Calendar, SharePoint, Microsoft Learn, AWS, and Azure DevOps/Azure Boards may require Codex plugin/connector UI install when available. Atlassian CLI (`acli`) is a local companion for deterministic Jira fallback operations. Azure Boards generally uses Azure DevOps tooling, including the Azure CLI azure-devops extension.'
 } | ConvertTo-Json -Depth 6

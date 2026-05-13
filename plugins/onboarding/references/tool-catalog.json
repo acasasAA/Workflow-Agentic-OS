@@ -16,10 +16,12 @@
     "optional_role_based": [
       "SharePoint connector",
       "Azure CLI",
+      "Azure DevOps CLI Extension",
+      "Azure Boards",
       "AWS CLI or AWS MCP",
       "Power BI CLI/MCP",
       "Power Automate CLI/MCP",
-      "Microsoft Learn CLI",
+      "Microsoft Learn MCP/CLI",
       "Superpowers Plugin"
     ]
   },
@@ -30,7 +32,31 @@
       "Report installed-but-not-on-PATH separately from missing.",
       "Do not run install commands without explicit user confirmation.",
       "If a connector is installed through Codex UI rather than a system package, direct the user to the relevant plugin or connector flow.",
-      "Atlassian CLI (`acli`) complements the Rovo connector and should be available on PATH for Jira fallback operations."
+      "Missing optional role-based tools are informational on machines where the current user does not need that role. Do not pressure-install them just because the detector reports them missing.",
+      "For team rollout, recommend optional role-based tools only to teammates whose selected role or director focus needs them.",
+      "Atlassian CLI (`acli`) complements the Rovo connector and should be available on PATH for Jira fallback operations.",
+      "Azure Boards is accessed through Azure DevOps tooling, normally the Azure CLI with the Azure DevOps extension plus any available Codex connector/MCP.",
+      "AWS connector/MCP availability depends on the user's Codex/plugin install set; the local detector can only verify the AWS CLI."
+    ]
+  },
+  "platform_discovery": {
+    "ask_after_minimum_tools": true,
+    "question": "Are there any other platforms, SaaS tools, cloud systems, ticketing systems, databases, dashboards, or internal apps you access in your normal workflow?",
+    "search_requirements": [
+      "Search Codex tool discovery for matching MCP servers, app connectors, and plugins.",
+      "Search local/package-manager availability for matching CLIs using available package managers such as winget and choco when appropriate.",
+      "Prefer official vendor tools and connectors over community tools for enterprise systems.",
+      "Distinguish exact matches from adjacent or unofficial options.",
+      "Do not install anything without explicit confirmation in the current turn."
+    ],
+    "record_fields": [
+      "platform_name",
+      "workflow_use",
+      "available_connectors_or_mcps",
+      "available_clis",
+      "recommended_setup",
+      "status",
+      "notes"
     ]
   }
 }
