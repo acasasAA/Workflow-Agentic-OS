@@ -1,4 +1,4 @@
-# Workflow OS — bootstrap installer (v2)
+# Workflow OS - bootstrap installer (v2)
 #
 # Run this once on a fresh machine after cloning the framework repo.
 #
@@ -29,7 +29,7 @@ function Info($msg) { Write-Host "[INFO] $msg" -ForegroundColor Cyan }
 Info "Workflow OS bootstrap"
 Info "Framework root: $FrameworkRoot"
 
-# ── 1. Prerequisites ───────────────────────────────────────────────────────
+# 1. Prerequisites
 
 if (-not (Get-Command codex -ErrorAction SilentlyContinue)) {
     Fail "Codex CLI not found on PATH. Install Codex first, then re-run."
@@ -47,7 +47,7 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 }
 Ok "git found"
 
-# ── 2. Framework sanity ────────────────────────────────────────────────────
+# 2. Framework sanity
 
 $required = @(
     'AGENTS.md',
@@ -66,7 +66,7 @@ foreach ($rel in $required) {
 }
 Ok "Framework structure looks correct"
 
-# ── 3. Sentinel ────────────────────────────────────────────────────────────
+# 3. Sentinel
 
 $codexHome = Join-Path $env:USERPROFILE '.codex'
 if (-not (Test-Path $codexHome)) { New-Item -ItemType Directory -Path $codexHome | Out-Null }
@@ -80,7 +80,7 @@ $sentinelObj = [ordered]@{
 $sentinelObj | ConvertTo-Json | Set-Content -Path $sentinel -Encoding UTF8
 Ok "Wrote sentinel: $sentinel"
 
-# ── 4. Global AGENTS.md and override ───────────────────────────────────────
+# 4. Global AGENTS.md and override
 
 function Backup-IfExists($path) {
     if (Test-Path $path) {
@@ -100,7 +100,7 @@ Copy-Item (Join-Path $FrameworkRoot 'AGENTS.md') $globalAgents -Force
 Copy-Item (Join-Path $FrameworkRoot '.agent/boundaries.md') $globalOverride -Force
 Ok "Installed AGENTS.md and AGENTS.override.md"
 
-# ── 5. Minimal config.toml block ───────────────────────────────────────────
+# 5. Minimal config.toml block
 
 $configPath = Join-Path $codexHome 'config.toml'
 $marker = '# === Workflow OS managed block (do not edit between markers) ==='
@@ -131,7 +131,7 @@ if (Test-Path $configPath) {
     Ok "Created config.toml with Workflow OS block"
 }
 
-# ── 6. Register marketplace ────────────────────────────────────────────────
+# 6. Register marketplace
 
 $marketplaceSource = $FrameworkRoot
 $marketplaceRef = $null
@@ -154,7 +154,7 @@ try {
         & codex plugin marketplace add $marketplaceSource
     }
     if ($LASTEXITCODE -ne 0) {
-        Info "codex plugin marketplace add returned exit $LASTEXITCODE — may already be registered. Continuing."
+        Info "codex plugin marketplace add returned exit $LASTEXITCODE - may already be registered. Continuing."
     } else {
         if ($marketplaceSource -eq $FrameworkRoot) {
             Ok "Marketplace registered from local path"
@@ -167,7 +167,7 @@ try {
     Info "codex plugin marketplace add failed: $_. You can register manually after bootstrap completes."
 }
 
-# ── 7. Done ────────────────────────────────────────────────────────────────
+# 7. Done
 
 Write-Host ""
 Write-Host "Bootstrap complete." -ForegroundColor Green
