@@ -53,7 +53,7 @@ Call `mcp__memory-engine__memory_write`:
 
 Ask the user: "Post a 🟡 (or 🟢 / 🔴 based on blockers) comment to the project's Jira key summarizing this checkpoint?"
 
-If yes, load `${plugin_root}/../jira/references/emoji-format.md` §1, draft the comment, get confirmation, then call `mcp__atlassian-rovo__add_comment`.
+If yes, load `${plugin_root}/../jira/references/emoji-format.md` §1 and `${plugin_root}/../jira/references/jira-tooling.md`, draft the comment, and get confirmation. Then use the Atlassian Rovo Codex app connector's Jira comment tool if exposed in the current session. If no comment tool is exposed, use the `acli` fallback: write the approved comment to a temp file, run `acli jira workitem comment create --key "<key>" --body-file "<tempfile>"`, then remove the temp file.
 
 ## Step 6 — Update `project-state`
 

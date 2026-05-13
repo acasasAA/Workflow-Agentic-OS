@@ -1,12 +1,12 @@
 {
   "name": "wos-onboarding",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Workflow OS first-run setup. Creates local workflow-os-data, runs role-tailored onboarding, validates foundation tools, configures Jira/OneDrive defaults, scaffolds vault, and guides core plugin install.",
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Onboarding",
-    "shortDescription": "v0.1.2 · Role-tailored first-run setup for Workflow OS",
+    "shortDescription": "v0.1.3 · Role-tailored setup with Rovo + ACLI validation",
     "category": "Productivity"
   }
 }

@@ -1,12 +1,11 @@
 {
   "name": "wos-jira",
-  "version": "0.1.1",
-  "description": "Workflow OS policy + skills wrapper over the Atlassian Rovo MCP. Enforces emoji-formatted writes and a no-delete allow-list. Provides three direct-Jira convenience skills.",
+  "version": "0.1.3",
+  "description": "Workflow OS policy + skills wrapper over Atlassian Rovo and Atlassian CLI. Enforces emoji-formatted writes and no-delete/no-archive boundaries. Provides three direct-Jira convenience skills.",
   "skills": "./skills/",
-  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Workflow OS — Jira",
-    "shortDescription": "v0.1.1 · Jira integration via Atlassian Rovo MCP, with emoji format and no-delete policy",
+    "shortDescription": "v0.1.3 · Jira via Rovo + ACLI fallback, emoji format, no deletes/archive",
     "category": "Productivity"
   }
 }

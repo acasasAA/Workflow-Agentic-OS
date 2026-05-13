@@ -11,7 +11,7 @@ You are starting a task, not a project. Tasks are for one-off Jira tickets, supp
 
 Ask whether the user has an existing Jira ticket.
 
-- If yes, ask for the Jira key. Call `mcp__atlassian-rovo__get_issue` when available to verify title, status, priority, and assignee. Jira reads are allowed.
+- If yes, ask for the Jira key. Load `${plugin_root}/../jira/references/jira-tooling.md`, then prefer `mcp__codex_apps__atlassian_rovo._search` plus `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` to verify title, status, priority, and assignee. Jira reads are allowed.
 - If no, allow a manual task title and description, but explain that Jira linkage is encouraged for Athens ticket work.
 
 Do not create Jira tickets from this skill. If the user needs a new Jira issue, route to `$jira-create` with explicit write confirmation.

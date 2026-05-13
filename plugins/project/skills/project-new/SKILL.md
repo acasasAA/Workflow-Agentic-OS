@@ -21,10 +21,12 @@ Derive a **slug** from the name (lowercase, hyphenated, ≤30 chars). Confirm th
 
 ## Step 2 — Jira linkage
 
+Load `${plugin_root}/../jira/references/jira-tooling.md` before choosing Jira tooling.
+
 Ask the user: "Do you have an existing Jira epic or project-level ticket for this project?"
 
-- **If yes**: ask for the Jira key (e.g. `PHX-100`). Call `mcp__atlassian-rovo__get_issue` to fetch metadata. Confirm the title/type match what the user means.
-- **If no**: ask whether this should be represented in Jira as an **epic** or a **project-level ticket**. Do not offer one-off task creation here. Creation is a write op — load `${plugin_root}/../jira/references/emoji-format.md` and draft the description in the §2 skeleton. Show the user, get explicit confirmation, then call `mcp__atlassian-rovo__create_issue`.
+- **If yes**: ask for the Jira key (e.g. `PHX-100`). Prefer `mcp__codex_apps__atlassian_rovo._search` and `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json`. Confirm the title/type match what the user means.
+- **If no**: ask whether this should be represented in Jira as an **epic** or a **project-level ticket**. Do not offer one-off task creation here. Creation is a write op — load `${plugin_root}/../jira/references/emoji-format.md` and draft the description in the §2 skeleton. Show the user, get explicit confirmation, then use the Jira tooling order from `jira-tooling.md`: prefer `mcp__codex_apps__atlassian_rovo._createjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem create` flow.
 
 Record the resulting `jira_key` (whether existing or just-created).
 
@@ -103,7 +105,7 @@ When the user exits plan mode and the plan is visible, do this:
    Link dependencies:
    - <phase A> blocks <phase B>   # only for real dependencies
    ```
-4. On explicit confirmation in the current turn, execute only the listed Jira writes. Use the emoji-format description skeleton for every description. For real dependencies, create Jira issue links when available and also record the dependency in the description. If linking fails, continue with the dependency text and report the warning.
+4. On explicit confirmation in the current turn, execute only the listed Jira writes using the Jira tooling order from `jira-tooling.md`. Use the emoji-format description skeleton for every description. For real dependencies, create Jira issue links when available and also record the dependency in the description. If linking fails, continue with the dependency text and report the warning.
 5. Record each created/updated key in the `project-state` note (call `memory_write` again to update, or surface the keys for the user to track).
 6. Offer `$project-orchestrate` only after Jira contains the finalized phase structure. `$project-orchestrate` analyzes Jira before implementation; it does not replace planning or phase upload.
 

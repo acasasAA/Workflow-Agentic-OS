@@ -56,7 +56,7 @@ Use the answers to build:
 Run `${plugin_root}/scripts/detect-tools.ps1`. Summarize in three groups:
 
 - Required for Workflow OS core: Codex CLI, Git, Node.js.
-- Recommended for Athens users: GitHub Desktop, Obsidian, Atlassian Rovo MCP, Outlook Email MCP, Outlook Calendar MCP.
+- Recommended for Athens users: GitHub Desktop, Obsidian, Atlassian Rovo app connector, Atlassian CLI (`acli`), Outlook Email connector, Outlook Calendar connector.
 - Optional / role-based: SharePoint MCP, Azure CLI, AWS CLI or AWS MCP, Power BI CLI/MCP, Power Automate CLI/MCP, Microsoft Learn CLI, Superpowers Plugin.
 
 For each item, report:
@@ -109,7 +109,7 @@ Tell the user:
 
 - Jira reads are allowed.
 - Jira writes require explicit per-action confirmation.
-- Jira deletes are blocked at the MCP layer by the `wos-jira` allow-list and remain manual.
+- Jira deletes/archive are blocked for agents across Rovo and `acli`; they remain manual.
 
 ## Step 5 — Core plugins
 

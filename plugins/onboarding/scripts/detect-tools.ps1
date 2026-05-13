@@ -64,6 +64,7 @@ $tools += Test-Command -Name 'Git' -CommandNames @('git') -KnownPaths @("$progra
 $tools += Test-Command -Name 'Node.js' -CommandNames @('node') -KnownPaths @("$programFiles\nodejs\node.exe")
 $tools += Test-Command -Name 'GitHub Desktop' -CommandNames @('github') -KnownPaths @("$localAppData\GitHubDesktop\GitHubDesktop.exe")
 $tools += Test-Command -Name 'Obsidian' -CommandNames @('obsidian') -KnownPaths @("$localAppData\Programs\Obsidian\Obsidian.exe", "$programFiles\Obsidian\Obsidian.exe")
+$tools += Test-Command -Name 'Atlassian CLI' -CommandNames @('acli') -KnownPaths @("$localAppData\Programs\Atlassian\ACLI\acli.exe")
 $tools += Test-Command -Name 'Azure CLI' -CommandNames @('az') -KnownPaths @("$programFiles\Microsoft SDKs\Azure\CLI2\wbin\az.cmd")
 $tools += Test-Command -Name 'AWS CLI' -CommandNames @('aws') -KnownPaths @("$programFiles\Amazon\AWSCLIV2\aws.exe")
 $tools += Test-Command -Name 'Power Automate CLI/MCP' -CommandNames @('pac')
@@ -92,5 +93,5 @@ try {
     package_managers = $packageManagers
     tools = $tools
     mcp_list_output = $mcpList
-    mcp_note = 'Connector-backed MCPs such as Atlassian Rovo, Outlook, Calendar, and SharePoint may require Codex plugin/connector UI install rather than a system package.'
+    mcp_note = 'Connector-backed apps such as Atlassian Rovo, Outlook, Calendar, and SharePoint may require Codex plugin/connector UI install. Atlassian CLI (`acli`) is a local companion for deterministic Jira fallback operations.'
 } | ConvertTo-Json -Depth 6

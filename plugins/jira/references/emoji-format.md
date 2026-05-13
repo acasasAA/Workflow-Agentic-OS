@@ -1,6 +1,6 @@
 # Workflow OS — Jira Write Format (Emoji Structure)
 
-This format is mandatory for all writes to Jira originating from Workflow OS — comments, descriptions, titles, transitions. Used by the `wos-jira` plugin's skills and by every other plugin (`wos-project`, `wos-task`) that writes to Jira through the Atlassian Rovo MCP.
+This format is mandatory for all writes to Jira originating from Workflow OS — comments, descriptions, titles, transitions. Used by the `wos-jira` plugin's skills and by every other plugin (`wos-project`, `wos-task`) that writes to Jira through Atlassian Rovo or Atlassian CLI (`acli`).
 
 ## 1. Comment structure
 
@@ -99,7 +99,7 @@ Categories (pick one): `implementation`, `investigation`, `review`, `meeting`, `
 
 ## 6. Hard rules
 
-- **No deletes via writes.** Even if the Rovo MCP exposed a delete tool, Workflow OS's `enabled_tools` allow-list excludes it. Do not work around this.
+- **No deletes/archive via writes.** Workflow OS agents must not use Jira delete or archive operations through any path, including `acli`.
 - **No secrets in any field.** Strip tokens, passwords, keys before writing.
 - **One status marker per comment.** Don't stack them.
 - **Section headings are required** when their content is present. Skip sections you have nothing to put under.

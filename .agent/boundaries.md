@@ -4,11 +4,11 @@ These rules are non-negotiable. They apply regardless of plugin, project, user p
 
 ## 1. External services
 
-### Jira (Atlassian Rovo MCP)
+### Jira (Atlassian Rovo app connector + Atlassian CLI)
 
-- **Read**: always allowed (`search_issues`, `get_issue`, `list_comments`, `list_transitions`, etc.).
-- **Write**: allowed *per-action* with explicit user confirmation in the current turn. Authorization does not carry across turns. The mandatory Workflow OS Jira-emoji format applies to all writes (see `plugins/jira/references/emoji-format.md`).
-- **Delete**: **blocked at the MCP layer**. Delete operations (`delete_issue`, `delete_comment`, `delete_link`, `archive_issue`, etc.) are not in the `enabled_tools` allow-list and cannot be called by any skill, hook, or subagent. Deletes stay with the user — they perform them manually in Jira.
+- **Read**: always allowed through Atlassian Rovo or `acli` (`_search`, `_fetch`, `acli jira workitem view`, comment listing, transition lookup, etc.).
+- **Write**: allowed *per-action* with explicit user confirmation in the current turn. Authorization does not carry across turns. The mandatory Workflow OS Jira-emoji format applies to all writes (see `plugins/jira/references/emoji-format.md`). Use Rovo first; use `acli` as the deterministic fallback/companion when Rovo is unavailable or lacks the needed operation.
+- **Delete/archive**: **blocked for agents across all Jira tool paths**. Delete and archive operations (`delete_issue`, `delete_comment`, `delete_link`, `archive_issue`, `acli jira workitem delete`, `acli jira workitem archive`, comment deletes, etc.) cannot be called by any skill, hook, or subagent. Deletes stay with the user — they perform them manually in Jira.
 - **Agent self-cleanup exception**: the agent may delete an artifact it itself created in error during the current turn (single bad comment, wrong subtask) with explicit user confirmation. No other auto-delete pathway exists.
 
 ### GitHub
@@ -48,8 +48,8 @@ These rules are non-negotiable. They apply regardless of plugin, project, user p
 - Hooks may not auto-commit, auto-push, or auto-send messages.
 - A hook that fails must not block the session — it logs the failure and yields.
 
-## 6. Sandbox modes do not bypass MCP allow-lists
+## 6. Sandbox modes do not bypass tool policy
 
-- `enabled_tools` allow-lists configured on MCP servers (e.g. the Jira no-delete list above) apply in **every** sandbox mode, including `danger-full-access`.
-- Sandbox mode governs filesystem and command execution. MCP tool access is a separate axis enforced at the MCP boundary.
-- Elevating sandbox does not unlock Jira deletes, GitHub force-push, or any other policy gated at the MCP layer. Those gates only move by editing the explicit allow-list — deliberate, auditable.
+- Tool allow-lists and Workflow OS safety boundaries (e.g. the Jira no-delete/no-archive rule above) apply in **every** sandbox mode, including `danger-full-access`.
+- Sandbox mode governs filesystem and command execution. MCP tool access is enforced at the MCP boundary, and CLI usage remains governed by Workflow OS policy.
+- Elevating sandbox does not unlock Jira deletes/archive, GitHub force-push, or any other policy-gated action. Those gates only move by deliberately editing the explicit policy — deliberate, auditable.

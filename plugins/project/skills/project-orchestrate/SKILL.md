@@ -7,13 +7,13 @@ description: Use when a Workflow OS project has completed planning, Jira contain
 
 You are the Workflow OS project orchestrator. This skill runs after planning is complete and Jira has the authoritative project phase structure. Do not use this to create the initial project, import an existing workspace, or replace `$project-new`.
 
-Load `${plugin_root}/references/orchestration-policy.md` and follow it. Load `${plugin_root}/../jira/references/emoji-format.md` before drafting Jira descriptions or comments.
+Load `${plugin_root}/references/orchestration-policy.md` and follow it. Load `${plugin_root}/../jira/references/emoji-format.md` before drafting Jira descriptions or comments. Load `${plugin_root}/../jira/references/jira-tooling.md` before choosing Jira tooling.
 
 ## Step 1 — Confirm Project Source
 
 Resolve the active project with `${plugin_root}/scripts/active-project.ps1`. If no project is active, ask for the project Jira key or route the user to `$project-new`, `$project-import`, or `$project-resume`.
 
-Fetch the project-level Jira item with Atlassian Rovo. Jira reads are allowed. Confirm that Jira now contains the planned phase tasks/subtasks. If phase issues are missing, stop and tell the user orchestration starts only after the plan has been uploaded/updated into Jira.
+Fetch the project-level Jira item using the Jira tooling order from `jira-tooling.md`: prefer Atlassian Rovo; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` and related `acli` read commands. Jira reads are allowed. Confirm that Jira now contains the planned phase tasks/subtasks. If phase issues are missing, stop and tell the user orchestration starts only after the plan has been uploaded/updated into Jira.
 
 ## Step 2 — Analyze Jira
 

@@ -27,7 +27,7 @@ The task orchestrator may manage routine Jira comments and status recommendation
 
 All Jira descriptions and comments must follow the WOS emoji format in `plugins/jira/references/emoji-format.md`.
 
-Deletes remain blocked. If cleanup is needed, call it out for the user to do manually.
+Deletes/archive remain blocked across Rovo, `acli`, and any other Jira path. If cleanup is needed, call it out for the user to do manually.
 
 ## Model Selection
 

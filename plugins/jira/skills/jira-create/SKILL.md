@@ -10,12 +10,13 @@ You are creating a Jira work item on the user's explicit request.
 ## Required reference
 
 Load `${plugin_root}/../references/emoji-format.md` before drafting any text. The description **must** follow that format (Objective / Scope / Acceptance / Links / Notes).
+Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling.
 
 ## Steps
 
 1. **Ask the user for:**
    - **Type**: epic, task, subtask, or ticket (incident/support).
-   - **Project key** (e.g. `PHX`). If unknown, call `mcp__atlassian-rovo__get_project` to list projects.
+   - **Project key** (e.g. `PHX`). If unknown, use `mcp__codex_apps__atlassian_rovo._search` to find an existing issue in the target project and read its `cloudId`.
    - **Parent key**, if applicable (task under an epic, subtask under a task).
    - **Title**: one-line summary (no emoji, follows §3 conventions in `emoji-format.md`).
    - **Objective**: one to three sentences.
@@ -35,7 +36,7 @@ Load `${plugin_root}/../references/emoji-format.md` before drafting any text. Th
    ```
    Ask: "Create this in Jira? (yes/no)"
 
-4. **On yes**: call `mcp__atlassian-rovo__create_issue` with the validated payload. Capture the returned key.
+4. **On yes**: use the Jira tooling order from `jira-tooling.md`. Prefer `mcp__codex_apps__atlassian_rovo._createjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem create` flow after confirming required fields. Capture the returned key.
 
 5. **On success**, write a `reference` note via the memory-engine MCP linking the new Jira key. Tell the user the key + URL.
 
@@ -43,7 +44,7 @@ Load `${plugin_root}/../references/emoji-format.md` before drafting any text. Th
 
 ## Hard rules
 
-- **No deletes ever** — Workflow OS's `enabled_tools` allow-list blocks them at the MCP layer; do not attempt.
+- **No deletes/archive ever** — do not use Jira delete or archive operations through Rovo, `acli`, or any other path.
 - **No secrets** in titles, descriptions, or comments.
 - **Authorization is per-action**: each create gets its own confirmation. Don't batch.
 - **If the project is wrong**, abort and ask. Don't guess.

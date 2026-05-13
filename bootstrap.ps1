@@ -10,6 +10,7 @@
 #        features.codex_hooks = true
 #        project_doc_fallback_filenames += ["WOS.md"]
 #   5. Adds this repo-scoped Codex plugin marketplace.
+#      Prefer Git-backed registration when a Git remote is available so /plugins upgrades work.
 #   6. Tells the user to install plugins via /plugins and run $welcome.
 #
 # Idempotent: safe to re-run. Backups existing files before overwriting.
@@ -132,13 +133,35 @@ if (Test-Path $configPath) {
 
 # ── 6. Register marketplace ────────────────────────────────────────────────
 
-Info "Registering Codex plugin marketplace at $FrameworkRoot"
+$marketplaceSource = $FrameworkRoot
+$marketplaceRef = $null
 try {
-    & codex plugin marketplace add $FrameworkRoot
+    $origin = (& git -C $FrameworkRoot remote get-url origin 2>$null).Trim()
+    if ($origin) {
+        $marketplaceSource = $origin
+        $branch = (& git -C $FrameworkRoot branch --show-current 2>$null).Trim()
+        if ($branch) { $marketplaceRef = $branch }
+    }
+} catch {
+    $marketplaceSource = $FrameworkRoot
+}
+
+Info "Registering Codex plugin marketplace from $marketplaceSource"
+try {
+    if ($marketplaceRef) {
+        & codex plugin marketplace add $marketplaceSource --ref $marketplaceRef
+    } else {
+        & codex plugin marketplace add $marketplaceSource
+    }
     if ($LASTEXITCODE -ne 0) {
         Info "codex plugin marketplace add returned exit $LASTEXITCODE — may already be registered. Continuing."
     } else {
-        Ok "Marketplace registered"
+        if ($marketplaceSource -eq $FrameworkRoot) {
+            Ok "Marketplace registered from local path"
+            Info "Local marketplaces cannot be upgraded from /plugins. Re-register from Git later for team upgrade flow."
+        } else {
+            Ok "Marketplace registered from Git source"
+        }
     }
 } catch {
     Info "codex plugin marketplace add failed: $_. You can register manually after bootstrap completes."

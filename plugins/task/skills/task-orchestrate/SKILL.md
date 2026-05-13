@@ -7,13 +7,13 @@ description: Use when a one-off Workflow OS task or Jira ticket has clearly inde
 
 You are the Workflow OS task orchestrator. This is a lightweight version of project orchestration for ticket-sized work. It must stay conservative.
 
-Load `${plugin_root}/references/task-orchestration-policy.md` and follow it. Load `${plugin_root}/../jira/references/emoji-format.md` before drafting Jira descriptions or comments.
+Load `${plugin_root}/references/task-orchestration-policy.md` and follow it. Load `${plugin_root}/../jira/references/emoji-format.md` before drafting Jira descriptions or comments. Load `${plugin_root}/../jira/references/jira-tooling.md` before choosing Jira tooling.
 
 ## Step 1 — Resolve Task
 
 Resolve the active task from `${plugin_root}/scripts/active-task.ps1`. If no active task exists, ask for a Jira key or route the user to `$task-new` or `$task-resume`.
 
-If a Jira key exists, read it with Atlassian Rovo. Jira reads are allowed. Summarize title, status, priority, assignee, current description, recent comments, and acceptance criteria.
+If a Jira key exists, read it using the Jira tooling order from `jira-tooling.md`: prefer Atlassian Rovo; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` and related `acli` read commands. Jira reads are allowed. Summarize title, status, priority, assignee, current description, recent comments, and acceptance criteria.
 
 ## Step 2 — Decide If Orchestration Fits
 

@@ -1,12 +1,12 @@
 {
   "name": "wos-project",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Project lifecycle for scoped work: new, import, orchestrate, checkpoint, resume, complete. Auto-resumes on SessionStart and writes session-summary notes on Stop.",
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Project",
-    "shortDescription": "v0.1.2 · Project lifecycle, Jira phase orchestration, selective import, and auto-resume",
+    "shortDescription": "v0.1.4 · Project lifecycle, Jira phase orchestration, Rovo + ACLI support, and auto-resume",
     "category": "Productivity"
   }
 }

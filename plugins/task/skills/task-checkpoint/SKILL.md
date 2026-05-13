@@ -67,7 +67,7 @@ Call `memory_write` again with `type: "task-state"`, `source: "wos-task"`, and `
 
 If the task has a Jira key, ask whether to post a checkpoint comment.
 
-If yes, load `${plugin_root}/../jira/references/emoji-format.md`, draft the comment, show it, get explicit confirmation, then call `mcp__atlassian-rovo__add_comment`.
+If yes, load `${plugin_root}/../jira/references/emoji-format.md` and `${plugin_root}/../jira/references/jira-tooling.md`, draft the comment, show it, and get explicit confirmation. Then use the Atlassian Rovo Codex app connector's Jira comment tool if exposed in the current session. If no comment tool is exposed, use the `acli` fallback: write the approved comment to a temp file, run `acli jira workitem comment create --key "<key>" --body-file "<tempfile>"`, then remove the temp file.
 
 ## Hard rules
 

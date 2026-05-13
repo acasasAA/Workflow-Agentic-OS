@@ -8,12 +8,13 @@
     "recommended": [
       "GitHub Desktop",
       "Obsidian",
-      "Atlassian Rovo MCP",
-      "Outlook Email MCP",
-      "Outlook Calendar MCP"
+      "Atlassian Rovo app connector",
+      "Atlassian CLI",
+      "Outlook Email connector",
+      "Outlook Calendar connector"
     ],
     "optional_role_based": [
-      "SharePoint MCP",
+      "SharePoint connector",
       "Azure CLI",
       "AWS CLI or AWS MCP",
       "Power BI CLI/MCP",
@@ -28,7 +29,8 @@
     "notes": [
       "Report installed-but-not-on-PATH separately from missing.",
       "Do not run install commands without explicit user confirmation.",
-      "If a connector or MCP is installed through Codex UI rather than a system package, direct the user to the relevant plugin or connector flow."
+      "If a connector is installed through Codex UI rather than a system package, direct the user to the relevant plugin or connector flow.",
+      "Atlassian CLI (`acli`) complements the Rovo connector and should be available on PATH for Jira fallback operations."
     ]
   }
 }

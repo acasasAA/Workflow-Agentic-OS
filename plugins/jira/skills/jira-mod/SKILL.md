@@ -10,10 +10,11 @@ You are modifying the **description** field of an existing Jira work item on the
 ## Required reference
 
 Load `${plugin_root}/../references/emoji-format.md` before drafting. The new description **must** follow §2 (Description structure).
+Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling.
 
 ## Steps
 
-1. **Ask the user for the Jira key.** Call `mcp__atlassian-rovo__get_issue` to fetch current state including the existing description.
+1. **Ask the user for the Jira key.** Use the Jira tooling order from `jira-tooling.md`. Prefer `mcp__codex_apps__atlassian_rovo._search` and `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` to fetch current state including the existing description.
 
 2. **Show the user the current description.** Ask what they want changed:
    - Reformat to Workflow OS structure (preserving content)?
@@ -33,7 +34,7 @@ Load `${plugin_root}/../references/emoji-format.md` before drafting. The new des
    Apply? (yes/no)
    ```
 
-5. **On yes**: call `mcp__atlassian-rovo__update_issue` with the new description body.
+5. **On yes**: prefer `mcp__codex_apps__atlassian_rovo._editjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem edit` flow after confirmation.
 
 6. **On success**, tell the user the work item is updated. Offer to also post a 🔵 informational comment via `$jira-update` noting the description change (only if substantive).
 

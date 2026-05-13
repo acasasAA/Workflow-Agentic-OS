@@ -36,9 +36,11 @@ Show the slug and ask for confirmation before writing anything. If a project-sta
 
 ## Step 3 — Optional Jira linkage
 
+Load `${plugin_root}/../jira/references/jira-tooling.md` before choosing Jira tooling.
+
 Ask whether the workspace has an existing Jira epic or ticket.
 
-- If yes, ask for the key and call `mcp__atlassian-rovo__get_issue` to verify title/type when the Atlassian Rovo MCP is installed.
+- If yes, ask for the key. Prefer `mcp__codex_apps__atlassian_rovo._search` plus `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` to verify title/type.
 - If Jira is unavailable, record the key as user-provided and mark it unverified.
 - If no, proceed with `jira_key = null`.
 

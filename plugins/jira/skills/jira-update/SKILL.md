@@ -10,11 +10,12 @@ You are posting a comment to a Jira work item on the user's explicit request.
 ## Required reference
 
 Load `${plugin_root}/../references/emoji-format.md` before drafting. The comment **must** follow §1 (Comment structure) including the status marker.
+Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling.
 
 ## Steps
 
 1. **Ask the user for:**
-   - **Jira key** (e.g. `PHX-42`). Verify with `mcp__atlassian-rovo__get_issue` to confirm it exists.
+   - **Jira key** (e.g. `PHX-42`). Verify with `mcp__codex_apps__atlassian_rovo._search` or `mcp__codex_apps__atlassian_rovo._fetch` to confirm it exists.
    - **Status marker**: 🟢 / 🟡 / 🔴 / 🔵 / ✅ / 🛠️ (per §1 table).
    - **Summary line** (one sentence).
    - **What's done**, **In progress**, **Blockers**, **Next**, **Refs** — only the sections that have content.
@@ -30,7 +31,7 @@ Load `${plugin_root}/../references/emoji-format.md` before drafting. The comment
    Post? (yes/no)
    ```
 
-4. **On yes**: call `mcp__atlassian-rovo__add_comment` with the issue key and body.
+4. **On yes**: use the Atlassian Rovo Codex app connector's Jira comment tool if exposed in the current session. If no comment tool is exposed, use the `acli` fallback from `${plugin_root}/../references/jira-tooling.md`: write the approved comment to a temp file, run `acli jira workitem comment create --key "<key>" --body-file "<tempfile>"`, then remove the temp file.
 
 5. **On success**, optionally write a `worklog` memory note if the user indicates they spent time on this. Tell the user the comment ID returned.
 

@@ -61,7 +61,7 @@ Call `memory_write` with `type: "project-state"` again, updating `status` to `co
 
 ## Step 5 — Jira transition (proposed, not automatic)
 
-Look up available transitions via `mcp__atlassian-rovo__list_transitions` for the project's Jira key. Show the user:
+Load `${plugin_root}/../jira/references/jira-tooling.md`. Look up the project's Jira key using the Jira tooling order: prefer `mcp__codex_apps__atlassian_rovo._search` and `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json`. If transition metadata is exposed, show the user:
 
 ```
 Available transitions for <jira_key>:
@@ -74,8 +74,8 @@ Transition to <Done|Closed|Resolved>? Or skip? (number / skip)
 
 If the user picks a transition, draft a ✅ closeout comment per the Jira emoji format (`${plugin_root}/../jira/references/emoji-format.md` §4). Show the user, get explicit confirmation, then:
 
-1. Call `mcp__atlassian-rovo__add_comment` to post the comment.
-2. Call `mcp__atlassian-rovo__transition_issue` to perform the transition.
+1. Use the Atlassian Rovo Codex app connector's Jira comment tool if exposed in the current session. If no comment tool is exposed, use the `acli` fallback: write the approved comment to a temp file, run `acli jira workitem comment create --key "<key>" --body-file "<tempfile>"`, then remove the temp file.
+2. Prefer `mcp__codex_apps__atlassian_rovo._transitionjiraissue` to perform the transition. If Rovo is unavailable and the transition is still explicitly confirmed, use the matching `acli jira workitem transition` flow.
 
 If the user says skip, leave Jira alone — they'll handle it manually.
 

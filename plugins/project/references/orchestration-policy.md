@@ -47,7 +47,7 @@ Phase agents may post comments only on their assigned Jira item. They must not e
 
 All Jira descriptions and comments must follow the WOS emoji format in `plugins/jira/references/emoji-format.md`.
 
-Deletes remain blocked. If cleanup is needed, call it out for the user to perform manually in Jira.
+Deletes/archive remain blocked across Rovo, `acli`, and any other Jira path. If cleanup is needed, call it out for the user to perform manually in Jira.
 
 ## Model Selection
 

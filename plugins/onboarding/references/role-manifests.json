@@ -6,7 +6,7 @@
       "summary": "Front-line ticket triage, one-off task handling, user support, escalation, and service desk documentation.",
       "default_work_style": "Concise ticket-first support. Prioritize clear troubleshooting steps, escalation notes, and customer-ready updates.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector"],
       "tailoring_questions": [
         "Which queues or request types do you work most often?",
         "Which systems do you commonly reference while troubleshooting?",
@@ -21,7 +21,7 @@
       "summary": "Operational reliability, one-off ticket execution, systems coordination, incident response, service health, and recurring IT workflows.",
       "default_work_style": "Operationally direct. Track current state, blockers, owners, next actions, and service impact.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Azure CLI"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Azure CLI"],
       "tailoring_questions": [
         "Which services, queues, or operational areas are in your day-to-day scope?",
         "What recurring checks, handoffs, or status updates should Workflow OS help with?",
@@ -36,7 +36,7 @@
       "summary": "Server, endpoint, identity, access, automation, and infrastructure administration.",
       "default_work_style": "Change-control oriented. Capture commands, validation, rollback notes, affected systems, and access boundaries.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo MCP", "Azure CLI", "AWS CLI or AWS MCP", "SharePoint MCP"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Azure CLI", "AWS CLI or AWS MCP", "SharePoint connector"],
       "tailoring_questions": [
         "Which platforms or system areas do you administer?",
         "What change-control details should Workflow OS always capture?",
@@ -51,7 +51,7 @@
       "summary": "Project planning, delivery tracking, stakeholder updates, risks, dependencies, and Jira coordination.",
       "default_work_style": "Plan and status oriented. Emphasize milestones, owners, risks, dependencies, and crisp stakeholder updates.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Power BI CLI/MCP"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP"],
       "tailoring_questions": [
         "Which boards, programs, or portfolios do you manage?",
         "What project status format do you prefer?",
@@ -66,7 +66,7 @@
       "summary": "Application development, database work, integrations, data fixes, and technical delivery.",
       "default_work_style": "Implementation-focused. Track design decisions, test evidence, migrations, data safety, and release notes.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo MCP", "GitHub Desktop", "Azure CLI", "AWS CLI or AWS MCP", "Power BI CLI/MCP"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "GitHub Desktop", "Azure CLI", "AWS CLI or AWS MCP", "Power BI CLI/MCP"],
       "tailoring_questions": [
         "Which codebases, databases, or integrations do you work on most?",
         "What testing or validation evidence should Workflow OS capture?",
@@ -82,7 +82,7 @@
       "subroles": ["Supervisor", "Manager", "Director", "VP", "Exec VP"],
       "default_work_style": "Outcome and visibility oriented. Prefer summaries that surface risk, ownership, impact, and decisions.",
       "jira_project_suggestions": ["ASD", "TPM"],
-      "recommended_tools": ["Atlassian Rovo MCP", "Outlook Email MCP", "Outlook Calendar MCP", "SharePoint MCP", "Power BI CLI/MCP"],
+      "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP"],
       "tailoring_questions_by_subrole": {
         "Supervisor": [
           "Which team or queue do you supervise?",

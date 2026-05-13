@@ -41,7 +41,7 @@ The bootstrap will, in order:
 2. Write `~/.codex/workflow-os.json` (sentinel pointing at the framework path).
 3. Install `~/.codex/AGENTS.md` (global agent manual) and `~/.codex/AGENTS.override.md` (safety rails — always wins cascades).
 4. Patch `~/.codex/config.toml` with a managed block enabling hooks and registering `WOS.md` as a project-doc fallback filename.
-5. Run `codex plugin marketplace add <framework_root>`.
+5. Run `codex plugin marketplace add <git_remote_or_framework_root> --ref main`. Prefer the Git remote so `/plugins` upgrades work after changes are pushed.
 
 ```powershell
 # 3. Start Codex and install plugins
@@ -65,7 +65,7 @@ Walk through the onboarding questions. When it finishes, you'll have a working W
 The onboarding skill (the only thing in `wos-onboarding`) asks for:
 - Identity and polished role profile (Help Desk, IT Operations, System Administration, Project Management, Development / DBA, or IT Leadership with subrole).
 - Role-tailoring answers that shape defaults and preferences.
-- Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, Obsidian, Atlassian Rovo MCP, Outlook Email/Calendar recommended; other tools optional by role).
+- Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, Obsidian, Atlassian Rovo app connector, Atlassian CLI, Outlook Email/Calendar recommended; other tools optional by role).
 - Paths (framework engine path, local data root, optional OneDrive backup/export folder, GitHub Desktop install).
 - Jira tenant URL and primary project keys, defaulting Athens users to ASD and TPM only.
 

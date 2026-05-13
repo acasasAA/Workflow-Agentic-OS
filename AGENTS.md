@@ -19,12 +19,12 @@ Codex's native AGENTS.md cascade loads this file first, then walks the project t
 
 These are summarized here for visibility; full text in `~/.codex/AGENTS.override.md`. The override file is authoritative.
 
-- **Jira**: read+write allowed (writes require per-turn confirmation, mandatory emoji format); **delete blocked at MCP layer** (single exception: agent self-correction in same turn).
+- **Jira**: use Atlassian Rovo first and `acli` as a fallback/companion for gaps such as comments; read+write allowed (writes require per-turn confirmation, mandatory emoji format); **delete/archive blocked for both Rovo and `acli`** (single exception: agent self-correction in same turn).
 - **No silent destructive ops.** Confirm in chat before any deletion, force-push, schema drop, or mass write.
 - **No auto-commits.** Code changes stage but don't commit unless the user says so.
 - **No secrets in URLs, logs, or memory writes.** Strip credentials before persisting.
 - **Memory writes go through MCP**, not direct file edits.
-- **Sandbox mode does not bypass MCP `enabled_tools` allow-lists** — those are enforced at the MCP boundary in every mode, including `danger-full-access`.
+- **Sandbox mode does not bypass tool allow-lists or Workflow OS policy** — MCP boundaries and CLI safety rules apply in every mode, including `danger-full-access`.
 
 ## 3. Tool surface (paths)
 
@@ -53,6 +53,6 @@ Active user is named in `<wos_data>/.agent/local.json` → `user`. Their prefere
 ## 6. When in doubt
 
 - Memory question? Ask the `memory-engine` MCP, don't grep the vault.
-- Jira question? Use the configured Atlassian Rovo MCP (the `jira` plugin owns the policy on top of it).
+- Jira question? Use the configured Atlassian Rovo Codex app connector first. If Rovo is unavailable or lacks the needed Jira operation, use `acli` under the same Workflow OS policy. For direct chat requests, this same Rovo-first/`acli`-fallback rule applies.
 - Unsure which plugin owns a behavior? `codex /plugins` lists installed plugins.
 - Nothing matches? Tell the user, don't improvise.
