@@ -1,0 +1,10 @@
+# === Workflow OS managed block (do not edit between markers) ===
+# Auto-managed by Workflow OS setup.
+features.codex_hooks = true
+project_doc_fallback_filenames = ["WOS.md"]
+
+[marketplaces.workflow-os]
+source_type = "git"
+source = "{{MARKETPLACE_SOURCE}}"
+ref = "{{MARKETPLACE_REF}}"
+# === end Workflow OS managed block ===

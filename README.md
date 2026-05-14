@@ -10,6 +10,9 @@ This is a clean-slate draft, staged for review before moving to the real `workfl
 v2/
 ├── AGENTS.md                            global agent manual (→ ~/.codex/AGENTS.md)
 ├── bootstrap.ps1                        one-shot installer for new machines
+├── scripts/install/                     preflight, prerequisite, and Codex setup helpers
+├── templates/codex/                     deployable WOS Codex config template
+├── docs/                                pilot install and Codex setup prompts
 ├── TRANSFER.md                          new-machine setup checklist
 ├── .agents/plugins/marketplace.json     lists the Workflow OS plugins for Codex's marketplace
 ├── .agent/
@@ -61,4 +64,4 @@ After that, `/plugins` can upgrade from Git whenever `main` changes.
 
 See [TRANSFER.md](TRANSFER.md). Short version:
 1. Push v2/ contents to a private GitHub repo as `workflow-os`.
-2. On the new machine: clone, `.\bootstrap.ps1`, then open Codex and run `$welcome`.
+2. On the new machine: run `scripts/install/preflight.ps1`, then `scripts/install/setup-codex.ps1`, then open Codex and run `$welcome`.

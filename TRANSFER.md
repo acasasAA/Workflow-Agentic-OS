@@ -16,9 +16,10 @@ Mechanical checklist for moving the v2 framework to a new machine.
 
 ### Prerequisites
 
-The bootstrap will refuse to run without these:
+The smooth path expects these:
 
-- **Codex CLI** — `npm install -g @openai/codex` (or however you install it).
+- **PowerShell 7** — use `pwsh` for Workflow OS install scripts.
+- **Codex CLI** — `npm install -g @openai/codex` or the approved internal install path.
 - **Node.js LTS** — current LTS, on PATH.
 - **git** — for cloning the framework and the data repo's snapshots.
 - **GitHub Desktop** — for managing the data repo.
@@ -26,22 +27,35 @@ The bootstrap will refuse to run without these:
 
 ### Steps
 
-```powershell
-# 1. Clone the framework
-cd $env:USERPROFILE
-git clone https://github.com/acasasAA/Workflow-Agentic-OS.git workflow-os
-cd workflow-os
+Preferred pilot flow:
 
-# 2. Run bootstrap
-.\bootstrap.ps1
+```powershell
+# 1. From the Workflow OS repo, run preflight
+pwsh -NoProfile -File .\scripts\install\preflight.ps1
+
+# 2. Prepare Codex config and marketplace
+pwsh -NoProfile -File .\scripts\install\setup-codex.ps1
 ```
 
-The bootstrap will, in order:
+If prerequisites are missing, use:
+
+```powershell
+pwsh -NoProfile -File .\scripts\install\install-prereqs.ps1 -Install
+```
+
+For a single guided entrypoint:
+
+```powershell
+pwsh -NoProfile -File .\scripts\install\launch-wos-setup.ps1
+```
+
+The setup scripts will, in order:
 1. Validate Codex CLI, Node, git on PATH.
-2. Write `~/.codex/workflow-os.json` (sentinel pointing at the framework path).
-3. Install `~/.codex/AGENTS.md` (global agent manual) and `~/.codex/AGENTS.override.md` (safety rails — always wins cascades).
-4. Patch `~/.codex/config.toml` with a managed block enabling hooks and registering `WOS.md` as a project-doc fallback filename.
-5. Run `codex plugin marketplace add <git_remote_or_framework_root> --ref main`. Prefer the Git remote so `/plugins` upgrades work after changes are pushed.
+2. Detect the best valid Workflow OS checkout without moving or deleting nested folders.
+3. Write `~/.codex/workflow-os.json` (sentinel pointing at the framework path).
+4. Install `~/.codex/AGENTS.md` (global agent manual) and `~/.codex/AGENTS.override.md` (safety rails — always wins cascades).
+5. Merge the WOS-managed block into `~/.codex/config.toml` without replacing user settings.
+6. Register the Git-backed `workflow-os` Codex plugin marketplace so `/plugins` upgrades work after changes are pushed.
 
 ```powershell
 # 3. Start Codex and install plugins
@@ -134,3 +148,5 @@ codex /plugins
 ```
 
 If marketplace lists `workflow-os` and `/plugins` shows the five `wos-*` plugins enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate project auto-resume.
+
+For supervised installs, see `docs/pilot-install.md`. For a Codex-driven setup prompt, see `docs/codex-setup-prompt.md`.
