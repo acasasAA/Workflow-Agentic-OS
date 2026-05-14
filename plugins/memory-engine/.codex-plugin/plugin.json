@@ -1,12 +1,12 @@
 {
   "name": "wos-memory-engine",
-  "version": "0.1.0",
-  "description": "Memory substrate for Workflow OS: Obsidian-vault notes indexed by SQLite FTS5, exposed via an MCP server with memory.search, memory.write, memory.recall verbs.",
+  "version": "0.1.1",
+  "description": "Memory substrate for Workflow OS: Obsidian-vault notes indexed by SQLite FTS5, exposed via an MCP server with memory_search, memory_write, memory_recall tools.",
   "mcpServers": "./.mcp.json",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Memory Engine",
-    "shortDescription": "v0.1.0 · Local memory store: vault + SQLite FTS5 + MCP",
+    "shortDescription": "v0.1.1 · Local memory store with Node 24-ready SQLite + MCP",
     "category": "Productivity"
   }
 }

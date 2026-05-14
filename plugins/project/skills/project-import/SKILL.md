@@ -40,7 +40,7 @@ Load `${plugin_root}/../jira/references/jira-tooling.md` before choosing Jira to
 
 Ask whether the workspace has an existing Jira epic or ticket.
 
-- If yes, ask for the key. Prefer `mcp__codex_apps__atlassian_rovo._search` plus `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` to verify title/type.
+- If yes, ask for the key. For exact key verification, prefer `mcp__codex_apps__atlassian_rovo._searchjiraissuesusingjql` with `jql: "key = <KEY>"` and `cloudId` set to the Jira site URL. If that tool is not exposed, use `mcp__codex_apps__atlassian_rovo._search` plus `_fetch` with the returned ARI. If Rovo is unavailable or the Rovo call fails, use `acli jira workitem view "<key>" --json` to verify title/type.
 - If Jira is unavailable, record the key as user-provided and mark it unverified.
 - If no, proceed with `jira_key = null`.
 
@@ -48,7 +48,7 @@ Do not create Jira issues from this skill. `$project-import` is for linking exis
 
 ## Step 4 — Write project-state
 
-Call `mcp__memory-engine__memory_write` when available:
+Call the exposed memory-engine MCP `memory_write` tool when available:
 
 ```json
 {
@@ -70,7 +70,16 @@ Call `mcp__memory-engine__memory_write` when available:
 }
 ```
 
-If memory-engine is unavailable, stop and report that the project cannot be imported yet. Do not create `WOS.md` without a project-state note unless the user explicitly asks for a marker-only recovery.
+If the memory-engine MCP is installed but not exposed as a callable tool in the active conversation, use the supported local helper instead of hand-rolling stdio:
+
+```powershell
+$argsJson = '<json arguments for memory_write>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" memory_write $argsJson
+```
+
+Resolve `memory_plugin_root` from the installed Workflow OS memory-engine plugin path when needed, usually under `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`.
+
+If memory-engine is not installed or the helper fails, stop and report that the project cannot be imported yet. Do not create `WOS.md` without a project-state note unless the user explicitly asks for a marker-only recovery.
 
 ## Step 5 — Write WOS.md marker
 

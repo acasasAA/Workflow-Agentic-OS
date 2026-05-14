@@ -1,6 +1,6 @@
 {
   "name": "wos-memory-engine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Workflow OS memory engine MCP server",
   "type": "module",
   "main": "server.js",
@@ -8,8 +8,8 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "better-sqlite3": "^11.0.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "better-sqlite3": "^12.10.0",
     "gray-matter": "^4.0.3"
   },
   "engines": {

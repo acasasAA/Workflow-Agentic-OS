@@ -5,8 +5,24 @@ Workflow OS can use both the Atlassian Rovo Codex app connector and the official
 ## Tool order
 
 1. **Use Atlassian Rovo first** for Jira/Confluence search, semantic lookup, fetching issues/pages, and app-connector writes that are exposed in the current session.
-2. **Use `acli` as the deterministic fallback** when Rovo is unavailable or when the app connector does not expose the needed Jira operation.
-3. **Use `acli` for Jira comments when no Rovo comment tool is exposed.** Write the approved comment body to a temporary file, post it with `acli jira workitem comment create --key "<KEY>" --body-file "<TEMPFILE>"`, then remove the temporary file.
+2. **For exact Jira key reads, prefer Rovo JQL when exposed**: call `mcp__codex_apps__atlassian_rovo._searchjiraissuesusingjql` with `cloudId` set to the Jira site URL and `jql` set to `key = <KEY>`. This avoids the two-step ARI lookup when the user already provided a key.
+3. **Use Rovo Search + Fetch for semantic lookup**: call `mcp__codex_apps__atlassian_rovo._search` first, then pass the returned ARI to `mcp__codex_apps__atlassian_rovo._fetch`. `_fetch` requires an ARI; do not pass a plain Jira key to `_fetch`.
+4. **Use `acli` as the deterministic fallback** when Rovo is unavailable, when Rovo lacks the needed operation, or when the Rovo call fails for reasons unrelated to the issue not existing.
+5. **Use Rovo for Jira comments when exposed**: prefer `mcp__codex_apps__atlassian_rovo._addcommenttojiraissue` for approved comments.
+6. **Use `acli` for Jira comments when no Rovo comment tool is exposed.** Write the approved comment body to a temporary file, post it with `acli jira workitem comment create --key "<KEY>" --body-file "<TEMPFILE>"`, then remove the temporary file.
+
+## Rovo exact-key read
+
+```json
+{
+  "cloudId": "https://athensadmin.atlassian.net",
+  "jql": "key = GPT-79",
+  "fields": ["summary", "issuetype", "status", "project", "parent"],
+  "maxResults": 1
+}
+```
+
+If the JQL result returns one issue, treat the Jira link as verified and capture at least key, summary, issue type, status, project, and web URL when available.
 
 ## Chat usage
 

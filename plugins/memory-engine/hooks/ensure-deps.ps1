@@ -12,8 +12,29 @@ $pluginRoot = Split-Path -Parent $PSScriptRoot
 $mcpDir = Join-Path $pluginRoot 'mcp'
 $marker = Join-Path $mcpDir '.deps-installed'
 $nodeModules = Join-Path $mcpDir 'node_modules'
+$packageJson = Join-Path $mcpDir 'package.json'
+$packageLock = Join-Path $mcpDir 'package-lock.json'
 
-if ((Test-Path $marker) -and (Test-Path $nodeModules)) {
+function Get-DependencyHash {
+    $parts = @()
+    foreach ($file in @($packageJson, $packageLock)) {
+        if (Test-Path $file) {
+            $parts += (Get-FileHash -Algorithm SHA256 -LiteralPath $file).Hash
+        }
+    }
+    return ($parts -join ':')
+}
+
+$dependencyHash = Get-DependencyHash
+$installedHash = $null
+if (Test-Path $marker) {
+    $markerContent = Get-Content -LiteralPath $marker -Raw -ErrorAction SilentlyContinue
+    if ($null -ne $markerContent) {
+        $installedHash = $markerContent.Trim()
+    }
+}
+
+if ((Test-Path $marker) -and (Test-Path $nodeModules) -and $dependencyHash -and ($installedHash -eq $dependencyHash)) {
     exit 0
 }
 
@@ -26,9 +47,10 @@ Push-Location $mcpDir
 try {
     $npmOut = & npm install --omit=dev --silent 2>&1
     if ($LASTEXITCODE -eq 0) {
-        New-Item -ItemType File -Path $marker -Force | Out-Null
+        Set-Content -LiteralPath $marker -Value $dependencyHash -Encoding UTF8
     } else {
-        Write-Output "[memory-engine] npm install failed (exit $LASTEXITCODE). Run 'npm install' in $mcpDir manually."
+        $tail = ($npmOut | Select-Object -Last 6) -join ' '
+        Write-Output "[memory-engine] npm install failed (exit $LASTEXITCODE). Run 'npm install --omit=dev' in $mcpDir manually. $tail"
     }
 } catch {
     Write-Output "[memory-engine] dependency install error: $_"
