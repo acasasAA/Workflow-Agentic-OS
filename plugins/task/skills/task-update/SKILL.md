@@ -7,6 +7,17 @@ description: Lightly update the currently active one-off Workflow OS task. Use f
 
 You are making a lightweight task-state update for a ticket-sized task. Keep this short and operational. If the user wants a deliberate save point with narrative, blockers, and next-action capture, route them to `$task-checkpoint`.
 
+## Memory access rule
+
+Use the exposed memory-engine MCP tools when available. If `mcp__memory-engine__memory_search` or `mcp__memory-engine__memory_write` is not exposed in the active conversation, use the supported helper instead:
+
+```powershell
+$argsJson = '<json arguments>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" <memory_search|memory_write|memory_recall> $argsJson
+```
+
+Resolve `memory_plugin_root` from `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`. If the helper fails, stop and report that task memory is unavailable. Do not create repo-local markdown files or other substitutes unless the user explicitly asks for a file export.
+
 ## Step 1 — Resolve task
 
 Call `${plugin_root}/scripts/active-task.ps1`.

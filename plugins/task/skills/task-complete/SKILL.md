@@ -7,6 +7,17 @@ description: Complete or close a one-off Workflow OS task. Writes final task-sta
 
 You are completing a task, not a project.
 
+## Memory access rule
+
+Use the exposed memory-engine MCP tools when available. If `mcp__memory-engine__memory_search` or `mcp__memory-engine__memory_write` is not exposed in the active conversation, use the supported helper instead:
+
+```powershell
+$argsJson = '<json arguments>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" <memory_search|memory_write|memory_recall> $argsJson
+```
+
+Resolve `memory_plugin_root` from `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`. If the helper fails, stop and report that task memory is unavailable. Do not create repo-local markdown files or other substitutes unless the user explicitly asks for a file export.
+
 ## Step 1 — Resolve active task
 
 Call `${plugin_root}/scripts/active-task.ps1`. If `active_task` is null, ask for the task slug or Jira key and resolve via memory search.

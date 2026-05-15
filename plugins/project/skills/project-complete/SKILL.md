@@ -7,6 +7,17 @@ description: Close out the currently active project. Writes a final decision and
 
 You are closing the currently active project.
 
+## Memory access rule
+
+Use the exposed memory-engine MCP tools when available. If `mcp__memory-engine__memory_search` or `mcp__memory-engine__memory_write` is not exposed in the active conversation, use the supported helper instead:
+
+```powershell
+$argsJson = '<json arguments>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" <memory_search|memory_write|memory_recall> $argsJson
+```
+
+Resolve `memory_plugin_root` from `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`. If the helper fails, stop and report that project memory is unavailable. Do not create repo-local markdown files or other substitutes unless the user explicitly asks for a file export.
+
 ## Step 1 — Confirm intent
 
 Resolve the active project via `${plugin_root}/scripts/active-project.ps1`. Show the user:

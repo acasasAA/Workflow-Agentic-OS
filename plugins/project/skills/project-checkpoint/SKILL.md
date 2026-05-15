@@ -13,11 +13,22 @@ Call `${plugin_root}/scripts/active-project.ps1` to resolve the active project s
 
 ## Step 2 — Read current state
 
-Call `mcp__memory-engine__memory_search`:
+Call the exposed memory-engine MCP `memory_search` tool when available:
 
 ```json
 { "type": "project-state", "project": "<slug>", "limit": 1 }
 ```
+
+If the memory-engine MCP is installed but not exposed as a callable tool in the active conversation, use the supported local helper instead of inventing a local file fallback:
+
+```powershell
+$argsJson = '{"type":"project-state","project":"<slug>","limit":1}'
+node "${memory_plugin_root}/scripts/memory-call.mjs" memory_search $argsJson
+```
+
+Resolve `memory_plugin_root` from the installed Workflow OS memory-engine plugin path when needed, usually under `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`.
+
+If memory-engine is not installed or the helper fails, stop and report that project memory is unavailable. Do not write `docs/checkpoints`, repo checkpoint artifacts, markdown checkpoint files, or any other local substitute unless the user explicitly asks for a file export.
 
 Show the user the current `phase`, `status`, and `next_milestone`. Confirm they're still accurate, or ask what's changed.
 
@@ -32,7 +43,7 @@ Ask the user for these in order. Skip any they say is unchanged or N/A:
 
 ## Step 4 — Write the checkpoint
 
-Call `mcp__memory-engine__memory_write`:
+Call the exposed memory-engine MCP `memory_write` tool when available:
 
 ```json
 {
@@ -49,6 +60,15 @@ Call `mcp__memory-engine__memory_write`:
 }
 ```
 
+If the memory-engine MCP is installed but not exposed as a callable tool in the active conversation, use the supported local helper:
+
+```powershell
+$argsJson = '<json arguments for memory_write>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" memory_write $argsJson
+```
+
+If the helper fails, stop and report the failure. Do not create a repo-local checkpoint file as a substitute.
+
 ## Step 5 — Optional Jira sync
 
 Ask the user: "Post a 🟡 (or 🟢 / 🔴 based on blockers) comment to the project's Jira key summarizing this checkpoint?"
@@ -57,10 +77,11 @@ If yes, load `${plugin_root}/../jira/references/emoji-format.md` §1 and `${plug
 
 ## Step 6 — Update `project-state`
 
-If `phase`, `status`, or `next_milestone` changed in Step 2, call `memory_write` again with `type: "project-state"` to update the canonical state note. (Same project, same slug — the new write replaces the old by virtue of identical type+project+slug semantics in the memory-engine upsert.)
+If `phase`, `status`, or `next_milestone` changed in Step 2, call the exposed `memory_write` tool or the same supported local helper again with `type: "project-state"` to update the canonical state note. (Same project, same slug — the new write replaces the old by virtue of identical type+project+slug semantics in the memory-engine upsert.)
 
 ## Hard rules
 
 - **One checkpoint per `$project-checkpoint` invocation.** Don't batch.
 - **No Jira write without explicit confirmation in Step 5.**
+- **No local checkpoint substitutes.** Checkpoints are memory notes. Only create markdown files when the user explicitly requests a file export.
 - **Blockers and next_actions must be concrete.** "Lots of stuff" is not a blocker; "Awaiting legal sign-off on data residency" is.

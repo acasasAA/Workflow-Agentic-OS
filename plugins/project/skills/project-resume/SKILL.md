@@ -9,6 +9,17 @@ You are switching the active project context inside an already-running Codex ses
 
 > **Note:** the common case — opening Codex in a project's directory and picking up where you left off — happens **automatically** via the `wos-project` SessionStart hook. The user shouldn't need this skill for that. They invoke `$project-resume` only when they want to switch from one project to another mid-session, or when auto-resume failed and they want to force it.
 
+## Memory access rule
+
+Use the exposed memory-engine MCP tools when available. If `mcp__memory-engine__memory_search` or `mcp__memory-engine__memory_write` is not exposed in the active conversation, use the supported helper instead:
+
+```powershell
+$argsJson = '<json arguments>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" <memory_search|memory_write|memory_recall> $argsJson
+```
+
+Resolve `memory_plugin_root` from `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`. If the helper fails, stop and report that project memory is unavailable. Do not create repo-local markdown files or other substitutes unless the user explicitly asks for a file export.
+
 ## Step 1 — Pick the project
 
 Ask the user which project to resume. To help, offer to list candidates:

@@ -32,7 +32,7 @@ Record the resulting `jira_key` (whether existing or just-created).
 
 ## Step 3 — Write `project-state`
 
-Call `mcp__memory-engine__memory_write`:
+Call the exposed memory-engine MCP `memory_write` tool when available:
 
 ```json
 {
@@ -51,6 +51,17 @@ Call `mcp__memory-engine__memory_write`:
   }
 }
 ```
+
+If the memory-engine MCP is installed but not exposed as a callable tool in the active conversation, use the supported local helper instead of hand-rolling stdio:
+
+```powershell
+$argsJson = '<json arguments for memory_write>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" memory_write $argsJson
+```
+
+Resolve `memory_plugin_root` from the installed Workflow OS memory-engine plugin path when needed, usually under `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`.
+
+If memory-engine is not installed or the helper fails, stop and report that the project cannot be started yet. Do not create `WOS.md` or update `active_project` without a project-state note unless the user explicitly asks for a marker-only recovery.
 
 ## Step 4 — Mark cwd as the project's working directory
 

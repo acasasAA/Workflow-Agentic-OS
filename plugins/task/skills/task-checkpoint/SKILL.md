@@ -7,6 +7,17 @@ description: Write a deliberate checkpoint for the currently active one-off Work
 
 You are writing a deliberate checkpoint for a task. This is the task equivalent of `$project-checkpoint`, but lighter and focused on ticket-sized work.
 
+## Memory access rule
+
+Use the exposed memory-engine MCP tools when available. If `mcp__memory-engine__memory_search` or `mcp__memory-engine__memory_write` is not exposed in the active conversation, use the supported helper instead:
+
+```powershell
+$argsJson = '<json arguments>'
+node "${memory_plugin_root}/scripts/memory-call.mjs" <memory_search|memory_write|memory_recall> $argsJson
+```
+
+Resolve `memory_plugin_root` from `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`. If the helper fails, stop and report that task memory is unavailable. Do not create repo-local markdown files or other substitutes unless the user explicitly asks for a file export.
+
 ## Step 1 — Resolve active task
 
 Call `${plugin_root}/scripts/active-task.ps1`.
