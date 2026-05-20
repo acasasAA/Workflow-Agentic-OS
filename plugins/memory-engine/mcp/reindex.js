@@ -13,7 +13,21 @@ import crypto from 'crypto';
 const SENTINEL = process.env.WOS_SENTINEL || path.join(os.homedir(), '.codex/workflow-os.json');
 const sentinel = JSON.parse(await fs.readFile(SENTINEL, 'utf8'));
 const DATA_ROOT = sentinel.data_root;
-const VAULT = path.join(DATA_ROOT, 'vault');
+async function resolveVaultPath() {
+  if (sentinel.vault_path) return sentinel.vault_path;
+
+  const localPath = path.join(DATA_ROOT, '.agent', 'local.json');
+  try {
+    const local = JSON.parse(await fs.readFile(localPath, 'utf8'));
+    if (local.vault_path) return local.vault_path;
+  } catch {
+    // local.json is created during onboarding; fall back for bootstrap/pre-onboarding.
+  }
+
+  return path.join(DATA_ROOT, 'vault');
+}
+
+const VAULT = await resolveVaultPath();
 const INDEX_PATH = path.join(DATA_ROOT, '.index/memory.db');
 
 await fs.mkdir(path.dirname(INDEX_PATH), { recursive: true });

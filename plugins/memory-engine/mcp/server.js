@@ -6,10 +6,11 @@
 //   memory.search — FTS5 query, optional type/project/since filters, returns snippets
 //   memory.recall — fetch a full note by id (filename)
 //
-// Vault layout: <data_root>/vault/<type>/<YYYY-MM>/<slug>.md
+// Vault layout: <vault_path>/<type>/<YYYY-MM>/<slug>.md
 // Index:        <data_root>/.index/memory.db (regenerable; see scripts/reindex.ps1)
 //
-// Discovery: reads ~/.codex/workflow-os.json for data_root.
+// Discovery: reads ~/.codex/workflow-os.json for data_root, then
+// <data_root>/.agent/local.json for the user-facing Obsidian vault_path.
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -43,7 +44,21 @@ const sentinel = await readSentinel();
 const DATA_ROOT = sentinel.data_root;
 if (!DATA_ROOT) throw new Error('sentinel missing data_root');
 
-const VAULT = path.join(DATA_ROOT, 'vault');
+async function resolveVaultPath() {
+  if (sentinel.vault_path) return sentinel.vault_path;
+
+  const localPath = path.join(DATA_ROOT, '.agent', 'local.json');
+  try {
+    const local = JSON.parse(await fs.readFile(localPath, 'utf8'));
+    if (local.vault_path) return local.vault_path;
+  } catch {
+    // local.json is created during onboarding; fall back for bootstrap/pre-onboarding.
+  }
+
+  return path.join(DATA_ROOT, 'vault');
+}
+
+const VAULT = await resolveVaultPath();
 const INDEX_DIR = path.join(DATA_ROOT, '.index');
 const INDEX_PATH = path.join(INDEX_DIR, 'memory.db');
 
@@ -171,10 +186,19 @@ const filterStmt = db.prepare(`
   LIMIT @limit
 `);
 
+function escapeFtsQuery(query) {
+  return String(query)
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((term) => `"${term.replaceAll('"', '""')}"`)
+    .join(' AND ');
+}
+
 function memorySearch(args) {
   const { query = null, type = null, project = null, since = null, limit = 20 } = args;
   const rows = query
-    ? searchStmt.all({ q: query, type, project, since, limit })
+    ? searchStmt.all({ q: escapeFtsQuery(query), type, project, since, limit })
     : filterStmt.all({ type, project, since, limit });
   return rows.map((r) => ({
     id: r.id,
