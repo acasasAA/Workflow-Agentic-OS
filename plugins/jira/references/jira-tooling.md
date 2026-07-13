@@ -16,7 +16,7 @@ Workflow OS can use both the Atlassian Rovo Codex app connector and the official
 ```json
 {
   "cloudId": "https://athensadmin.atlassian.net",
-  "jql": "key = GPT-79",
+  "jql": "key = TPM-123",
   "fields": ["summary", "issuetype", "status", "project", "parent"],
   "maxResults": 1
 }

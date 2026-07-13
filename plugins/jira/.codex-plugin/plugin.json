@@ -1,11 +1,11 @@
 {
   "name": "wos-jira",
-  "version": "0.2.1",
-  "description": "Standalone Workflow OS Jira standard for consistent Athens IT issue creation, review, updates, description maintenance, and safe Rovo/ACLI-backed writes.",
+  "version": "0.2.2",
+  "description": "Standalone Workflow OS Jira standard for consistent Athens IT setup, issue creation, updates, review, description maintenance, and safe Rovo/ACLI-backed writes.",
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow OS — Jira",
-    "shortDescription": "v0.2.1 · Standalone Jira standard: setup, create, review, update, mod",
+    "shortDescription": "v0.2.2 · Standalone Jira standard: setup, create, update, review, mod",
     "category": "Productivity"
   }
 }

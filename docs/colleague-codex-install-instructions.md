@@ -113,7 +113,7 @@ If the user only needs Jira standardization, install only:
 
 Expected visible Jira version:
 
-- `wos-jira` v0.2.1
+- `wos-jira` v0.2.2
 
 ## Step 6: Run Jira Setup
 

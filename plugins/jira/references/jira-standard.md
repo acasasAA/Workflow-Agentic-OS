@@ -79,12 +79,40 @@ Use these as the default starting point, unless the user gives a more specific p
 
 Other projects are role- or user-specific. Do not assume them for general team use.
 
-## 4. Creation Quality Checklist
+## 4. TPM Creation Rules
+
+`TPM` is the IT project management board. Treat Epics as project containers and Tasks/Subtasks as the normal work items.
+
+Before creating anything in `TPM`:
+
+- Ask the user to double-check whether an existing Epic/project already exists.
+- Use the available context to search/list relevant existing `TPM` Epics before drafting a new Jira write.
+- Show likely matching Epics and ask whether the new work belongs under one of them.
+- Prefer creating a Task under an existing Epic when the work belongs to an existing project.
+- Prefer creating a Subtask only when the work is a narrow execution step under an existing Task.
+- Do not create a new Epic unless the user explicitly confirms that this is a new project container.
+
+Team default: most users create Tasks or Subtasks in `TPM`. Epic creation is normally limited to users who own project structure, such as Tim Akramy, Anthony, or another explicitly authorized project owner.
+
+## 5. ASD Creation Rules
+
+`ASD` is the IT Team Ticketing System. Use the ticketing defaults unless the user gives a more specific request type.
+
+Before creating anything in `ASD`, clarify whether the user needs:
+
+- `AI/Gen Issue`: use when the user is reporting a problem, symptom, incident, broken behavior, access issue, or something that needs investigation/resolution.
+- `AI/Gen Task`: use when the user is requesting planned work, setup, configuration, follow-up, or a non-incident action.
+
+Ask this explicitly when the user's wording is ambiguous. Do not guess between `AI/Gen Issue` and `AI/Gen Task`.
+
+## 6. Creation Quality Checklist
 
 Before creating a Jira item, verify:
 
 - The project key is correct.
 - The issue type is correct.
+- For `TPM`, existing relevant Epics were checked before creating a new Epic or standalone Task.
+- For `ASD`, `AI/Gen Issue` vs `AI/Gen Task` was clarified.
 - The title has exactly one lead emoji and is action-oriented.
 - The objective explains why the work exists.
 - Scope says what is in and out where useful.
@@ -95,7 +123,7 @@ Before creating a Jira item, verify:
 
 If any required detail is missing, ask for it before drafting.
 
-## 5. Maintenance / Comment Standard
+## 7. Maintenance / Comment Standard
 
 Use comments to maintain continuity. A good comment should answer:
 
@@ -116,7 +144,7 @@ Use the status marker that best fits the update:
 
 Do not post vague comments such as "working on this" unless paired with useful context.
 
-## 6. Closure Standard
+## 8. Closure Standard
 
 Before closing or recommending closure, verify:
 
@@ -126,7 +154,7 @@ Before closing or recommending closure, verify:
 - References to PRs, worklogs, docs, or related tickets are included when relevant.
 - The user has explicitly confirmed any Jira transition or write action.
 
-## 7. Description Maintenance
+## 9. Description Maintenance
 
 Descriptions should be kept useful as the canonical summary of the work. Use `$jira-mod` when:
 
@@ -137,7 +165,7 @@ Descriptions should be kept useful as the canonical summary of the work. Use `$j
 
 Do not use comments as a substitute for fixing a bad description when the description is the source of confusion.
 
-## 8. Review Standard
+## 10. Review Standard
 
 Use `$jira-review` to evaluate an existing issue before changing it. A review should classify the issue as:
 
@@ -148,7 +176,7 @@ Use `$jira-review` to evaluate an existing issue before changing it. A review sh
 
 The review should recommend the smallest safe improvement. It must not write to Jira unless the user explicitly confirms the proposed write.
 
-## 9. Hard Boundaries
+## 11. Hard Boundaries
 
 - Jira reads are allowed.
 - Jira writes require explicit confirmation in the current turn.

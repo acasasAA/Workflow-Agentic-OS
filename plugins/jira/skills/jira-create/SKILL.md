@@ -24,11 +24,16 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
    - **Scope**: in-scope / out-of-scope bullets if available.
    - **Acceptance criteria**: bullet list or Given/When/Then.
 
-2. **Run the creation quality checklist** from `jira-standard.md`. If the project, issue type, title, objective, or acceptance/desired outcome is unclear, ask before drafting.
+2. **Apply project-specific safeguards** from `jira-standard.md`:
 
-3. **Draft the description** using the §2 skeleton from `emoji-format.md`. Show the user the draft.
+   - **For `TPM`**: before drafting a create payload, search/list relevant existing TPM Epics using the user's context. Show likely matching Epics and ask whether this work belongs under one of them. Prefer creating a Task under an existing Epic. Do not create a new Epic unless the user explicitly confirms there is no existing project/Epic and they are authorized to create a new project container.
+   - **For `ASD`**: clarify whether the request should be `AI/Gen Issue` or `AI/Gen Task`. Use `AI/Gen Issue` for problems/symptoms/incidents/investigation. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or non-incident action. Ask when ambiguous.
 
-4. **Confirm before writing.** Display the proposed payload:
+3. **Run the creation quality checklist** from `jira-standard.md`. If the project, issue type, title, objective, or acceptance/desired outcome is unclear, ask before drafting.
+
+4. **Draft the description** using the §2 skeleton from `emoji-format.md`. Show the user the draft.
+
+5. **Confirm before writing.** Display the proposed payload:
    ```
    Type: <type>
    Project: <key>
@@ -39,11 +44,11 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
    ```
    Ask: "Create this in Jira? (yes/no)"
 
-5. **On yes**: use the Jira tooling order from `jira-tooling.md`. Prefer `mcp__codex_apps__atlassian_rovo._createjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem create` flow after confirming required fields. Capture the returned key.
+6. **On yes**: use the Jira tooling order from `jira-tooling.md`. Prefer `mcp__codex_apps__atlassian_rovo._createjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem create` flow after confirming required fields. Capture the returned key.
 
-6. **On success**, tell the user the key + URL. If Workflow OS memory-engine is available, optionally write a `reference` note linking the new Jira key; if memory is unavailable, do not fail the Jira workflow.
+7. **On success**, tell the user the key + URL. If Workflow OS memory-engine is available, optionally write a `reference` note linking the new Jira key; if memory is unavailable, do not fail the Jira workflow.
 
-7. **On no**, ask what to change. Loop on step 3.
+8. **On no**, ask what to change. Loop on step 4.
 
 ## Hard rules
 
@@ -51,4 +56,6 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
 - **No secrets** in titles, descriptions, or comments.
 - **Authorization is per-action**: each create gets its own confirmation. Don't batch.
 - **If the project is wrong**, abort and ask. Don't guess.
+- **TPM safeguard**: do not create a new Epic/project container without first checking relevant existing TPM Epics and getting explicit user confirmation.
+- **ASD safeguard**: do not create an ASD ticket until `AI/Gen Issue` vs `AI/Gen Task` is clarified.
 - **Standalone behavior**: this skill must work with only `wos-jira` installed. Do not require memory-engine, project, or task plugins.

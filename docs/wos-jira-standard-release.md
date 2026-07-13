@@ -22,18 +22,18 @@ It standardizes:
 
 ## Skills
 
-- `$jira-create`: create a new Jira Epic, Task, Subtask, or helpdesk/support ticket using the WOS description structure.
 - `$jira-setup`: configure Jira tenant, project membership, and work-type defaults without installing the full Workflow OS suite.
-- `$jira-review`: review an existing Jira item against the Athens IT Jira standard before changing it.
+- `$jira-create`: create a new Jira Epic, Task, Subtask, or helpdesk/support ticket using the WOS description structure.
 - `$jira-update`: add a structured Jira comment using WOS status markers.
+- `$jira-review`: review an existing Jira item against the Athens IT Jira standard before changing it.
 - `$jira-mod`: update or reformat a Jira description while preserving useful content.
 
 ## Recommended Team Workflow
 
 1. Run `$jira-setup` once to record Jira tenant, project membership, and default project choices.
-2. Use `$jira-review` on existing messy or unclear Jira items.
-3. Use `$jira-create` for new work.
-4. Use `$jira-update` for progress, blockers, handoffs, and completion notes.
+2. Use `$jira-create` for new work after confirming the correct project, issue type, and parent.
+3. Use `$jira-update` for progress, blockers, handoffs, and completion notes.
+4. Use `$jira-review` on existing messy or unclear Jira items.
 5. Use `$jira-mod` when the description is stale, incomplete, or missing structure.
 
 ## Default Athens Projects
@@ -42,6 +42,12 @@ It standardizes:
 - `TPM`: IT project management work.
 
 Other Jira projects should be used only when the user knows the work belongs there.
+
+## Project-Specific Creation Guardrails
+
+For `TPM`, most users should create Tasks or Subtasks under existing Epics. Before creating new TPM work, WOS Jira should search/list relevant existing TPM Epics from the available context, show likely matches, and ask whether the new work belongs under one of them. New Epics should be created only when the user explicitly confirms this is a new project container and they are authorized to create it.
+
+For `ASD`, WOS Jira must clarify whether the user needs `AI/Gen Issue` or `AI/Gen Task` before creating the ticket. Use `AI/Gen Issue` for problems, symptoms, incidents, access issues, or investigation/resolution. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or other non-incident actions.
 
 ## Safety
 
@@ -96,10 +102,10 @@ acli jira auth login --web
 
 Before broad rollout, verify:
 
-- `$jira-create` creates a correctly formatted test item after confirmation.
 - `$jira-setup` captures ASD/TPM/additional-project defaults without requiring full WOS onboarding.
-- `$jira-review` identifies missing title/description/next-action details.
+- `$jira-create` creates a correctly formatted test item after confirmation, including TPM Epic checks and ASD `AI/Gen Issue` vs `AI/Gen Task` clarification.
 - `$jira-update` posts an emoji-structured comment after confirmation.
+- `$jira-review` identifies missing title/description/next-action details.
 - `$jira-mod` shows before/after diff and updates the description after confirmation.
 - Rovo exact-key reads work.
 - ACLI fallback is authenticated and can read/comment.

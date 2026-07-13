@@ -50,11 +50,11 @@ If the user selects additional projects, ask for comma-separated Jira project ke
 Examples:
 
 ```text
-AJD — Jira administration/configuration
 HR — HR technology work
+FIN — Finance systems work
 ```
 
-Do not hardcode Anthony-specific projects such as `AJD` or `GPT` as product defaults. Only record them when the user provides them.
+Do not hardcode person-specific or team-specific side projects as product defaults. Only record additional projects when the user provides them.
 
 ## Step 4 — Primary Jira Usage
 
@@ -87,8 +87,8 @@ If the user provided additional Jira projects, ask how those projects should be 
 Example:
 
 ```text
-AJD -> Jira administration/configuration
-GPT -> AI/dev project work
+HR -> HR technology support
+FIN -> Finance systems support
 ```
 
 ## Step 6 — Tooling Check
@@ -133,8 +133,8 @@ If Workflow OS Memory Engine is available, ask whether to save this as a user pr
 Tell the user they can now use:
 
 - `$jira-create`
-- `$jira-review`
 - `$jira-update`
+- `$jira-review`
 - `$jira-mod`
 
 For the full Workflow OS suite, tell them they can optionally install:

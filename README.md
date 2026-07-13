@@ -2,7 +2,7 @@
 
 A plugin-based agentic layer for Codex. Five plugins: `onboarding`, `memory-engine`, `jira`, `project`, `task`. The repo IS the marketplace. For team installs, register it as a Git marketplace so `/plugins` can upgrade after changes are pushed.
 
-The most broadly deployable module is `wos-jira`: a standalone Athens IT Jira standard for consistent setup, issue creation, review, updates, description maintenance, and closure comments. For general users, install `wos-jira` first and run `$jira-setup`. Project/task/memory/orchestration modules are optional for users who want deeper Workflow OS structure.
+The most broadly deployable module is `wos-jira`: a standalone Athens IT Jira standard for consistent setup, issue creation, updates, review, description maintenance, and closure comments. For general users, install `wos-jira` first and run `$jira-setup`. Project/task/memory/orchestration modules are optional for users who want deeper Workflow OS structure.
 
 This is a clean-slate draft, staged for review before moving to the real `workflow-os` repo on the new machine.
 
