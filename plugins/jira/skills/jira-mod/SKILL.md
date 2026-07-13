@@ -9,21 +9,24 @@ You are modifying the **description** field of an existing Jira work item on the
 
 ## Required reference
 
+Load `${plugin_root}/../references/jira-standard.md` before drafting. Use it to decide whether the description really needs cleanup and what the smallest safe improvement is.
 Load `${plugin_root}/../references/emoji-format.md` before drafting. The new description **must** follow §2 (Description structure).
 Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling.
 
 ## Steps
 
-1. **Ask the user for the Jira key.** Use the Jira tooling order from `jira-tooling.md`. Prefer `mcp__codex_apps__atlassian_rovo._search` and `mcp__codex_apps__atlassian_rovo._fetch`; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` to fetch current state including the existing description.
+1. **Ask the user for the Jira key.** Use the Jira tooling order from `jira-tooling.md`. Prefer Rovo JQL for exact keys when exposed; if Rovo is unavailable, use `acli jira workitem view "<key>" --json` to fetch current state including the existing description.
 
 2. **Show the user the current description.** Ask what they want changed:
    - Reformat to Workflow OS structure (preserving content)?
    - Update specific sections (Objective / Scope / Acceptance / Links / Notes)?
    - Add a section that's missing?
 
-3. **Draft the new description** using the §2 skeleton. Preserve any content the user wants kept.
+3. **Review against `jira-standard.md`.** If the item appears to be the wrong issue type, wrong project, missing a parent, or unclear enough that description cleanup would be misleading, say so before drafting.
 
-4. **Show a side-by-side or before/after diff:**
+4. **Draft the new description** using the §2 skeleton. Preserve any content the user wants kept.
+
+5. **Show a side-by-side or before/after diff:**
    ```
    BEFORE:
    <current>
@@ -34,11 +37,11 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
    Apply? (yes/no)
    ```
 
-5. **On yes**: prefer `mcp__codex_apps__atlassian_rovo._editjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem edit` flow after confirmation.
+6. **On yes**: prefer `mcp__codex_apps__atlassian_rovo._editjiraissue`; if Rovo is unavailable, use the matching `acli jira workitem edit` flow after confirmation.
 
-6. **On success**, tell the user the work item is updated. Offer to also post a 🔵 informational comment via `$jira-update` noting the description change (only if substantive).
+7. **On success**, tell the user the work item is updated. Offer to also post a 🔵 informational comment via `$jira-update` noting the description change (only if substantive).
 
-7. **On no**, ask what to change. Loop on step 3.
+8. **On no**, ask what to change. Loop on step 4.
 
 ## Hard rules
 
@@ -47,3 +50,4 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
 - **No secrets.**
 - **No bulk edits across multiple issues.** This skill edits one key at a time.
 - **No deletes** — even of sections within a description, ask before removing substantial content.
+- **Standalone behavior**: this skill must work with only `wos-jira` installed. Do not require memory-engine, project, or task plugins.

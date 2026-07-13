@@ -1,11 +1,11 @@
 {
   "name": "wos-jira",
-  "version": "0.1.4",
-  "description": "Workflow OS policy + skills wrapper over Atlassian Rovo and Atlassian CLI. Enforces emoji-formatted writes and no-delete/no-archive boundaries. Provides three direct-Jira convenience skills.",
+  "version": "0.2.1",
+  "description": "Standalone Workflow OS Jira standard for consistent Athens IT issue creation, review, updates, description maintenance, and safe Rovo/ACLI-backed writes.",
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow OS — Jira",
-    "shortDescription": "v0.1.4 · Jira via Rovo JQL/Search + ACLI fallback, no deletes/archive",
+    "shortDescription": "v0.2.1 · Standalone Jira standard: setup, create, review, update, mod",
     "category": "Productivity"
   }
 }
