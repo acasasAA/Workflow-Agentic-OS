@@ -27,7 +27,7 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
 2. **Apply project-specific safeguards** from `jira-standard.md`:
 
    - **For `TPM`**: before drafting a create payload, search/list relevant existing TPM Epics using the user's context. Show likely matching Epics and ask whether this work belongs under one of them. Prefer creating a Task under an existing Epic. Do not create a new Epic unless the user explicitly confirms there is no existing project/Epic and they are authorized to create a new project container.
-   - **For `ASD`**: clarify whether the request should be `AI/Gen Issue` or `AI/Gen Task`. Use `AI/Gen Issue` for problems/symptoms/incidents/investigation. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or non-incident action. Ask when ambiguous.
+   - **For `ASD` or any helpdesk/service-desk project**: clarify whether the request should be `AI/Gen Issue` or `AI/Gen Task`. Use `AI/Gen Issue` for problems/symptoms/incidents/investigation. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or non-incident action. Ask when ambiguous. Before drafting the final payload, verify and show both the Jira issue type and the service/request type that the selected tool path will send. If the selected Rovo or `acli` create path cannot set the required `AI/Gen Issue` / `AI/Gen Task` request type, stop before writing instead of creating the ticket with a guessed or wrong type.
 
 3. **Run the creation quality checklist** from `jira-standard.md`. If the project, issue type, title, objective, or acceptance/desired outcome is unclear, ask before drafting.
 
@@ -37,6 +37,8 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
    ```
    Type: <type>
    Project: <key>
+   Jira issue type: <exact issue type to send>
+   Service/request type: <AI/Gen Issue, AI/Gen Task, or n/a>
    Parent: <key or none>
    Title: <title>
    Description:
@@ -57,5 +59,5 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
 - **Authorization is per-action**: each create gets its own confirmation. Don't batch.
 - **If the project is wrong**, abort and ask. Don't guess.
 - **TPM safeguard**: do not create a new Epic/project container without first checking relevant existing TPM Epics and getting explicit user confirmation.
-- **ASD safeguard**: do not create an ASD ticket until `AI/Gen Issue` vs `AI/Gen Task` is clarified.
+- **ASD/helpdesk safeguard**: do not create an ASD/helpdesk ticket until `AI/Gen Issue` vs `AI/Gen Task` is clarified and the actual issue type/request type payload is verified. If the tool cannot set the correct request type, stop.
 - **Standalone behavior**: this skill must work with only `wos-jira` installed. Do not require memory-engine, project, or task plugins.

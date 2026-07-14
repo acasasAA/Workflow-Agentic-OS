@@ -70,6 +70,8 @@ Title format:
 🎫 <area>: <symptom or request>
 ```
 
+Do not create helpdesk/support work as an Epic unless the user explicitly confirms they are managing a project container in a project-management board. Normal helpdesk intake should use the service desk ticket/request shape for the target board.
+
 ## 3. Athens Project Defaults
 
 Use these as the default starting point, unless the user gives a more specific project key.
@@ -105,6 +107,16 @@ Before creating anything in `ASD`, clarify whether the user needs:
 
 Ask this explicitly when the user's wording is ambiguous. Do not guess between `AI/Gen Issue` and `AI/Gen Task`.
 
+Important: for service desk projects, the user-facing request type and the Jira issue type may not be the same field. Before writing, show the user both values the tool will send:
+
+```text
+Project: ASD
+Jira issue type: <exact issue type that will be sent>
+Service/request type: AI/Gen Issue or AI/Gen Task
+```
+
+If the selected Rovo or `acli` create path cannot set the required `AI/Gen Issue` / `AI/Gen Task` request type, stop before writing and tell the user that the tool cannot guarantee the correct helpdesk type. Do not create a best-effort ticket with the wrong type.
+
 ## 6. Creation Quality Checklist
 
 Before creating a Jira item, verify:
@@ -112,7 +124,7 @@ Before creating a Jira item, verify:
 - The project key is correct.
 - The issue type is correct.
 - For `TPM`, existing relevant Epics were checked before creating a new Epic or standalone Task.
-- For `ASD`, `AI/Gen Issue` vs `AI/Gen Task` was clarified.
+- For `ASD`, `AI/Gen Issue` vs `AI/Gen Task` was clarified and the actual Jira issue type/request type payload was shown.
 - The title has exactly one lead emoji and is action-oriented.
 - The objective explains why the work exists.
 - Scope says what is in and out where useful.

@@ -47,7 +47,7 @@ Other Jira projects should be used only when the user knows the work belongs the
 
 For `TPM`, most users should create Tasks or Subtasks under existing Epics. Before creating new TPM work, WOS Jira should search/list relevant existing TPM Epics from the available context, show likely matches, and ask whether the new work belongs under one of them. New Epics should be created only when the user explicitly confirms this is a new project container and they are authorized to create it.
 
-For `ASD`, WOS Jira must clarify whether the user needs `AI/Gen Issue` or `AI/Gen Task` before creating the ticket. Use `AI/Gen Issue` for problems, symptoms, incidents, access issues, or investigation/resolution. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or other non-incident actions.
+For `ASD`, WOS Jira must clarify whether the user needs `AI/Gen Issue` or `AI/Gen Task` before creating the ticket. Use `AI/Gen Issue` for problems, symptoms, incidents, access issues, or investigation/resolution. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or other non-incident actions. WOS Jira must also show the exact Jira issue type and service/request type before confirmation. If the selected tool path cannot set the correct request type, it should stop instead of creating a ticket with the wrong type.
 
 ## Safety
 
@@ -103,7 +103,7 @@ acli jira auth login --web
 Before broad rollout, verify:
 
 - `$jira-setup` captures ASD/TPM/additional-project defaults without requiring full WOS onboarding.
-- `$jira-create` creates a correctly formatted test item after confirmation, including TPM Epic checks and ASD `AI/Gen Issue` vs `AI/Gen Task` clarification.
+- `$jira-create` creates a correctly formatted test item after confirmation, including TPM Epic checks and ASD `AI/Gen Issue` vs `AI/Gen Task` clarification with the actual issue type/request type shown.
 - `$jira-update` posts an emoji-structured comment after confirmation.
 - `$jira-review` identifies missing title/description/next-action details.
 - `$jira-mod` shows before/after diff and updates the description after confirmation.
