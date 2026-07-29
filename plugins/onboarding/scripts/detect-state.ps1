@@ -24,7 +24,7 @@ if (-not $dataRoot) { $dataRoot = Join-Path $env:USERPROFILE 'workflow-os-data' 
 $required = @(
     '.agent/local.json',
     'memory/users',
-    'vault'
+    '.index/memory.db'
 )
 
 $present = @()

@@ -1,6 +1,6 @@
 {
   "name": "wos-memory-engine",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Workflow OS memory engine MCP server",
   "type": "module",
   "main": "server.js",

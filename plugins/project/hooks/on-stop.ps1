@@ -1,6 +1,6 @@
 # Workflow OS — project plugin Stop hook
 # Auto-checkpoint: after every turn, if a project is active, write a
-# session-summary note via the memory-engine MCP.
+# session-summary receipt via the memory-engine MCP.
 #
 # Strategy: we can't call MCP servers from a hook directly (no client
 # library available in PowerShell, and adding one would bloat the hook).
@@ -17,7 +17,7 @@
 #
 # v0.1 behavior: just append a one-line note to a daily log file. The
 # LLM/user can run a periodic compaction to convert these into proper
-# session-summary memory notes.
+# session-summary memory receipts.
 
 $ErrorActionPreference = 'Continue'
 
@@ -47,7 +47,7 @@ $dataRoot = $sentinel.data_root
 if (-not $dataRoot) { exit 0 }
 
 # Append a marker to the daily log. A compaction pass (future skill) will
-# fold these into proper session-summary memory notes.
+# fold these into proper session-summary memory receipts.
 $logsDir = Join-Path $dataRoot ".logs/wos-project/$($active.slug)"
 New-Item -ItemType Directory -Path $logsDir -Force | Out-Null
 $today = Get-Date -Format 'yyyy-MM-dd'

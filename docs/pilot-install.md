@@ -20,7 +20,6 @@ Smooth path requires:
 - Git
 - Node.js LTS
 - GitHub Desktop
-- Obsidian
 
 Optional later tools include Atlassian CLI, Azure CLI, Azure DevOps extension, AWS CLI, Power BI, Power Automate, and Microsoft Learn tooling.
 

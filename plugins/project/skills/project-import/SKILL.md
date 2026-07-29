@@ -32,7 +32,7 @@ Derive a permanent slug from the name:
 - letters/numbers/hyphens only
 - <= 30 characters where practical
 
-Show the slug and ask for confirmation before writing anything. If a project-state note already exists for that slug, ask the user to choose a different slug or confirm they are linking this folder to that existing project.
+Show the slug and ask for confirmation before writing anything. If project-state receipts already exist for that slug, ask the user to choose a different slug or confirm they are linking this folder to that existing project.
 
 ## Step 3 — Optional Jira linkage
 
@@ -46,7 +46,7 @@ Ask whether the workspace has an existing Jira epic or ticket.
 
 Do not create Jira issues from this skill. `$project-import` is for linking existing workspaces; new Jira creation belongs in `$project-new` and still requires explicit confirmation.
 
-## Step 4 — Write project-state
+## Step 4 — Append project-state receipt
 
 Call the exposed memory-engine MCP `memory_write` tool when available:
 
@@ -79,7 +79,7 @@ node "${memory_plugin_root}/scripts/memory-call.mjs" memory_write $argsJson
 
 Resolve `memory_plugin_root` from the installed Workflow OS memory-engine plugin path when needed, usually under `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`.
 
-If memory-engine is not installed or the helper fails, stop and report that the project cannot be imported yet. Do not create `WOS.md` without a project-state note unless the user explicitly asks for a marker-only recovery.
+If memory-engine is not installed or the helper fails, stop and report that the project cannot be imported yet. Do not create `WOS.md` without a project-state receipt unless the user explicitly asks for a marker-only recovery.
 
 ## Step 5 — Write WOS.md marker
 
@@ -132,4 +132,4 @@ Tell the user to open a fresh Codex session in that workspace to verify auto-res
 - No sibling folder writes.
 - No Jira writes.
 - No deletes.
-- No secrets in `WOS.md` or memory notes.
+- No secrets in `WOS.md` or memory receipts.

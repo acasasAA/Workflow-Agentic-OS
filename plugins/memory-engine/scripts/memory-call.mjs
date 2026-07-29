@@ -4,11 +4,12 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const usage = `Usage:
-  node memory-call.mjs <memory_write|memory_search|memory_recall> '<json-arguments>'
+  node memory-call.mjs <memory_write|memory_search|memory_recall|memory_export> '<json-arguments>'
 
 Examples:
   node memory-call.mjs memory_search '{"type":"project-state","project":"my-project","limit":5}'
   node memory-call.mjs memory_write '{"type":"project-state","source":"wos-project","project":"my-project","title":"my-project-state","body":"..."}'
+  node memory-call.mjs memory_export '{"project":"my-project","limit":100}'
 `;
 
 const [, , toolName, rawArgs] = process.argv;

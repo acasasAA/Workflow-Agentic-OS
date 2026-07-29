@@ -23,7 +23,6 @@ The smooth path expects these:
 - **Node.js LTS** — current LTS, on PATH.
 - **git** — for cloning the framework and the data repo's snapshots.
 - **GitHub Desktop** — for managing the data repo.
-- **Obsidian** — install, but don't open the vault yet. Onboarding scaffolds it first.
 
 ### Steps
 
@@ -79,19 +78,20 @@ Walk through the onboarding questions. When it finishes, you'll have a working W
 The onboarding skill (the only thing in `wos-onboarding`) asks for:
 - Identity and polished role profile (Help Desk, IT Operations, System Administration, Project Management, Development / DBA, or IT Leadership with subrole).
 - Role-tailoring answers that shape defaults and preferences.
-- Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, Obsidian, Atlassian Rovo app connector, Atlassian CLI, Outlook Email/Calendar recommended; other tools optional by role).
+- Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, local Workflow OS memory engine, Atlassian Rovo app connector, Atlassian CLI, Outlook Email/Calendar recommended; other tools optional by role).
 - Paths (framework engine path, local data root, optional OneDrive backup/export folder, GitHub Desktop install).
 - Jira tenant URL and primary project keys, defaulting Athens users to ASD and TPM only.
 
 Then it:
-- Creates local `<data_root>/` with `vault/`, `memory/`, `.index/`, `.logs/`, `.agent/`.
+- Creates local `<data_root>/` with `memory/`, `.index/`, `.logs/`, `.agent/`.
 - Writes `<data_root>/.agent/local.json` with all answers.
 - Writes `<data_root>/memory/users/<username>/preferences.md`.
 - Installs the remaining core plugins via the marketplace.
 - Marks itself complete (`plugin_state.wos-onboarding.disabled = true`).
 
 After onboarding:
-- Open Obsidian on `<data_root>/vault/` — the empty vault.
+- Use Jira as the source of truth for active project, task, phase, dependency, and assignment state.
+- Use local Workflow OS memory as the receipt/log layer for conversation outcomes, checkpoints, and decisions.
 - Start project-mode work with `$project-new`.
 - After a project plan is uploaded into Jira as phases, use `$project-orchestrate` to analyze the Jira phase graph and optionally greenlight parallel work.
 - Import an existing workspace with `$project-import`; it imports one selected folder only and writes `WOS.md` only there.
@@ -107,14 +107,19 @@ git clone https://github.com/<you>/workflow-os-data.git
 ```
 Point `WOS_DATA_ROOT` at the cloned path before running bootstrap, or accept the default location and let onboarding detect the existing install.
 
-After data is restored, regenerate the SQLite index from the vault:
+After data is restored, verify the local SQLite memory database exists:
 ```powershell
-pwsh -File "<framework_root>/plugins/memory-engine/scripts/reindex.ps1" -Force
+Test-Path "<data_root>/.index/memory.db"
+```
+
+If you are migrating old markdown memory notes, import them explicitly:
+```powershell
+pwsh -File "<framework_root>/plugins/memory-engine/scripts/reindex.ps1" -LegacyVault "<old_vault_path>"
 ```
 
 ## What NOT to copy
 
-- `workflow-os-data/.index/` — regenerable from the vault; don't transfer.
+- `workflow-os-data/.index/` — contains the canonical local memory database; transfer or restore it with the data repo/backups.
 - `workflow-os-data/.logs/` — local-only; don't transfer.
 - Any `plugins/*/mcp/node_modules/` — `npm install` runs automatically on first SessionStart.
 

@@ -75,13 +75,13 @@ Ask the user: "Post a 🟡 (or 🟢 / 🔴 based on blockers) comment to the pro
 
 If yes, load `${plugin_root}/../jira/references/emoji-format.md` §1 and `${plugin_root}/../jira/references/jira-tooling.md`, draft the comment, and get confirmation. Then use the Atlassian Rovo Codex app connector's Jira comment tool if exposed in the current session. If no comment tool is exposed, use the `acli` fallback: write the approved comment to a temp file, run `acli jira workitem comment create --key "<key>" --body-file "<tempfile>"`, then remove the temp file.
 
-## Step 6 — Update `project-state`
+## Step 6 — Append a new `project-state` receipt
 
-If `phase`, `status`, or `next_milestone` changed in Step 2, call the exposed `memory_write` tool or the same supported local helper again with `type: "project-state"` to update the canonical state note. (Same project, same slug — the new write replaces the old by virtue of identical type+project+slug semantics in the memory-engine upsert.)
+If `phase`, `status`, or `next_milestone` changed in Step 2, call the exposed `memory_write` tool or the same supported local helper again with `type: "project-state"` to append a new current-state receipt. The newest `project-state` receipt for the same project slug is the current local state; older receipts remain as history.
 
 ## Hard rules
 
 - **One checkpoint per `$project-checkpoint` invocation.** Don't batch.
 - **No Jira write without explicit confirmation in Step 5.**
-- **No local checkpoint substitutes.** Checkpoints are memory notes. Only create markdown files when the user explicitly requests a file export.
+- **No local checkpoint substitutes.** Checkpoints are memory receipts. Only create markdown files when the user explicitly requests a file export.
 - **Blockers and next_actions must be concrete.** "Lots of stuff" is not a blocker; "Awaiting legal sign-off on data residency" is.

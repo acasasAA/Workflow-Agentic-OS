@@ -23,7 +23,7 @@ v2/
 └── plugins/
     ├── onboarding/                      first-run setup
     │   └── .codex-plugin/, skills/, hooks/, scripts/
-    ├── memory-engine/                   SQLite FTS5 + Node MCP server
+    ├── memory-engine/                   local SQLite receipt/log memory + Node MCP server
     │   └── .codex-plugin/, mcp/, .mcp.json, hooks/, scripts/
     ├── jira/                            standalone Athens IT Jira standard + Rovo/ACLI wrapper + emoji format
     │   └── .codex-plugin/, skills/, references/
@@ -36,15 +36,15 @@ v2/
 ## Design summary
 
 - **Codex-native.** Manifests at `.codex-plugin/plugin.json`. Skills with `$<name>` invocation. Hooks at `hooks/hooks.json` using Codex's event names (`SessionStart`, `Stop`, etc.). MCP via `.mcp.json`.
-- **Two repos.** `workflow-os` (framework + plugins, shareable) and `workflow-os-data` (local user vault + index + prefs, private). OneDrive is an optional backup/export target, not the primary data root.
-- **Memory.** Obsidian vault + SQLite FTS5, accessed only via `memory-engine` MCP. Auto-resume from `SessionStart` hook in the `project` plugin reads project state + last checkpoint + recent summaries on every new session.
-- **Jira.** Uses the Atlassian Rovo Codex app connector first, with Atlassian CLI (`acli`) as a deterministic fallback/companion for gaps such as comments. The `jira` plugin is standalone and layers the Athens IT Jira standard, Workflow OS policy, and the mandatory emoji format on top of both tool paths; deletes/archive stay manual.
+- **Two repos.** `workflow-os` (framework + plugins, shareable) and `workflow-os-data` (local user memory database, preferences, logs, and backups, private). OneDrive is an optional backup/export target, not the primary data root.
+- **Memory.** Local SQLite is the base receipt/log layer. `memory-engine` appends searchable receipts for conversation outcomes, decisions, checkpoints, worklogs, references, and preferences. Legacy markdown import exists only as a migration bridge.
+- **Jira.** Jira is the active-work source of truth and the team-facing satellite: projects, tasks, phases, dependencies, status, assignment, and current action state live where the team already works. Workflow OS uses the Atlassian Rovo Codex app connector first, with Atlassian CLI (`acli`) as a deterministic fallback/companion for gaps such as comments. The `jira` plugin is standalone and layers the Athens IT Jira standard, Workflow OS policy, and the mandatory emoji format on top of both tool paths; deletes/archive stay manual.
 - **Runtimes.** Node for MCP servers, PowerShell for hooks and install scripts.
 - **Onboarding.** `$welcome` is role-tailored for Athens IT users, validates foundation tools, defaults Jira to ASD/TPM, and records preferences.
 - **Role-based tools.** Missing optional tools such as Azure DevOps/Azure Boards, AWS CLI/MCP, Microsoft Learn MCP/CLI, and Superpowers are not required on every machine. `$welcome` recommends them only when the selected teammate role or director focus needs them.
 - **Platform discovery.** After minimum tools are satisfied, `$welcome` asks what other platforms the teammate uses, searches for matching CLIs and Codex MCP/app connectors, and records those as teammate-specific additions rather than global requirements.
 - **Projects and tasks.** `$project-new` starts scoped project work, uploads the completed plan to Jira as phases, then `$project-orchestrate` can analyze Jira and propose dependency-aware execution before implementation. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project, and `$task-orchestrate` offers lightweight orchestration only when a task has independent streams.
-- **DR.** Live local data → manual/on-demand OneDrive backup/export → GitHub Desktop versioned snapshots → SQLite regenerable from vault.
+- **DR.** Live local SQLite memory → manual/on-demand OneDrive backup/export → GitHub Desktop versioned snapshots. Legacy markdown import is a migration bridge, not the recovery source of truth.
 
 ## Upgrade flow
 

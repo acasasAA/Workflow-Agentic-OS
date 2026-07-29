@@ -2,21 +2,19 @@
 // Workflow OS — memory-engine MCP server
 //
 // Exposes three tools over stdio:
-//   memory.write  — write a note (markdown + frontmatter) to the vault and index it
+//   memory.write  — append a canonical local SQLite memory receipt
 //   memory.search — FTS5 query, optional type/project/since filters, returns snippets
-//   memory.recall — fetch a full note by id (filename)
+//   memory.recall — fetch a full memory receipt by id
+//   memory.export — export bounded receipt rows as JSON for backup or inspection
 //
-// Vault layout: <vault_path>/<type>/<YYYY-MM>/<slug>.md
-// Index:        <data_root>/.index/memory.db (regenerable; see scripts/reindex.ps1)
+// Store: <data_root>/.index/memory.db
 //
-// Discovery: reads ~/.codex/workflow-os.json for data_root, then
-// <data_root>/.agent/local.json for the user-facing Obsidian vault_path.
+// Discovery: reads ~/.codex/workflow-os.json for data_root.
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import Database from 'better-sqlite3';
-import matter from 'gray-matter';
 import { promises as fs } from 'fs';
 import path from 'path';
 import os from 'os';
@@ -44,25 +42,9 @@ const sentinel = await readSentinel();
 const DATA_ROOT = sentinel.data_root;
 if (!DATA_ROOT) throw new Error('sentinel missing data_root');
 
-async function resolveVaultPath() {
-  if (sentinel.vault_path) return sentinel.vault_path;
-
-  const localPath = path.join(DATA_ROOT, '.agent', 'local.json');
-  try {
-    const local = JSON.parse(await fs.readFile(localPath, 'utf8'));
-    if (local.vault_path) return local.vault_path;
-  } catch {
-    // local.json is created during onboarding; fall back for bootstrap/pre-onboarding.
-  }
-
-  return path.join(DATA_ROOT, 'vault');
-}
-
-const VAULT = await resolveVaultPath();
 const INDEX_DIR = path.join(DATA_ROOT, '.index');
 const INDEX_PATH = path.join(INDEX_DIR, 'memory.db');
 
-await fs.mkdir(VAULT, { recursive: true });
 await fs.mkdir(INDEX_DIR, { recursive: true });
 
 // ─── SQLite ─────────────────────────────────────────────────────────────────
@@ -72,12 +54,12 @@ db.pragma('journal_mode = WAL');
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS notes (
-    id          TEXT PRIMARY KEY,         -- relative path from vault root
+    id          TEXT PRIMARY KEY,
     type        TEXT NOT NULL,
     project     TEXT,
     source      TEXT NOT NULL,
     created     TEXT NOT NULL,            -- ISO-8601
-    frontmatter TEXT NOT NULL,            -- full JSON of frontmatter
+    frontmatter TEXT NOT NULL,            -- JSON metadata retained for MCP compatibility
     body        TEXT NOT NULL,
     sha256      TEXT NOT NULL
   );
@@ -113,17 +95,16 @@ const yearMonth = (iso) => iso.slice(0, 7);
 
 const sha256 = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
-const upsertStmt = db.prepare(`
+const makeId = ({ type, project, title, created }) => {
+  const scope = slugify(project || 'global');
+  const slug = slugify(title || `${type}-${created.replace(/[:.]/g, '-')}`);
+  const suffix = crypto.randomBytes(4).toString('hex');
+  return path.posix.join(type, yearMonth(created), scope, `${slug}-${suffix}`);
+};
+
+const insertStmt = db.prepare(`
   INSERT INTO notes (id, type, project, source, created, frontmatter, body, sha256)
   VALUES (@id, @type, @project, @source, @created, @frontmatter, @body, @sha256)
-  ON CONFLICT(id) DO UPDATE SET
-    type = excluded.type,
-    project = excluded.project,
-    source = excluded.source,
-    created = excluded.created,
-    frontmatter = excluded.frontmatter,
-    body = excluded.body,
-    sha256 = excluded.sha256
 `);
 
 // ─── Tool implementations ───────────────────────────────────────────────────
@@ -138,28 +119,24 @@ async function memoryWrite(args) {
   if (!body) throw new Error('body is required');
 
   const created = new Date().toISOString();
-  const slug = slugify(title || `${type}-${created.replace(/[:.]/g, '-')}`);
-  const rel = path.posix.join(type, yearMonth(created), `${slug}.md`);
-  const full = path.join(VAULT, rel);
+  const id = makeId({ type, project, title, created });
 
-  const fm = { source, created, type, project, ...frontmatter_extras };
-  const content = matter.stringify(body.trim() + '\n', fm);
+  const metadata = { source, created, type, project, title, ...frontmatter_extras };
+  const normalizedBody = body.trim() + '\n';
+  const payload = JSON.stringify({ id, metadata, body: normalizedBody });
 
-  await fs.mkdir(path.dirname(full), { recursive: true });
-  await fs.writeFile(full, content, 'utf8');
-
-  upsertStmt.run({
-    id: rel,
+  insertStmt.run({
+    id,
     type,
     project,
     source,
     created,
-    frontmatter: JSON.stringify(fm),
-    body,
-    sha256: sha256(content),
+    frontmatter: JSON.stringify(metadata),
+    body: normalizedBody,
+    sha256: sha256(payload),
   });
 
-  return { id: rel, path: full };
+  return { id, store: INDEX_PATH };
 }
 
 const searchStmt = db.prepare(`
@@ -229,27 +206,52 @@ async function memoryRecall(args) {
   };
 }
 
+const exportStmt = db.prepare(`
+  SELECT id, type, project, source, created, frontmatter, body, sha256
+  FROM notes
+  WHERE (@type    IS NULL OR type    = @type)
+    AND (@project IS NULL OR project = @project)
+    AND (@since   IS NULL OR created >= @since)
+  ORDER BY created DESC
+  LIMIT @limit
+`);
+
+function memoryExport(args) {
+  const { type = null, project = null, since = null, limit = 100 } = args;
+  const boundedLimit = Math.min(Math.max(Number(limit) || 100, 1), 1000);
+  return exportStmt.all({ type, project, since, limit: boundedLimit }).map((r) => ({
+    id: r.id,
+    type: r.type,
+    project: r.project,
+    source: r.source,
+    created: r.created,
+    metadata: JSON.parse(r.frontmatter),
+    body: r.body,
+    sha256: r.sha256,
+  }));
+}
+
 // ─── MCP server wiring ──────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: 'memory-engine', version: '0.1.0' },
+  { name: 'memory-engine', version: '0.1.2' },
   { capabilities: { tools: {} } }
 );
 
 const tools = [
   {
     name: 'memory_write',
-    description: 'Write a memory note to the vault and index it. Body must be markdown; frontmatter is constructed from required fields plus frontmatter_extras pass-through.',
+    description: 'Append a canonical local SQLite memory receipt. Body may be markdown; metadata is constructed from required fields plus frontmatter_extras pass-through.',
     inputSchema: {
       type: 'object',
       required: ['type', 'source', 'body'],
       properties: {
         type:    { type: 'string', enum: [...VALID_TYPES] },
         source:  { type: 'string', description: 'Plugin name or "user".' },
-        body:    { type: 'string', description: 'Markdown body of the note.' },
+        body:    { type: 'string', description: 'Receipt body. Markdown is allowed for readability.' },
         project: { type: 'string', description: 'Project or task slug; null for non-scoped notes.' },
-        title:   { type: 'string', description: 'Optional title used for the filename slug.' },
-        frontmatter_extras: { type: 'object', description: 'Additional frontmatter fields (e.g. phase, blockers, jira_key).' }
+        title:   { type: 'string', description: 'Optional receipt title used in the generated id.' },
+        frontmatter_extras: { type: 'object', description: 'Additional metadata fields (e.g. phase, blockers, jira_key).' }
       }
     }
   },
@@ -260,7 +262,7 @@ const tools = [
       type: 'object',
       properties: {
         query:   { type: 'string', description: 'FTS5 query. Omit to filter-only.' },
-        type:    { type: 'string', description: 'Filter by note type.' },
+        type:    { type: 'string', description: 'Filter by receipt type.' },
         project: { type: 'string', description: 'Filter by project slug.' },
         since:   { type: 'string', description: 'ISO-8601 lower bound on created.' },
         limit:   { type: 'integer', default: 20 }
@@ -269,11 +271,24 @@ const tools = [
   },
   {
     name: 'memory_recall',
-    description: 'Fetch a full note by id (its relative path from the vault root). Returns frontmatter + body.',
+    description: 'Fetch a full memory receipt by id. Returns metadata/frontmatter + body.',
     inputSchema: {
       type: 'object',
       required: ['id'],
       properties: { id: { type: 'string' } }
+    }
+  },
+  {
+    name: 'memory_export',
+    description: 'Export bounded local SQLite memory receipts as JSON for backup, audit, or inspection. Read-only; does not write files.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        type:    { type: 'string', description: 'Filter by receipt type.' },
+        project: { type: 'string', description: 'Filter by project or task slug.' },
+        since:   { type: 'string', description: 'ISO-8601 lower bound on created.' },
+        limit:   { type: 'integer', default: 100, maximum: 1000 }
+      }
     }
   }
 ];
@@ -287,6 +302,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
     if (name === 'memory_write')       result = await memoryWrite(args);
     else if (name === 'memory_search') result = memorySearch(args);
     else if (name === 'memory_recall') result = await memoryRecall(args);
+    else if (name === 'memory_export') result = memoryExport(args);
     else throw new Error(`unknown tool: ${name}`);
     return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
   } catch (err) {

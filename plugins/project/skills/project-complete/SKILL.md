@@ -66,9 +66,9 @@ Call `memory_write`:
 }
 ```
 
-## Step 4 — Update `project-state` to closed
+## Step 4 — Append closed `project-state`
 
-Call `memory_write` with `type: "project-state"` again, updating `status` to `complete` and recording `completed_at`. (This replaces the active project-state note in-place via the upsert semantics.)
+Call `memory_write` with `type: "project-state"` again, setting `status` to `complete` and recording `completed_at`. This appends the closing state receipt; the newest `project-state` receipt for the project is the current local state.
 
 ## Step 5 — Jira transition (proposed, not automatic)
 
@@ -109,6 +109,6 @@ Suggest: "If you want to revisit this project later, its memory is preserved. `$
 ## Hard rules
 
 - **One project closed per invocation.** Don't batch.
-- **No deletes** of memory notes or Jira items. Closing means transitioning + marking, never removing.
+- **No deletes** of memory receipts or Jira items. Closing means transitioning + marking, never removing.
 - **Jira transition requires explicit user confirmation** in Step 5 — never automatic.
 - **The `WOS.md` marker in cwd is left in place.** It documents that this directory was once a Workflow OS project; removing it is the user's call.

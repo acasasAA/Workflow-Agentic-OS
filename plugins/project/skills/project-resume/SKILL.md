@@ -62,6 +62,6 @@ Don't take further action. Wait for the user to direct what they want to do in t
 
 ## Hard rules
 
-- **Don't write any memory notes in this skill** — it's pure context-switch.
+- **Don't write any memory receipts in this skill** — it's pure context-switch.
 - **Don't touch Jira.** Read-only context loading.
 - **If the user's cwd doesn't match the resumed project's directory**, mention it and ask whether they want to `cd` (don't auto-cd — that's a side effect outside Codex's normal flow).

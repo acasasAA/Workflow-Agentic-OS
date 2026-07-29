@@ -1,6 +1,6 @@
 ---
 name: welcome
-description: Run the Workflow OS first-time setup. Use this when the user has just installed Workflow OS and needs role-tailored onboarding, foundation tool validation, local workflow-os-data scaffolding, Jira defaults, OneDrive backup setup, and installation guidance for the remaining core plugins. Should normally run once per machine.
+description: Run the Workflow OS first-time setup. Use this when the user has just installed Workflow OS and needs role-tailored onboarding, foundation tool validation, local workflow-os-data scaffolding, local memory defaults, Jira defaults, OneDrive backup setup, and installation guidance for the remaining core plugins. Should normally run once per machine.
 ---
 
 # Workflow OS — First-Run Setup
@@ -70,7 +70,7 @@ Use the answers to build:
 Run `${plugin_root}/scripts/detect-tools.ps1`. Summarize in three groups:
 
 - Required for Workflow OS core: Codex CLI, Git, Node.js.
-- Recommended for Athens users: GitHub Desktop, Obsidian, Atlassian Rovo app connector, Atlassian CLI (`acli`), Outlook Email connector, Outlook Calendar connector.
+- Recommended for Athens users: GitHub Desktop, local Workflow OS memory engine, Atlassian Rovo app connector, Atlassian CLI (`acli`), Outlook Email connector, Outlook Calendar connector.
 - Optional / role-based: SharePoint MCP, Azure CLI, Azure DevOps CLI Extension, Azure Boards, AWS CLI or AWS MCP/connector, Power BI CLI/MCP, Power Automate CLI/MCP, Microsoft Learn MCP/CLI, Superpowers Plugin.
 
 For each item, report:
@@ -148,7 +148,24 @@ Default primary Jira project keys for deployable Athens installs:
 - `ASD` — main IT ticketing system.
 - `TPM` — IT project management board.
 
-Do not include Anthony-specific `GPT` or `AJD` in product defaults. Users may add extra keys if they name them.
+Do not include user-specific project keys such as `GPT` or `AJD` in product defaults. Users may add extra keys if they name them.
+
+Ask whether there are other Jira project keys the user wants Workflow OS to factor into their setup. Be ready to guide them:
+
+- Explain that a Jira project key is the short prefix before the issue number, such as `ASD` in `ASD-123`.
+- Include a key when they regularly create, update, review, report on, or search work in that Jira project.
+- Skip a key when they only see it occasionally, only receive links to it, or do not want Workflow OS to treat it as part of their normal work context.
+- If they are unsure, ask for one or two example tickets or board names and infer the likely key from the prefix, then ask them to confirm.
+- If they ask whether adding a key gives Workflow OS write access, clarify that it only records a preference/default. Jira reads are allowed, but every Jira write still requires explicit confirmation in the current turn.
+- If they ask whether private, sensitive, or admin-only projects should be included, recommend including only the key and plain-language usage note; never store secrets, tokens, confidential field values, or sensitive ticket content in setup preferences.
+- If they mention a project by name instead of key, offer to help identify the key through Jira/Rovo lookup when available, or ask them to open one ticket and read the prefix.
+
+Record additional keys with plain-language notes, for example:
+
+```text
+HR — HR technology support
+FIN — Finance systems support
+```
 
 Tell the user:
 
@@ -174,7 +191,7 @@ Do not make plugins optional by role.
 
 ## Step 7 — Write data files
 
-Use the `memory-engine` MCP if installed and reachable. Otherwise, direct file writes are allowed during onboarding only.
+Direct file writes are allowed during onboarding only because onboarding must set `data_root` before `memory-engine` can start. After `~/.codex/workflow-os.json` points at the selected `data_root`, verify `memory-engine` using the script below before treating setup as complete.
 
 Create:
 
@@ -182,8 +199,6 @@ Create:
 - `<data_path>/memory/users/<username>/preferences.md`
 - `<data_path>/memory/projects/`
 - `<data_path>/memory/daily/`
-- `<data_path>/vault/`
-- `<data_path>/vault/.obsidian/`
 - `<data_path>/.index/`
 - `<data_path>/.logs/`
 
@@ -206,7 +221,7 @@ Create:
   "additional_tool_recommendations": [],
   "data_root": "<data_path>",
   "framework_root": "<framework_path>",
-  "vault_path": "<data_path>/vault",
+  "memory_store": "<data_path>/.index/memory.db",
   "onedrive_backup": "<onedrive_path-or-null>",
   "backup_mode": "manual",
   "jira_tenant": "<url>",
@@ -240,19 +255,29 @@ The preferences note must include frontmatter `type: preference`, then readable 
 
 Update `~/.codex/workflow-os.json` with `data_root` and `installed: true`.
 
+Then verify the SQLite memory store:
+
+```powershell
+${plugin_root}/scripts/verify-memory.ps1 -FrameworkRoot "<framework_path>" -Username "<username>"
+```
+
+The verifier must create `<data_path>/.index/memory.db`, write a small `preference` receipt through `wos-memory-engine`, and search it back. If verification fails, report that onboarding created the local config but memory-engine is not ready; do not claim Workflow OS is fully installed until memory verification succeeds.
+
 ## Step 8 — Finish
 
 Confirm:
 
 - `local.json` exists.
 - preferences note exists.
-- vault folder exists.
+- memory index folder exists and `<data_path>/.index/memory.db` exists.
+- memory verifier wrote and found an onboarding `preference` receipt.
 - sentinel points to the selected data root.
 - detector reports installed.
 
 Summarize in 5 bullets max. Tell the user:
 
-- Open Obsidian on `<data_path>/vault/`.
+- Use Jira as the source of truth for active project, task, and action state.
+- Use local Workflow OS memory as the receipt/log layer for conversation outcomes and decisions.
 - Start project-mode work with `$project-new`.
 - After a project plan is uploaded into Jira as phases, use `$project-orchestrate` when parallel orchestration may help.
 - Import an existing workspace with `$project-import`.
@@ -263,5 +288,5 @@ Summarize in 5 bullets max. Tell the user:
 
 - **Unwritable path**: stop and report. Do not partially write if the root cannot be created.
 - **User aborts mid-flow**: write partial plugin state only if a data root was already created.
-- **Memory-engine unreachable**: fall back to direct onboarding writes and mention the documented exception.
+- **Memory-engine unreachable after sentinel update**: report a partial install. Local config may exist, but Workflow OS is not fully ready until `verify-memory.ps1` succeeds.
 - **Secrets**: never store credentials, tokens, or API keys. Strip tokenized URLs and ask for a clean value.

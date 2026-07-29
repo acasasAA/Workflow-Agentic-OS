@@ -1,12 +1,15 @@
-# Workflow OS — memory-engine reindex script
+# Workflow OS — memory-engine legacy markdown import script
 #
-# Rebuilds <data_root>/.index/memory.db from the markdown vault.
-# Use this for DR (lost index) or schema migrations.
+# Imports existing markdown memory notes into <data_root>/.index/memory.db.
+# SQLite is the canonical memory store; this is a migration/compatibility bridge.
 #
 # Discovery: reads ~/.codex/workflow-os.json for data_root.
 
 [CmdletBinding()]
-param([switch]$Force)
+param(
+    [switch]$Force,
+    [string]$LegacyVault
+)
 
 $ErrorActionPreference = 'Stop'
 
@@ -16,11 +19,9 @@ $sentinel = Get-Content $sentinelPath -Raw | ConvertFrom-Json
 $dataRoot = $sentinel.data_root
 if (-not $dataRoot) { throw "sentinel has no data_root" }
 
-$vault    = Join-Path $dataRoot 'vault'
 $indexDir = Join-Path $dataRoot '.index'
 $indexDb  = Join-Path $indexDir 'memory.db'
 
-if (-not (Test-Path $vault)) { throw "vault not found at $vault" }
 if (-not (Test-Path $indexDir)) { New-Item -ItemType Directory -Path $indexDir | Out-Null }
 
 if ((Test-Path $indexDb) -and $Force) {
@@ -34,6 +35,7 @@ if (-not $framework) { throw "sentinel has no framework_root" }
 $reindexer = Join-Path $framework 'plugins/memory-engine/mcp/reindex.js'
 if (-not (Test-Path $reindexer)) { throw "reindexer not found at $reindexer" }
 
-Write-Host "Reindexing vault: $vault"
+$env:WOS_LEGACY_VAULT = if ($LegacyVault) { $LegacyVault } else { $null }
+Write-Host "Importing legacy markdown memory into $indexDb"
 node $reindexer
 Write-Host "Done."

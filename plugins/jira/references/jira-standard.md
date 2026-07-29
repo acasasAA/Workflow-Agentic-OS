@@ -94,7 +94,7 @@ Before creating anything in `TPM`:
 - Prefer creating a Subtask only when the work is a narrow execution step under an existing Task.
 - Do not create a new Epic unless the user explicitly confirms that this is a new project container.
 
-Team default: most users create Tasks or Subtasks in `TPM`. Epic creation is normally limited to users who own project structure, such as Tim Akramy, Anthony, or another explicitly authorized project owner.
+Team default: most users create Tasks or Subtasks in `TPM`. Epic creation is normally limited to users who own project structure, such as the current rollout owner, a designated project manager, or another explicitly authorized project owner.
 
 ## 5. ASD Creation Rules
 

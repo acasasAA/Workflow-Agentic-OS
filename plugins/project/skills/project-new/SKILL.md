@@ -30,7 +30,7 @@ Ask the user: "Do you have an existing Jira epic or project-level ticket for thi
 
 Record the resulting `jira_key` (whether existing or just-created).
 
-## Step 3 — Write `project-state`
+## Step 3 — Append initial `project-state` receipt
 
 Call the exposed memory-engine MCP `memory_write` tool when available:
 
@@ -61,7 +61,7 @@ node "${memory_plugin_root}/scripts/memory-call.mjs" memory_write $argsJson
 
 Resolve `memory_plugin_root` from the installed Workflow OS memory-engine plugin path when needed, usually under `~/.codex/plugins/cache/workflow-os/wos-memory-engine/<version>`.
 
-If memory-engine is not installed or the helper fails, stop and report that the project cannot be started yet. Do not create `WOS.md` or update `active_project` without a project-state note unless the user explicitly asks for a marker-only recovery.
+If memory-engine is not installed or the helper fails, stop and report that the project cannot be started yet. Do not create `WOS.md` or update `active_project` without a project-state receipt unless the user explicitly asks for a marker-only recovery.
 
 ## Step 4 — Mark cwd as the project's working directory
 
@@ -117,7 +117,7 @@ When the user exits plan mode and the plan is visible, do this:
    - <phase A> blocks <phase B>   # only for real dependencies
    ```
 4. On explicit confirmation in the current turn, execute only the listed Jira writes using the Jira tooling order from `jira-tooling.md`. Use the emoji-format description skeleton for every description. For real dependencies, create Jira issue links when available and also record the dependency in the description. If linking fails, continue with the dependency text and report the warning.
-5. Record each created/updated key in the `project-state` note (call `memory_write` again to update, or surface the keys for the user to track).
+5. Record each created/updated key in a new `project-state` receipt, or surface the keys for the user to track.
 6. Offer `$project-orchestrate` only after Jira contains the finalized phase structure. `$project-orchestrate` analyzes Jira before implementation; it does not replace planning or phase upload.
 
 ## Hard rules

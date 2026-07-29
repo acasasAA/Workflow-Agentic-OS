@@ -70,7 +70,6 @@ function Get-WosToolStatus {
     $tools += Test-WosCommand -Name 'Git' -CommandNames @('git') -KnownPaths @("$programFiles\Git\cmd\git.exe", "$programFiles\Git\bin\git.exe", "$programFilesX86\Git\cmd\git.exe")
     $tools += Test-WosCommand -Name 'Node.js' -CommandNames @('node') -KnownPaths @("$programFiles\nodejs\node.exe")
     $tools += Test-WosCommand -Name 'GitHub Desktop' -CommandNames @('github') -KnownPaths @("$localAppData\GitHubDesktop\GitHubDesktop.exe")
-    $tools += Test-WosCommand -Name 'Obsidian' -CommandNames @('obsidian') -KnownPaths @("$localAppData\Programs\Obsidian\Obsidian.exe", "$programFiles\Obsidian\Obsidian.exe")
     $tools += Test-WosCommand -Name 'Visual C++ Redistributable' -KnownPaths @(
         "$env:WINDIR\System32\vcruntime140.dll",
         "$env:WINDIR\System32\vcruntime140_1.dll"

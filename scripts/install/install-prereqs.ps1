@@ -21,7 +21,6 @@ $packages = @{
     'Git' = @{ winget = 'Git.Git'; choco = 'git' }
     'Node.js' = @{ winget = 'OpenJS.NodeJS.LTS'; choco = 'nodejs-lts' }
     'GitHub Desktop' = @{ winget = 'GitHub.GitHubDesktop'; choco = 'github-desktop' }
-    'Obsidian' = @{ winget = 'Obsidian.Obsidian'; choco = 'obsidian' }
     'Visual C++ Redistributable' = @{ winget = 'Microsoft.VCRedist.2015+.x64'; choco = 'vcredist140' }
 }
 

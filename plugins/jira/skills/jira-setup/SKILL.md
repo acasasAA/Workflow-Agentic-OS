@@ -41,11 +41,19 @@ Ask:
 ```text
 Which Jira spaces/projects are you part of? Select all that apply:
 - ASD — IT Team Ticketing System
-- TPM — Project management board run by Tim Akramy
+- TPM — IT project management board
 - Additional Jira spaces/projects — optional
 ```
 
-If the user selects additional projects, ask for comma-separated Jira project keys and optional plain-language notes.
+If the user selects additional projects, ask for comma-separated Jira project keys and optional plain-language notes. Be ready to guide them through questions:
+
+- Explain that a Jira project key is the short prefix before the issue number, such as `ASD` in `ASD-123`.
+- Include a key when they regularly create, update, review, report on, or search work in that Jira project.
+- Skip a key when they only see it occasionally, only receive links to it, or do not want Workflow OS to treat it as part of their normal work context.
+- If they are unsure, ask for one or two example tickets or board names and infer the likely key from the prefix, then ask them to confirm.
+- If they ask whether adding a key gives Workflow OS write access, clarify that it only records a preference/default. Jira reads are allowed, but every Jira write still requires explicit confirmation in the current turn.
+- If they ask whether private, sensitive, or admin-only projects should be included, recommend including only the key and plain-language usage note; never store secrets, tokens, confidential field values, or sensitive ticket content in setup preferences.
+- If they mention a project by name instead of key, offer to help identify the key through Jira/Rovo lookup when available, or ask them to open one ticket and read the prefix.
 
 Examples:
 

@@ -23,11 +23,12 @@ $candidates += (Join-Path $env:USERPROFILE 'workflow-os-data')
 $installed = $false
 foreach ($root in $candidates) {
     $marker = Join-Path $root '.agent/local.json'
+    $memoryDb = Join-Path $root '.index/memory.db'
     if (Test-Path $marker) {
         try {
             $cfg = Get-Content $marker -Raw | ConvertFrom-Json
             $state = $cfg.plugin_state.'wos-onboarding'
-            if ($state -and $state.disabled -eq $true) {
+            if ($state -and $state.disabled -eq $true -and (Test-Path $memoryDb)) {
                 $installed = $true
                 break
             }

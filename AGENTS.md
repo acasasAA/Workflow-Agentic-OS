@@ -11,7 +11,7 @@ Codex's native AGENTS.md cascade loads this file first, then walks the project t
 3. `<wos_data>/.agent/system.md` — core engine manual. Read on demand.
 4. `<wos_data>/memory/users/<me>/preferences.md` — active user preferences.
 5. Project marker (`WOS.md` in cwd) — project slug for resume.
-6. `<wos_data>/memory/projects/<active_slug>/state.md`, if a project is active (loaded via memory-engine MCP, not directly).
+6. Current project/task receipts from the local SQLite memory store, if a project or task is active (loaded via memory-engine MCP, not directly).
 
 `<wos_data>` is read from `~/.codex/workflow-os.json` → `data_root`. If that file is missing, Workflow OS is not installed — direct the user to run `bootstrap.ps1` and then `$welcome`.
 
@@ -31,7 +31,7 @@ These are summarized here for visibility; full text in `~/.codex/AGENTS.override
 Read concrete values from `<wos_data>/.agent/local.json`:
 
 - `data_root` — Workflow OS data directory.
-- `vault_path` — Obsidian vault root.
+- `memory_store` — local SQLite memory database path.
 - `onedrive_backup` — backup folder under OneDrive.
 - `jira_tenant` — Jira Cloud base URL.
 - `github_desktop` — GitHub Desktop install path (may be null).
@@ -52,7 +52,7 @@ Active user is named in `<wos_data>/.agent/local.json` → `user`. Their prefere
 
 ## 6. When in doubt
 
-- Memory question? Ask the `memory-engine` MCP, don't grep the vault.
+- Memory question? Ask the `memory-engine` MCP; local SQLite memory is canonical.
 - Jira question? Use the configured Atlassian Rovo Codex app connector first. If Rovo is unavailable or lacks the needed Jira operation, use `acli` under the same Workflow OS policy. For direct chat requests, this same Rovo-first/`acli`-fallback rule applies.
 - Unsure which plugin owns a behavior? `codex /plugins` lists installed plugins.
 - Nothing matches? Tell the user, don't improvise.

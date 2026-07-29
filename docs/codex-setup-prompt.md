@@ -6,7 +6,7 @@ Paste this into Codex after the prerequisite installer has run, or when helping 
 Please finish setting up Workflow OS on this machine.
 
 Assumptions:
-- Prerequisites should already be installed or available: PowerShell 7, Codex CLI, Git, Node.js LTS, GitHub Desktop, Obsidian.
+- Prerequisites should already be installed or available: PowerShell 7, Codex CLI, Git, Node.js LTS, GitHub Desktop.
 - Workflow OS may be cloned under C:\Users\<current-user>\workflow-os\, but do not hardcode the username.
 - Use $env:USERPROFILE for user-specific paths.
 
@@ -46,6 +46,6 @@ Stop at the first real failure and show the exact error plus the next recommende
 
 - `wos-onboarding` v0.1.2
 - `wos-jira` v0.2.3
-- `wos-memory-engine` v0.1.0
+- `wos-memory-engine` v0.1.2
 - `wos-project` v0.1.2
 - `wos-task` v0.1.1

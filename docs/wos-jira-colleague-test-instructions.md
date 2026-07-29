@@ -57,7 +57,7 @@ Expected version:
 v0.2.3
 ```
 
-Do not require the full Workflow OS suite for this test. The user only needs WOS Jira unless Anthony explicitly asks them to install more.
+Do not require the full Workflow OS suite for this test. The user only needs WOS Jira unless the current rollout owner explicitly asks them to install more.
 
 ## 4. First Command To Run
 

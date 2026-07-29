@@ -99,6 +99,46 @@ function Test-AzExtension {
     }
 }
 
+function Test-WorkflowMemoryEngine {
+    $onboardingRoot = Resolve-Path (Join-Path $PSScriptRoot '..') -ErrorAction SilentlyContinue
+    if (-not $onboardingRoot) {
+        return [ordered]@{
+            name = 'Local Workflow OS memory engine'
+            status = 'missing'
+            path = $null
+            note = 'Onboarding plugin root could not be resolved'
+        }
+    }
+
+    $memoryRoot = Resolve-Path (Join-Path $onboardingRoot.Path '../memory-engine') -ErrorAction SilentlyContinue
+    if (-not $memoryRoot) {
+        return [ordered]@{
+            name = 'Local Workflow OS memory engine'
+            status = 'missing'
+            path = $null
+            note = 'wos-memory-engine plugin folder was not found next to onboarding'
+        }
+    }
+
+    $memoryPlugin = Join-Path $memoryRoot.Path '.codex-plugin/plugin.json'
+    $memoryServer = Join-Path $memoryRoot.Path 'mcp/server.js'
+    if ((Test-Path -LiteralPath $memoryPlugin) -and (Test-Path -LiteralPath $memoryServer)) {
+        return [ordered]@{
+            name = 'Local Workflow OS memory engine'
+            status = 'installed'
+            path = $memoryRoot.Path
+            note = 'Memory-engine plugin files are present; onboarding verifies SQLite after data_root is set'
+        }
+    }
+
+    [ordered]@{
+        name = 'Local Workflow OS memory engine'
+        status = 'missing'
+        path = $null
+        note = 'wos-memory-engine plugin files were not found'
+    }
+}
+
 $localAppData = $env:LOCALAPPDATA
 $programFiles = $env:ProgramFiles
 $programFilesX86 = ${env:ProgramFiles(x86)}
@@ -108,7 +148,7 @@ $tools += Test-Command -Name 'Codex CLI' -CommandNames @('codex') -KnownPaths @(
 $tools += Test-Command -Name 'Git' -CommandNames @('git') -KnownPaths @("$programFiles\Git\cmd\git.exe", "$programFiles\Git\bin\git.exe", "$programFilesX86\Git\cmd\git.exe")
 $tools += Test-Command -Name 'Node.js' -CommandNames @('node') -KnownPaths @("$programFiles\nodejs\node.exe")
 $tools += Test-Command -Name 'GitHub Desktop' -CommandNames @('github') -KnownPaths @("$localAppData\GitHubDesktop\GitHubDesktop.exe")
-$tools += Test-Command -Name 'Obsidian' -CommandNames @('obsidian') -KnownPaths @("$localAppData\Programs\Obsidian\Obsidian.exe", "$programFiles\Obsidian\Obsidian.exe")
+$tools += Test-WorkflowMemoryEngine
 $tools += Test-Command -Name 'Atlassian CLI' -CommandNames @('acli') -KnownPaths @("$localAppData\Programs\Atlassian\ACLI\acli.exe")
 $tools += Test-Command -Name 'Azure CLI' -CommandNames @('az') -KnownPaths @("$programFiles\Microsoft SDKs\Azure\CLI2\wbin\az.cmd")
 $tools += Test-AzExtension -Name 'Azure DevOps CLI Extension' -ExtensionName 'azure-devops'
