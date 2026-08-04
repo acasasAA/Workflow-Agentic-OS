@@ -5,7 +5,7 @@ description: Configure Workflow OS Documentation route defaults, including Confl
 
 # `$documentation-setup` - Confluence Documentation Defaults
 
-Use when the user installs `wos-documentation`, wants to set or change route defaults, or wants to add Confluence templates and page placement defaults.
+Use when the user installs `wos-documentation`, wants to set or change route defaults, or wants to add Confluence templates and page placement defaults. Persistent setup is preferred for team rollout, but operational skills may use a per-document walkthrough when setup has not been finalized.
 
 ## Required References
 
@@ -13,6 +13,7 @@ Load these before asking setup questions:
 
 - `${plugin_root}/../references/documentation-standard.md`
 - `${plugin_root}/../references/confluence-workflow.md`
+- `${plugin_root}/../references/templates.md`
 
 ## Step 1 - Explain Scope
 
@@ -22,6 +23,7 @@ Briefly tell the user:
 - Confluence is the system of record for published documentation.
 - Every documentation request will ask for a route: Help Desk, Infrastructure, DEV/DBA team, or Public-facing for Athens employees.
 - Each route can have its own Confluence space, template, and optional default parent page.
+- If setup is skipped, documentation requests can still use a per-document walkthrough, but defaults will not persist.
 - Confluence reads are allowed.
 - Confluence creates and updates require explicit confirmation in the current turn.
 - A session/request can temporarily use another Confluence space without changing the route default.
@@ -45,9 +47,14 @@ Do not invent a default. If unsure, offer to search Confluence through Atlassian
 
 Ask for the assigned template for each configured route.
 
-Accept Confluence page URLs, page IDs, named Confluence templates, or pasted template text. Never store secrets or private credentials.
+Accept Confluence page URLs, page IDs, named Confluence templates, pasted template text, or built-in template choices. Never store secrets or private credentials.
 
-If the user does not have a template for a route yet, record `fallback` for that route and use `templates.md`.
+Built-in choices:
+
+- `ahi_how_to` - Primary Help Desk how-to template; also valid for Infrastructure, DEV/DBA, and Public-facing Athens employee documentation.
+- `ahi_troubleshooting` - Internal agent troubleshooting guide; valid for Help Desk, Infrastructure, and DEV/DBA internal troubleshooting.
+
+If the user does not have a template for a route yet, record the best built-in choice rather than a vague `fallback`.
 
 ## Step 4 - Optional Default Parent Pages
 
@@ -57,7 +64,7 @@ Record a default parent only when the user provides one. If not configured, the 
 
 ## Step 5 - Output Profile
 
-Show the final profile in concise JSON-like form:
+Show the final profile in concise JSON-like form. Include a setup completion timestamp:
 
 ```json
 {
@@ -65,38 +72,52 @@ Show the final profile in concise JSON-like form:
     "help_desk": {
       "label": "Help Desk",
       "space": "SPACEKEY",
-      "template": "https://...",
+      "template": "ahi_how_to",
       "default_parent": "https://..."
     },
     "infrastructure": {
       "label": "Infrastructure",
       "space": "SPACEKEY",
-      "template": "https://...",
+      "template": "ahi_how_to",
       "default_parent": null
     },
     "dev_dba": {
       "label": "DEV/DBA team",
       "space": "SPACEKEY",
-      "template": "fallback",
+      "template": "ahi_how_to",
       "default_parent": null
     },
     "public_athens": {
       "label": "Public-facing for Athens employees",
       "space": "SPACEKEY",
-      "template": "https://...",
+      "template": "ahi_how_to",
       "default_parent": "https://..."
     }
+  },
+  "setup_completed_at": "<ISO timestamp>"
+}
+```
+
+## Step 6 - Save Setup Marker
+
+If Workflow OS local state is available, save the route profile into `<data_root>/.agent/local.json` and set:
+
+```json
+"plugin_state": {
+  "wos-documentation": {
+    "mandatory": true,
+    "setup_completed_at": "<ISO timestamp>"
   }
 }
 ```
 
-## Step 6 - Save Preference
+Preserve existing `plugin_state` entries, existing Jira setup, and existing optional plugin selections.
 
-If Workflow OS Memory Engine is available, ask whether to save this as a user preference.
+If Workflow OS Memory Engine is available, also ask whether to save this as a user preference.
+
+If neither Workflow OS local state nor Memory Engine is available, provide the profile for the user to keep and clearly state that setup is only complete for the current conversation; future Documentation skills may ask for `$documentation-setup` again until a persistent WOS profile exists.
 
 If the user confirms, write only the profile and high-level preference through memory-engine MCP. Do not write directly to vault files. Do not store copied page contents unless the user explicitly asks and the content contains no secrets.
-
-If memory is unavailable, provide the profile for the user to keep and continue without failing.
 
 ## Step 7 - Finish
 
@@ -112,3 +133,4 @@ Tell the user they can now use:
 - Do not store secrets.
 - Do not assume route spaces.
 - Do not permanently change a route space from a one-time override.
+- Only modify Workflow OS local setup state when saving this Documentation setup profile; do not modify unrelated files.

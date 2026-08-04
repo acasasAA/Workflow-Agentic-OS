@@ -65,7 +65,7 @@ Inside Codex:
 ```
 /plugins
 ```
-Install at minimum `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation of the other core plugins (`wos-memory-engine`, `wos-jira`, `wos-project`, `wos-task`) as part of its flow.
+Install `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation and first-use setup for the mandatory plugins (`wos-jira`, `wos-documentation`) and will ask which optional plugins to install (`wos-memory-engine`, `wos-project`, `wos-task`).
 
 ```
 $welcome
@@ -81,17 +81,20 @@ The onboarding skill (the only thing in `wos-onboarding`) asks for:
 - Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, local Workflow OS memory engine, Atlassian Rovo app connector, Atlassian CLI, Outlook Email/Calendar recommended; other tools optional by role).
 - Paths (framework engine path, local data root, optional OneDrive backup/export folder, GitHub Desktop install).
 - Jira tenant URL and primary project keys, defaulting Athens users to ASD and TPM only.
+- Mandatory Jira setup and Documentation setup. `$welcome` does not finish until `$jira-setup` and `$documentation-setup` are complete.
+- Optional plugin selection for memory, project lifecycle, and one-off task lifecycle.
 
 Then it:
 - Creates local `<data_root>/` with `memory/`, `.index/`, `.logs/`, `.agent/`.
 - Writes `<data_root>/.agent/local.json` with all answers.
 - Writes `<data_root>/memory/users/<username>/preferences.md`.
-- Installs the remaining core plugins via the marketplace.
+- Installs mandatory plugins via the marketplace and records their setup completion markers.
+- Installs optional plugins only when selected, resolving dependencies such as project/task requiring memory-engine.
 - Marks itself complete (`plugin_state.wos-onboarding.disabled = true`).
 
 After onboarding:
 - Use Jira as the source of truth for active project, task, phase, dependency, and assignment state.
-- Use local Workflow OS memory as the receipt/log layer for conversation outcomes, checkpoints, and decisions.
+- If selected, use local Workflow OS memory as the receipt/log layer for conversation outcomes, checkpoints, and decisions.
 - Start project-mode work with `$project-new`.
 - After a project plan is uploaded into Jira as phases, use `$project-orchestrate` to analyze the Jira phase graph and optionally greenlight parallel work.
 - Import an existing workspace with `$project-import`; it imports one selected folder only and writes `WOS.md` only there.
@@ -107,7 +110,7 @@ git clone https://github.com/<you>/workflow-os-data.git
 ```
 Point `WOS_DATA_ROOT` at the cloned path before running bootstrap, or accept the default location and let onboarding detect the existing install.
 
-After data is restored, verify the local SQLite memory database exists:
+If `wos-memory-engine` was selected, verify the local SQLite memory database exists:
 ```powershell
 Test-Path "<data_root>/.index/memory.db"
 ```
@@ -119,7 +122,7 @@ pwsh -File "<framework_root>/plugins/memory-engine/scripts/reindex.ps1" -LegacyV
 
 ## What NOT to copy
 
-- `workflow-os-data/.index/` — contains the canonical local memory database; transfer or restore it with the data repo/backups.
+- `workflow-os-data/.index/` — contains the canonical local memory database when `wos-memory-engine` is selected; transfer or restore it with the data repo/backups.
 - `workflow-os-data/.logs/` — local-only; don't transfer.
 - Any `plugins/*/mcp/node_modules/` — `npm install` runs automatically on first SessionStart.
 
@@ -152,6 +155,6 @@ codex plugin marketplace list
 codex /plugins
 ```
 
-If marketplace lists `workflow-os` and `/plugins` shows the five `wos-*` plugins enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate project auto-resume.
+If marketplace lists `workflow-os`, `/plugins` shows `wos-onboarding`, `wos-jira`, and `wos-documentation` enabled, and any selected optional plugins are enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate project auto-resume when `wos-project` is selected.
 
 For supervised installs, see `docs/pilot-install.md`. For a Codex-driven setup prompt, see `docs/codex-setup-prompt.md`.

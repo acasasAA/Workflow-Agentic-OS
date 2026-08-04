@@ -15,7 +15,7 @@ https://github.com/acasasAA/Workflow-Agentic-OS.git
 
 Install Workflow OS plugins into Codex using the Git-backed marketplace.
 
-For general Athens IT users, start with **WOS Jira** only. The full Workflow OS suite is optional.
+For general Athens IT users, start with **WOS Onboarding**. Onboarding installs and requires setup for **WOS Jira** and **WOS Documentation**. Memory, project, and task plugins are optional.
 
 Do not redesign Workflow OS. Do not delete, move, or rename user folders. If a command fails, stop and show the exact error.
 
@@ -95,7 +95,7 @@ codex plugin marketplace add https://github.com/acasasAA/Workflow-Agentic-OS.git
 
 Fully close and reopen Codex.
 
-## Step 5: Install WOS Jira
+## Step 5: Install WOS Onboarding
 
 In Codex, open:
 
@@ -105,53 +105,44 @@ In Codex, open:
 
 Find **Workflow OS** and install:
 
-- `wos-jira`
+- `wos-onboarding`
 
-If the user only needs Jira standardization, install only:
+Expected visible onboarding version:
 
-- `wos-jira`
+- `wos-onboarding` v0.1.6
 
-Expected visible Jira version:
-
-- `wos-jira` v0.2.3
-
-## Step 6: Run Jira Setup
+## Step 6: Run Onboarding
 
 Start a fresh Codex session and run:
 
 ```text
-$jira-setup
+$welcome
 ```
 
-Follow the prompts. Recommended Athens defaults:
+When onboarding asks, install mandatory plugins:
 
-- Jira tenant:
-  ```text
-  https://athensadmin.atlassian.net
-  ```
-- Default Jira project keys:
-  ```text
-  ASD, TPM
-  ```
-- Data root:
-  Jira-only setup does not require a Workflow OS data root.
+- `wos-jira`
+- `wos-documentation`
+
+Then finish both mandatory setup flows:
+
+- `$jira-setup`
+- `$documentation-setup`
+
+Recommended Athens Jira defaults:
+
+- Jira tenant: `https://athensadmin.atlassian.net`
+- Default Jira project keys: `ASD, TPM`
 
 Use the current Windows username. Do not hardcode another user's path.
 
-## Optional: Full Workflow OS Suite
+## Optional Plugins
 
-If the user wants project/task/memory/orchestration workflows, also install:
+If the user wants project/task/memory/orchestration workflows, onboarding can also install:
 
-- `wos-onboarding`
 - `wos-memory-engine`
 - `wos-project`
 - `wos-task`
-
-Then run:
-
-```text
-$welcome
-```
 
 ## If Something Fails
 

@@ -9,6 +9,7 @@ You are creating a Jira work item on the user's explicit request.
 
 ## Required reference
 
+Load `${plugin_root}/../references/setup-gate.md` first. If Jira setup is not complete, stop and send the user to `$jira-setup` before doing anything else.
 Load `${plugin_root}/../references/jira-standard.md` before asking for fields. Use it to choose the smallest correct issue type and project default.
 Load `${plugin_root}/../references/emoji-format.md` before drafting any text. The description **must** follow that format (Objective / Scope / Acceptance / Links / Notes).
 Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling.

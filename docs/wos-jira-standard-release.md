@@ -1,8 +1,8 @@
 # Workflow OS Jira Standard
 
-Workflow OS Jira is the lightweight, standalone module for consistent Jira work across Athens IT.
+Workflow OS Jira is the lightweight Jira module for consistent Jira work across Athens IT.
 
-It can be installed by itself. Users do not need Workflow OS Memory Engine, Project, Task, or Onboarding to use the Jira standard.
+It can still run standalone for focused Jira testing, but the standard Workflow OS onboarding baseline installs both `wos-jira` and `wos-documentation` and requires `$jira-setup` before any other Jira skill continues.
 
 ## Purpose
 
@@ -22,7 +22,7 @@ It standardizes:
 
 ## Skills
 
-- `$jira-setup`: configure Jira tenant, project membership, and work-type defaults without installing the full Workflow OS suite.
+- `$jira-setup`: configure Jira tenant, project membership, and work-type defaults. This setup is required before other Jira skills continue.
 - `$jira-create`: create a new Jira Epic, Task, Subtask, or helpdesk/support ticket using the WOS description structure.
 - `$jira-update`: add a structured Jira comment using WOS status markers.
 - `$jira-review`: review an existing Jira item against the Athens IT Jira standard before changing it.
@@ -57,7 +57,7 @@ For `ASD`, WOS Jira must clarify whether the user needs `AI/Gen Issue` or `AI/Ge
 - If cleanup requires deletion, the user must do it manually in Jira.
 - Do not place secrets, tokens, passwords, or API keys in Jira text.
 
-## Install Only WOS Jira
+## Standard Workflow OS Install
 
 First add the Workflow OS marketplace:
 
@@ -71,22 +71,23 @@ Then open Codex:
 /plugins
 ```
 
-Install only:
+Install `wos-onboarding` first. During `$welcome`, install mandatory:
 
 ```text
 wos-jira
+wos-documentation
 ```
 
-Then run:
+Then finish:
 
 ```text
 $jira-setup
+$documentation-setup
 ```
 
-Full Workflow OS is optional. Users who want project/task/memory/orchestration workflows can also install:
+Users who want project/task/memory/orchestration workflows can optionally install:
 
 ```text
-wos-onboarding
 wos-memory-engine
 wos-project
 wos-task

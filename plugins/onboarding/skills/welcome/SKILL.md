@@ -1,11 +1,11 @@
 ---
 name: welcome
-description: Run the Workflow OS first-time setup. Use this when the user has just installed Workflow OS and needs role-tailored onboarding, foundation tool validation, local workflow-os-data scaffolding, local memory defaults, Jira defaults, OneDrive backup setup, and installation guidance for the remaining core plugins. Should normally run once per machine.
+description: Run the Workflow OS first-time setup. Use this when the user has just installed Workflow OS and needs role-tailored onboarding, foundation tool validation, local workflow-os-data scaffolding, mandatory Jira and Documentation setup, optional plugin selection, Jira defaults, OneDrive backup setup, and installation guidance. Should normally run once per machine.
 ---
 
 # Workflow OS — First-Run Setup
 
-You are running the `welcome` skill from the `wos-onboarding` plugin. Your job is to complete a deployable, one-and-done Workflow OS setup for an Athens IT user. Do not skip steps. Ask concise questions, explain why each path/tool matters in plain language, and never run install commands or external writes without explicit confirmation.
+You are running the `welcome` skill from the `wos-onboarding` plugin. Your job is to complete a deployable, one-and-done Workflow OS setup for an Athens IT user. Do not skip steps. Ask concise questions, explain why each path/tool matters in plain language, and never run install commands or external writes without explicit confirmation. Do not mark onboarding complete until mandatory Jira setup and mandatory Documentation setup are both complete.
 
 ## References
 
@@ -18,8 +18,9 @@ Load these before asking role/tool questions:
 
 1. Run `${plugin_root}/scripts/detect-state.ps1`. Parse the JSON output.
 2. If `state == "installed"`, stop and tell the user Workflow OS is already installed. Suggest `$project-new`, `$project-import`, or `$project-resume` depending on what they want next. Do not offer destructive reset as a normal user flow.
-3. If `state == "partial"`, list present vs missing files. Ask whether to repair the install. Wipe/restart is a developer-test recovery path only and requires explicit confirmation.
-4. Otherwise (`state == "missing"`), proceed with fresh install.
+3. If `state == "partial"` and `setup_missing` is non-empty, tell the user Workflow OS setup is not complete. List the missing mandatory setup markers and route them through `$jira-setup` and/or `$documentation-setup` as needed. Do not continue to normal project/task/documentation/Jira work until mandatory setup is complete.
+4. If `state == "partial"` for missing files only, list present vs missing files. Ask whether to repair the install. Wipe/restart is a developer-test recovery path only and requires explicit confirmation.
+5. Otherwise (`state == "missing"`), proceed with fresh install.
 
 ## Step 1 — Identity and role profile
 
@@ -173,25 +174,51 @@ Tell the user:
 - Jira writes require explicit per-action confirmation.
 - Jira deletes/archive are blocked for agents across Rovo and `acli`; they remain manual.
 
-## Step 6 — Core plugins
+## Step 6 — Mandatory and optional plugins
 
-Core plugin set for every role:
+`wos-onboarding` is already installed because the user is running `$welcome`.
 
-- `wos-onboarding`
-- `wos-memory-engine`
+Mandatory plugin set for every role:
+
 - `wos-jira`
+- `wos-documentation`
+
+Try to install mandatory plugins only if a real headless install verb exists in this CLI. If not available, instruct the user:
+
+> Type `/plugins` in Codex, then install: `wos-jira` and `wos-documentation`. Press Enter here when both are installed.
+
+After both mandatory plugins are installed, run their first-use setup flows before continuing:
+
+1. Run the `$jira-setup` flow and capture the final Jira profile. Use the Jira tenant and project keys already collected in Step 5 as defaults, but still ask the Jira setup questions. If the user abandons or declines to finish Jira setup, stop onboarding and tell them Workflow OS cannot continue until `$jira-setup` is complete.
+2. Run the `$documentation-setup` flow and capture the final Documentation route profile. If the user does not know every route yet, allow specific routes to be marked unconfigured, but the setup flow itself must finish and record the profile shape. If the user abandons or declines to finish Documentation setup, stop onboarding and tell them Workflow OS cannot continue until `$documentation-setup` is complete.
+
+Optional plugin set:
+
+- `wos-memory-engine`
 - `wos-project`
 - `wos-task`
 
-Try to install remaining core plugins only if a real headless install verb exists in this CLI. If not available, instruct the user:
+Ask which optional plugins the user wants to install, using a numbered picker:
 
-> Type `/plugins` in Codex, then install: `wos-memory-engine`, `wos-jira`, `wos-project`, `wos-task`. Press Enter here when done.
+```text
+Optional Workflow OS plugins:
+1. wos-memory-engine - local SQLite receipt/log memory.
+2. wos-project - project lifecycle and Jira-backed orchestration.
+3. wos-task - one-off Jira ticket task lifecycle.
+4. None for now.
+```
 
-Do not make plugins optional by role.
+Resolve dependencies before saving:
+
+- Selecting `wos-project` automatically selects `wos-memory-engine`.
+- Selecting `wos-task` automatically selects `wos-memory-engine`.
+- `wos-jira` and `wos-documentation` remain mandatory regardless of optional selections.
+
+Install selected optional plugins only when a real headless install verb exists in this CLI. If not available, instruct the user to install the resolved optional list through `/plugins`, then press Enter here when done. Do not pressure-install optional plugins the user did not select.
 
 ## Step 7 — Write data files
 
-Direct file writes are allowed during onboarding only because onboarding must set `data_root` before `memory-engine` can start. After `~/.codex/workflow-os.json` points at the selected `data_root`, verify `memory-engine` using the script below before treating setup as complete.
+Direct file writes are allowed during onboarding only because onboarding must set `data_root` and persist mandatory setup state before the other Workflow OS plugins can rely on it. After `~/.codex/workflow-os.json` points at the selected `data_root`, verify `memory-engine` only if `wos-memory-engine` is in the resolved optional plugin list.
 
 Create:
 
@@ -234,9 +261,12 @@ Create:
   "tool_status": {},
   "active_project": null,
   "active_task": null,
-  "installed_plugins": ["wos-onboarding", "wos-memory-engine", "wos-jira", "wos-project", "wos-task"],
+  "installed_plugins": ["wos-onboarding", "wos-jira", "wos-documentation", "<selected optional plugins>"],
+  "optional_plugins_selected": ["<resolved optional plugin list>"],
   "plugin_state": {
-    "wos-onboarding": { "disabled": true, "completed_at": "<ISO timestamp>" }
+    "wos-onboarding": { "disabled": true, "completed_at": "<ISO timestamp>" },
+    "wos-jira": { "mandatory": true, "setup_completed_at": "<ISO timestamp>" },
+    "wos-documentation": { "mandatory": true, "setup_completed_at": "<ISO timestamp>" }
   }
 }
 ```
@@ -252,16 +282,20 @@ The preferences note must include frontmatter `type: preference`, then readable 
 - Jira defaults
 - tool recommendations
 - backup choice
+- mandatory plugin setup status for `wos-jira` and `wos-documentation`
+- optional plugin selections
 
 Update `~/.codex/workflow-os.json` with `data_root` and `installed: true`.
 
-Then verify the SQLite memory store:
+If `wos-memory-engine` is selected, verify the SQLite memory store:
 
 ```powershell
 ${plugin_root}/scripts/verify-memory.ps1 -FrameworkRoot "<framework_path>" -Username "<username>"
 ```
 
-The verifier must create `<data_path>/.index/memory.db`, write a small `preference` receipt through `wos-memory-engine`, and search it back. If verification fails, report that onboarding created the local config but memory-engine is not ready; do not claim Workflow OS is fully installed until memory verification succeeds.
+The verifier must create `<data_path>/.index/memory.db`, write a small `preference` receipt through `wos-memory-engine`, and search it back. If verification fails and `wos-memory-engine` was selected, report that onboarding created the local config but memory-engine is not ready; do not claim Workflow OS is fully installed until memory verification succeeds.
+
+If `wos-memory-engine` is not selected, do not run memory verification and do not require `<data_path>/.index/memory.db`. Still create `<data_path>/.index/` so the user can add memory-engine later.
 
 ## Step 8 — Finish
 
@@ -269,15 +303,18 @@ Confirm:
 
 - `local.json` exists.
 - preferences note exists.
-- memory index folder exists and `<data_path>/.index/memory.db` exists.
-- memory verifier wrote and found an onboarding `preference` receipt.
+- memory index folder exists.
+- if `wos-memory-engine` was selected, `<data_path>/.index/memory.db` exists and the memory verifier wrote/found an onboarding `preference` receipt.
+- `plugin_state.wos-jira.setup_completed_at` exists.
+- `plugin_state.wos-documentation.setup_completed_at` exists.
 - sentinel points to the selected data root.
 - detector reports installed.
 
 Summarize in 5 bullets max. Tell the user:
 
 - Use Jira as the source of truth for active project, task, and action state.
-- Use local Workflow OS memory as the receipt/log layer for conversation outcomes and decisions.
+- If `wos-memory-engine` was selected, use local Workflow OS memory as the receipt/log layer for conversation outcomes and decisions.
+- If `wos-memory-engine` was not selected, tell the user they can add it later from `/plugins` when they want local receipt memory.
 - Start project-mode work with `$project-new`.
 - After a project plan is uploaded into Jira as phases, use `$project-orchestrate` when parallel orchestration may help.
 - Import an existing workspace with `$project-import`.

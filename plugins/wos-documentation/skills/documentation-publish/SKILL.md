@@ -11,16 +11,19 @@ Use when the user asks to create or update a Confluence documentation page.
 
 Load these before publishing:
 
+- `${plugin_root}/../references/setup-gate.md`
 - `${plugin_root}/../references/documentation-standard.md`
 - `${plugin_root}/../references/confluence-workflow.md`
 - `${plugin_root}/../references/templates.md`
+
+Apply `setup-gate.md` before any publish preflight or Confluence read/write. If persistent Documentation setup is not complete, run the per-document walkthrough for the current document before publishing.
 
 ## Preflight
 
 Before any Confluence write:
 
 1. Ask which route this is for unless already explicit: Help Desk, Infrastructure, DEV/DBA team, or Public-facing for Athens employees.
-2. Identify the route-assigned Confluence space and template.
+2. Identify the route-assigned Confluence space and template, or collect them through the per-document walkthrough.
 3. Identify whether the space is the route default or a one-request override.
 4. Ask where the page should be placed: root of the space, route default parent, existing parent page/folder, or a new parent page.
 5. Resolve and confirm the parent page when not publishing at the root.

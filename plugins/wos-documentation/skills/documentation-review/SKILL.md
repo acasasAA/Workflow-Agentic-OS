@@ -11,8 +11,11 @@ Use when the user asks for a documentation review, cleanup, readiness check, or 
 
 Load these before reviewing:
 
+- `${plugin_root}/../references/setup-gate.md`
 - `${plugin_root}/../references/documentation-standard.md`
 - `${plugin_root}/../references/confluence-workflow.md`
+
+Apply `setup-gate.md` before reading, reviewing, or rewriting documentation. If persistent Documentation setup is not complete, use the per-document walkthrough when route/template/space context is needed.
 
 ## Review Inputs
 
@@ -26,6 +29,8 @@ Identify or ask for the documentation route:
 - Public-facing for Athens employees.
 
 Use the selected route's expected template and Confluence space as review criteria when available.
+
+If the document is a Help Desk or public-facing how-to, check it against `ahi_how_to`. If it is an internal agent troubleshooting guide, check it against `ahi_troubleshooting`.
 
 If reviewing a Confluence page:
 

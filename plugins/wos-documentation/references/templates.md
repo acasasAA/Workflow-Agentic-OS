@@ -2,6 +2,56 @@
 
 These are fallback templates. If the selected documentation route has an assigned Confluence template, use that template first.
 
+## Built-In Template Assignment
+
+Use these built-in template choices when a route does not have a configured Confluence template:
+
+| Template choice | Primary route | Also allowed for | Source |
+|---|---|---|---|
+| `ahi_how_to` | Help Desk | Infrastructure, DEV/DBA team, Public-facing for Athens employees | AHI Template - How-to guide |
+| `ahi_troubleshooting` | Help Desk | Infrastructure, DEV/DBA team | AHI Template - Troubleshooting article |
+
+When documenting work that was run, ask the user which template choice applies after the route is selected if the route has more than one valid choice. For Help Desk, offer `ahi_how_to` first and `ahi_troubleshooting` second.
+
+## AHI How-To Guide
+
+Use for public-facing how-to documentation and as the primary Help Desk template choice. Infrastructure and DEV/DBA may also use it when documenting a repeatable procedure for their audiences.
+
+```text
+# <How-to title>
+
+## Instructions
+1. <First step>
+2. <Second step>
+3. <Third step>
+
+> Important: <Highlight important information here. In Confluence, use an info/warning panel and choose the appropriate panel color or style.>
+
+## Related articles
+- <Related Confluence page, service guide, Jira issue, vendor article, or support page>
+```
+
+## AHI Troubleshooting Article
+
+Use for internal agent troubleshooting guides, especially Help Desk internal troubleshooting and other internal support teams when diagnosing or resolving known issues.
+
+```text
+# <Troubleshooting title>
+
+## Problem
+<Describe the symptom, error, requester impact, or condition being investigated.>
+
+## Solution
+1. <First troubleshooting or resolution step>
+2. <Second troubleshooting or resolution step>
+3. <Third troubleshooting or resolution step>
+
+> Important: <Highlight important information here. In Confluence, use an info/warning panel and choose the appropriate panel color or style.>
+
+## Related articles
+- <Related Confluence page, runbook, Jira issue, vendor article, dashboard, or support page>
+```
+
 ## Help Desk Runbook
 
 ```text

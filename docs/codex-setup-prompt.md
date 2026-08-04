@@ -32,6 +32,16 @@ Steps:
 8. In /plugins, install wos-onboarding from workflow-os.
 9. Run:
    $welcome
+10. When onboarding asks, install mandatory plugins:
+   - wos-jira
+   - wos-documentation
+11. Finish both mandatory setup flows before continuing:
+   - $jira-setup
+   - $documentation-setup
+12. Ask me which optional plugins I want before installing any of these:
+   - wos-memory-engine
+   - wos-project
+   - wos-task
 
 Use normal install defaults unless I say otherwise:
 - Data path: C:\Users\<current-user>\workflow-os-data
@@ -44,8 +54,9 @@ Stop at the first real failure and show the exact error plus the next recommende
 
 ## Expected Plugin Versions
 
-- `wos-onboarding` v0.1.2
-- `wos-jira` v0.2.3
+- `wos-onboarding` v0.1.6
+- `wos-jira` v0.2.4
+- `wos-documentation` v0.1.1
 - `wos-memory-engine` v0.1.2
 - `wos-project` v0.1.2
 - `wos-task` v0.1.1

@@ -37,7 +37,7 @@ codex plugin marketplace remove workflow-os
 codex plugin marketplace add https://github.com/acasasAA/Workflow-Agentic-OS.git --ref main
 ```
 
-## 3. Install Only WOS Jira First
+## 3. Install WOS Onboarding First
 
 Open Codex and go to:
 
@@ -48,16 +48,29 @@ Open Codex and go to:
 Install or upgrade:
 
 ```text
-wos-jira
+wos-onboarding
 ```
 
-Expected version:
+Then run `$welcome`. When onboarding asks, install mandatory:
 
 ```text
-v0.2.3
+wos-jira
+wos-documentation
 ```
 
-Do not require the full Workflow OS suite for this test. The user only needs WOS Jira unless the current rollout owner explicitly asks them to install more.
+Expected Jira version:
+
+```text
+v0.2.4
+```
+
+Expected Documentation version:
+
+```text
+v0.1.1
+```
+
+Memory, project, and task plugins are optional unless the current rollout owner explicitly asks them to install more.
 
 ## 4. First Command To Run
 
@@ -90,11 +103,12 @@ $jira-mod
 Make sure the installed plugin is:
 
 ```text
-wos-jira v0.2.3
+wos-jira v0.2.4
 ```
 
 That is the version with:
 
+- Mandatory first-use setup gate.
 - TPM Epic safeguards.
 - ASD `AI/Gen Issue` vs `AI/Gen Task` clarification.
 - ASD/helpdesk issue type and request type verification before creation.

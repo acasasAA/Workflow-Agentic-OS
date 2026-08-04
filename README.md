@@ -1,8 +1,8 @@
 # Workflow OS v2 — Draft
 
-A plugin-based agentic layer for Codex. Five plugins: `onboarding`, `memory-engine`, `jira`, `project`, `task`. The repo IS the marketplace. For team installs, register it as a Git marketplace so `/plugins` can upgrade after changes are pushed.
+A plugin-based agentic layer for Codex. Core plugin set: `onboarding`, `jira`, `wos-documentation`, plus optional `memory-engine`, `project`, and `task`. The repo IS the marketplace. For team installs, register it as a Git marketplace so `/plugins` can upgrade after changes are pushed.
 
-The most broadly deployable module is `wos-jira`: a standalone Athens IT Jira standard for consistent setup, issue creation, updates, review, description maintenance, and closure comments. For general users, install `wos-jira` first and run `$jira-setup`. Project/task/memory/orchestration modules are optional for users who want deeper Workflow OS structure.
+The mandatory baseline after onboarding is `wos-jira` plus `wos-documentation`: Jira standardizes active work in Jira, and Documentation standardizes Confluence-ready drafts/reviews/publishing. On a new Codex install, install `wos-onboarding` first and run `$welcome`; onboarding requires `$jira-setup` and `$documentation-setup` before it can finish. Memory/project/task/orchestration modules are optional for users who want deeper Workflow OS structure.
 
 This is a clean-slate draft, staged for review before moving to the real `workflow-os` repo on the new machine.
 
@@ -25,7 +25,9 @@ v2/
     │   └── .codex-plugin/, skills/, hooks/, scripts/
     ├── memory-engine/                   local SQLite receipt/log memory + Node MCP server
     │   └── .codex-plugin/, mcp/, .mcp.json, hooks/, scripts/
-    ├── jira/                            standalone Athens IT Jira standard + Rovo/ACLI wrapper + emoji format
+    ├── jira/                            mandatory Athens IT Jira standard + Rovo/ACLI wrapper + emoji format
+    │   └── .codex-plugin/, skills/, references/
+    ├── wos-documentation/               mandatory Confluence documentation standard
     │   └── .codex-plugin/, skills/, references/
     ├── project/                         project lifecycle + orchestration + selective import + auto-resume
         └── .codex-plugin/, skills/, hooks/, scripts/
@@ -37,10 +39,10 @@ v2/
 
 - **Codex-native.** Manifests at `.codex-plugin/plugin.json`. Skills with `$<name>` invocation. Hooks at `hooks/hooks.json` using Codex's event names (`SessionStart`, `Stop`, etc.). MCP via `.mcp.json`.
 - **Two repos.** `workflow-os` (framework + plugins, shareable) and `workflow-os-data` (local user memory database, preferences, logs, and backups, private). OneDrive is an optional backup/export target, not the primary data root.
-- **Memory.** Local SQLite is the base receipt/log layer. `memory-engine` appends searchable receipts for conversation outcomes, decisions, checkpoints, worklogs, references, and preferences. Legacy markdown import exists only as a migration bridge.
+- **Memory.** When selected, local SQLite is the receipt/log layer. `memory-engine` appends searchable receipts for conversation outcomes, decisions, checkpoints, worklogs, references, and preferences. Legacy markdown import exists only as a migration bridge.
 - **Jira.** Jira is the active-work source of truth and the team-facing satellite: projects, tasks, phases, dependencies, status, assignment, and current action state live where the team already works. Workflow OS uses the Atlassian Rovo Codex app connector first, with Atlassian CLI (`acli`) as a deterministic fallback/companion for gaps such as comments. The `jira` plugin is standalone and layers the Athens IT Jira standard, Workflow OS policy, and the mandatory emoji format on top of both tool paths; deletes/archive stay manual.
 - **Runtimes.** Node for MCP servers, PowerShell for hooks and install scripts.
-- **Onboarding.** `$welcome` is role-tailored for Athens IT users, validates foundation tools, defaults Jira to ASD/TPM, and records preferences.
+- **Onboarding.** `$welcome` is role-tailored for Athens IT users, validates foundation tools, defaults Jira to ASD/TPM, requires `wos-jira` and `wos-documentation` setup, lets users pick optional memory/project/task plugins, and records preferences.
 - **Role-based tools.** Missing optional tools such as Azure DevOps/Azure Boards, AWS CLI/MCP, Microsoft Learn MCP/CLI, and Superpowers are not required on every machine. `$welcome` recommends them only when the selected teammate role or director focus needs them.
 - **Platform discovery.** After minimum tools are satisfied, `$welcome` asks what other platforms the teammate uses, searches for matching CLIs and Codex MCP/app connectors, and records those as teammate-specific additions rather than global requirements.
 - **Projects and tasks.** `$project-new` starts scoped project work, uploads the completed plan to Jira as phases, then `$project-orchestrate` can analyze Jira and propose dependency-aware execution before implementation. `$project-import` selectively imports one existing workspace folder and writes a `WOS.md` marker only there. `$task-new` handles one-off Jira tickets without creating a project, and `$task-orchestrate` offers lightweight orchestration only when a task has independent streams.

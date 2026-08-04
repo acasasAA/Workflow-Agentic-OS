@@ -13,6 +13,8 @@ Every time the plugin documents work that someone ran, it must ask which documen
 
 The selected route determines the default Confluence space and template for that document. Do not skip this question unless the user already made one of these four choices in the same request.
 
+After the route is selected, apply the route's configured template. If the route does not have a configured template, offer the built-in template choices from `templates.md`. Help Desk should offer the AHI How-To Guide first and the AHI Troubleshooting Article second. The AHI How-To Guide is also valid for Infrastructure, DEV/DBA, and Public-facing Athens employee documentation. The AHI Troubleshooting Article is for internal troubleshooting documentation.
+
 ## Route Configuration
 
 Each route has an assigned Confluence space and template. During setup, collect both for every route the user wants enabled.
@@ -25,32 +27,32 @@ The setup profile shape is:
     "help_desk": {
       "label": "Help Desk",
       "space": "SPACEKEY",
-      "template": "Confluence page URL, page id, or named template",
+      "template": "Confluence page URL, page id, named template, ahi_how_to, or ahi_troubleshooting",
       "default_parent": "optional Confluence page URL or page id"
     },
     "infrastructure": {
       "label": "Infrastructure",
       "space": "SPACEKEY",
-      "template": "Confluence page URL, page id, or named template",
+      "template": "Confluence page URL, page id, named template, ahi_how_to, or ahi_troubleshooting",
       "default_parent": "optional Confluence page URL or page id"
     },
     "dev_dba": {
       "label": "DEV/DBA team",
       "space": "SPACEKEY",
-      "template": "Confluence page URL, page id, or named template",
+      "template": "Confluence page URL, page id, named template, ahi_how_to, or ahi_troubleshooting",
       "default_parent": "optional Confluence page URL or page id"
     },
     "public_athens": {
       "label": "Public-facing for Athens employees",
       "space": "SPACEKEY",
-      "template": "Confluence page URL, page id, or named template",
+      "template": "Confluence page URL, page id, named template, or ahi_how_to",
       "default_parent": "optional Confluence page URL or page id"
     }
   }
 }
 ```
 
-If a route is selected but not configured, ask for its Confluence space and template before publishing. A draft may continue with the fallback template for that route.
+If a route is selected but not configured, ask for its Confluence space before publishing. A draft may continue with the appropriate built-in template choice from `templates.md`.
 
 ## Space Selection
 
@@ -114,7 +116,7 @@ When a route-specific Confluence template page is configured or supplied:
 When no template is available:
 
 - Use `documentation-standard.md` and `templates.md`.
-- Use the fallback template that matches the selected route.
+- Use the built-in template choice that matches the selected route and document type.
 
 ## Publishing Flow
 

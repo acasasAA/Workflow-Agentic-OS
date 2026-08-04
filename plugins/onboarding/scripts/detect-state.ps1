@@ -6,7 +6,8 @@
 #   { "state": "installed" | "partial" | "missing",
 #     "data_root": "<path-or-null>",
 #     "present": [ "<relative paths found>" ],
-#     "missing": [ "<relative paths absent>" ] }
+#     "missing": [ "<relative paths absent>" ],
+#     "setup_missing": [ "<mandatory setup keys absent>" ] }
 
 $ErrorActionPreference = 'Stop'
 
@@ -24,7 +25,12 @@ if (-not $dataRoot) { $dataRoot = Join-Path $env:USERPROFILE 'workflow-os-data' 
 $required = @(
     '.agent/local.json',
     'memory/users',
-    '.index/memory.db'
+    '.index'
+)
+
+$mandatorySetup = @(
+    'plugin_state.wos-jira.setup_completed_at',
+    'plugin_state.wos-documentation.setup_completed_at'
 )
 
 $present = @()
@@ -34,8 +40,37 @@ foreach ($rel in $required) {
     if (Test-Path $full) { $present += $rel } else { $missing += $rel }
 }
 
+$setupMissing = @()
+$optionalPlugins = @()
+if (Test-Path (Join-Path $dataRoot '.agent/local.json')) {
+    try {
+        $local = Get-Content (Join-Path $dataRoot '.agent/local.json') -Raw | ConvertFrom-Json
+        if ($local.optional_plugins_selected) { $optionalPlugins = @($local.optional_plugins_selected) }
+        foreach ($key in $mandatorySetup) {
+            if ($key -eq 'plugin_state.wos-jira.setup_completed_at') {
+                if (-not $local.plugin_state.'wos-jira'.setup_completed_at) { $setupMissing += $key }
+            } elseif ($key -eq 'plugin_state.wos-documentation.setup_completed_at') {
+                if (-not $local.plugin_state.'wos-documentation'.setup_completed_at) { $setupMissing += $key }
+            }
+        }
+    } catch {
+        $setupMissing += $mandatorySetup
+    }
+} else {
+    $setupMissing += $mandatorySetup
+}
+
+if ($optionalPlugins -contains 'wos-memory-engine') {
+    $memoryDb = Join-Path $dataRoot '.index/memory.db'
+    if (Test-Path $memoryDb) {
+        if ($present -notcontains '.index/memory.db') { $present += '.index/memory.db' }
+    } else {
+        $missing += '.index/memory.db'
+    }
+}
+
 $state = 'missing'
-if ($present.Count -eq $required.Count) { $state = 'installed' }
+if (($present.Count -eq $required.Count) -and ($setupMissing.Count -eq 0)) { $state = 'installed' }
 elseif ($present.Count -gt 0)            { $state = 'partial' }
 
 $result = [ordered]@{
@@ -43,6 +78,7 @@ $result = [ordered]@{
     data_root = if (Test-Path $dataRoot) { $dataRoot } else { $null }
     present   = $present
     missing   = $missing
+    setup_missing = $setupMissing
 }
 
 $result | ConvertTo-Json -Compress

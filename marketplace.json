@@ -2,7 +2,7 @@
   "name": "workflow-os",
   "interface": {
     "displayName": "Workflow OS",
-    "shortDescription": "Codex plugins for Athens IT: standalone Jira standard plus optional memory, projects, tasks, and orchestration"
+    "shortDescription": "Codex plugins for Athens IT: mandatory Jira and Documentation setup plus optional memory, projects, tasks, and orchestration"
   },
   "plugins": [
     {

@@ -5,7 +5,7 @@ description: Configure standalone Workflow OS Jira defaults for a teammate. Use 
 
 # `$jira-setup` — Jira-First Setup
 
-You are configuring the user's standalone Workflow OS Jira profile. This setup is intentionally lightweight and does not require Workflow OS Memory Engine, Project, Task, or Onboarding plugins.
+You are configuring the user's standalone Workflow OS Jira profile. This setup is intentionally lightweight and does not require Workflow OS Memory Engine, Project, Task, or Onboarding plugins. In a full Workflow OS install, this setup is mandatory before any other `wos-jira` skill may continue.
 
 ## Required References
 
@@ -119,7 +119,7 @@ Do not handle or request tokens in chat.
 
 ## Step 7 — Output Profile
 
-Show the final profile in concise JSON-like form:
+Show the final profile in concise JSON-like form. Include a setup completion timestamp:
 
 ```json
 {
@@ -130,13 +130,31 @@ Show the final profile in concise JSON-like form:
     "support": "ASD",
     "project_tracking": "TPM"
   },
-  "primary_jira_usage": ["helpdesk tickets", "project/task tracking"]
+  "primary_jira_usage": ["helpdesk tickets", "project/task tracking"],
+  "setup_completed_at": "<ISO timestamp>"
 }
 ```
 
-If Workflow OS Memory Engine is available, ask whether to save this as a user preference note. If memory is unavailable, provide the profile for the user to keep and continue without failing.
+## Step 8 — Save Setup Marker
 
-## Step 8 — Finish
+If Workflow OS local state is available, save the profile fields into `<data_root>/.agent/local.json` and set:
+
+```json
+"plugin_state": {
+  "wos-jira": {
+    "mandatory": true,
+    "setup_completed_at": "<ISO timestamp>"
+  }
+}
+```
+
+Preserve existing `plugin_state` entries and existing user preferences. Do not remove optional plugin selections.
+
+If Workflow OS Memory Engine is available, also ask whether to save this as a user preference note. If memory is unavailable, the local setup marker is still enough for the setup gate.
+
+If neither Workflow OS local state nor Memory Engine is available, provide the profile for the user to keep and clearly state that setup is only complete for the current conversation; future Jira skills may ask for `$jira-setup` again until a persistent WOS profile exists.
+
+## Step 9 — Finish
 
 Tell the user they can now use:
 
@@ -145,9 +163,8 @@ Tell the user they can now use:
 - `$jira-review`
 - `$jira-mod`
 
-For the full Workflow OS suite, tell them they can optionally install:
+For the standard Workflow OS onboarding baseline, tell them `wos-documentation` is mandatory alongside `wos-jira`. For deeper Workflow OS workflows, they can optionally install:
 
-- `wos-onboarding`
 - `wos-memory-engine`
 - `wos-project`
 - `wos-task`
@@ -158,4 +175,4 @@ For the full Workflow OS suite, tell them they can optionally install:
 - Do not write Jira during setup.
 - Do not store secrets.
 - Do not assume optional Jira projects.
-- Do not modify files directly unless the user explicitly asks for a file export.
+- Only modify Workflow OS local setup state when saving this Jira setup profile; do not modify unrelated files.

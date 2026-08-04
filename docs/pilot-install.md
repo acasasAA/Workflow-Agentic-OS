@@ -9,7 +9,9 @@ Use this flow for supervised coworker installs.
 3. Open Codex.
 4. Install `wos-onboarding`.
 5. Run `$welcome`.
-6. Verify plugin versions.
+6. During onboarding, install and finish setup for mandatory `wos-jira` and `wos-documentation`.
+7. Choose any optional plugins.
+8. Verify plugin versions.
 
 ## Prerequisites
 
@@ -57,9 +59,14 @@ After setup:
 2. Open `/plugins`.
 3. Install `wos-onboarding` from the `workflow-os` marketplace.
 4. Run `$welcome`.
-5. Install the remaining WOS plugins if onboarding asks:
-   - `wos-memory-engine`
+5. Install the mandatory WOS plugins when onboarding asks:
    - `wos-jira`
+   - `wos-documentation`
+6. Finish the mandatory setup flows when onboarding asks:
+   - `$jira-setup`
+   - `$documentation-setup`
+7. Install optional WOS plugins only if selected:
+   - `wos-memory-engine`
    - `wos-project`
    - `wos-task`
 
@@ -70,6 +77,8 @@ After setup:
 - OneDrive backup: detected organization OneDrive if available.
 - Jira tenant: `https://athensadmin.atlassian.net`.
 - Jira keys: `ASD, TPM`.
+- Mandatory plugins: `wos-jira`, `wos-documentation`.
+- Optional plugins: `wos-memory-engine`, `wos-project`, `wos-task`.
 
 ## Troubleshooting
 
