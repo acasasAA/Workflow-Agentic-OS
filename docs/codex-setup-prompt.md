@@ -54,9 +54,9 @@ Stop at the first real failure and show the exact error plus the next recommende
 
 ## Expected Plugin Versions
 
-- `wos-onboarding` v0.1.6
-- `wos-jira` v0.2.4
-- `wos-documentation` v0.1.2
-- `wos-memory-engine` v0.1.2
-- `wos-project` v0.1.2
-- `wos-task` v0.1.1
+- `wos-onboarding` v0.1.7
+- `wos-jira` v0.2.5
+- `wos-documentation` v0.1.7
+- `wos-memory-engine` v0.1.3
+- `wos-project` v0.1.6
+- `wos-task` v0.1.5

@@ -61,13 +61,13 @@ wos-documentation
 Expected Jira version:
 
 ```text
-v0.2.4
+v0.2.5
 ```
 
 Expected Documentation version:
 
 ```text
-v0.1.2
+v0.1.7
 ```
 
 Memory, project, and task plugins are optional unless the current rollout owner explicitly asks them to install more.
@@ -103,7 +103,7 @@ $jira-mod
 Make sure the installed plugin is:
 
 ```text
-wos-jira v0.2.4
+wos-jira v0.2.5
 ```
 
 That is the version with:

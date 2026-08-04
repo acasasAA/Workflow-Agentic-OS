@@ -1,12 +1,25 @@
 {
   "name": "wos-project",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Project lifecycle for scoped work: new, import, orchestrate, checkpoint, resume, complete. Auto-resumes on SessionStart and writes session-summary notes on Stop.",
+  "author": {
+    "name": "Workflow OS"
+  },
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Project",
-    "shortDescription": "v0.1.5 · Project lifecycle with robust import, Rovo JQL, and memory fallback",
+    "shortDescription": "🪟 v0.1.6 · Project lifecycle with robust import, Rovo JQL, and memory fallback",
+    "longDescription": "Workflow OS Project manages scoped project lifecycles, including project creation, import, orchestration, checkpointing, resume, and closeout.",
+    "developerName": "Workflow OS",
+    "capabilities": [
+      "Project lifecycle",
+      "Jira orchestration",
+      "Checkpoints"
+    ],
+    "defaultPrompt": [
+      "Start a new Workflow OS project."
+    ],
     "category": "Productivity"
   }
 }

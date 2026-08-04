@@ -1,12 +1,25 @@
 {
   "name": "wos-onboarding",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Workflow OS first-run setup. Creates local workflow-os-data, runs role-tailored onboarding, validates foundation tools, requires Jira and Documentation setup, configures OneDrive defaults, and guides optional plugin selection.",
+  "author": {
+    "name": "Workflow OS"
+  },
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
   "interface": {
     "displayName": "Workflow OS — Onboarding",
-    "shortDescription": "v0.1.6 · Mandatory Jira/Documentation setup with optional plugin picker",
+    "shortDescription": "🧩 v0.1.7 · Mandatory Jira/Documentation setup with optional plugin picker",
+    "longDescription": "Workflow OS Onboarding runs first-time setup, creates local Workflow OS state, validates foundation tools, requires Jira and Documentation setup, and guides optional plugin selection.",
+    "developerName": "Workflow OS",
+    "capabilities": [
+      "Setup",
+      "Plugin selection",
+      "Workflow OS configuration"
+    ],
+    "defaultPrompt": [
+      "Run $welcome to set up Workflow OS."
+    ],
     "category": "Productivity"
   }
 }

@@ -1,11 +1,28 @@
 {
   "name": "wos-jira",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Standalone Workflow OS Jira standard for consistent Athens IT setup, issue creation, updates, review, description maintenance, and safe Rovo/ACLI-backed writes.",
+  "author": {
+    "name": "Workflow OS"
+  },
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow OS — Jira",
-    "shortDescription": "v0.2.4 · Mandatory first-use Jira setup: setup, create, update, review, mod",
+    "composerIcon": "./assets/jira-favicon.png",
+    "logo": "./assets/jira-favicon.png",
+    "logoDark": "./assets/jira-favicon.png",
+    "shortDescription": "✅ v0.2.5 · Mandatory first-use Jira setup: setup, create, update, review, mod",
+    "longDescription": "Workflow OS Jira provides mandatory first-use Jira setup plus Workflow OS standard issue creation, updates, reviews, and description maintenance backed by Rovo and ACLI.",
+    "developerName": "Workflow OS",
+    "capabilities": [
+      "Jira setup",
+      "Issue creation",
+      "Issue updates",
+      "Issue review"
+    ],
+    "defaultPrompt": [
+      "Run $jira-setup to configure WOS Jira."
+    ],
     "category": "Productivity"
   }
 }

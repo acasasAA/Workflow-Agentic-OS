@@ -109,7 +109,7 @@ Find **Workflow OS** and install:
 
 Expected visible onboarding version:
 
-- `wos-onboarding` v0.1.6
+- `wos-onboarding` v0.1.7
 
 ## Step 6: Run Onboarding
 
