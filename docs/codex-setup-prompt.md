@@ -56,7 +56,7 @@ Stop at the first real failure and show the exact error plus the next recommende
 
 - `wos-onboarding` v0.1.6
 - `wos-jira` v0.2.4
-- `wos-documentation` v0.1.1
+- `wos-documentation` v0.1.2
 - `wos-memory-engine` v0.1.2
 - `wos-project` v0.1.2
 - `wos-task` v0.1.1

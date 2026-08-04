@@ -67,7 +67,7 @@ v0.2.4
 Expected Documentation version:
 
 ```text
-v0.1.1
+v0.1.2
 ```
 
 Memory, project, and task plugins are optional unless the current rollout owner explicitly asks them to install more.
