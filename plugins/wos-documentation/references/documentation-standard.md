@@ -13,8 +13,9 @@ This standard applies to every document created or reviewed through the `wos-doc
 - Each route has an assigned Confluence space and template configured during setup.
 - A different Confluence space may be used for a single request, but that override does not change the route default.
 - Documentation should be useful, concise, source-backed, and easy to scan.
-- Prefer one page. Use more pages only when the reader's workflow genuinely requires separation.
-- Internal documentation may be deeper than public-facing documentation, but avoid multi-page sprawl. When multi-page documentation is required, keep the set to three to five pages at most.
+- Prefer one continuous Confluence article. Treat PDF-style page counts only as a planning limit, not as a reason to split a Confluence article.
+- Be conservative with splitting. Use separate Confluence pages only when the reader's workflow genuinely requires separation.
+- Internal documentation may be deeper than public-facing documentation, but avoid multi-page sprawl. When multiple pages are truly required, keep the set to five pages maximum and prefer fewer.
 - Do not include secrets, credentials, personal access tokens, private keys, or sensitive customer data.
 - Do not publish or materially update Confluence without explicit user confirmation in the current turn.
 
@@ -75,8 +76,20 @@ Internal documentation may include:
 Recommended length:
 
 - Standard internal doc: one focused page.
-- Larger topic: split into three to five pages only when each page has a distinct reader workflow.
+- Larger topic: keep as one continuous Confluence article when practical. Split only when each page has a distinct reader workflow; keep the set to five pages maximum and prefer fewer.
 - Avoid long history sections; link to Jira, PRs, and previous Confluence pages instead.
+
+## Long Source Handling
+
+When source material is long, unstructured, exported from OneNote, or provided as a PDF-like file:
+
+- Treat the source as raw material, not as the desired final structure.
+- Compress repeated explanations, history, and duplicate steps into a concise Confluence article.
+- Preserve verified facts, exact errors, commands, paths, and required operational details.
+- Use `[TBD]` or `<PLACEHOLDER>` for missing information instead of expanding the document with guesses.
+- Prefer one continuous Confluence article even when the source would span many PDF pages.
+- If the content genuinely requires separate pages, propose the smallest useful page set and do not exceed five pages.
+- Explain why any split is necessary before presenting a multi-page structure.
 
 ## Required Page Shape
 

@@ -73,7 +73,8 @@ Determine from the request or ask only when necessary:
 - Use the exact section emojis defined in `templates.md`.
 - Keep public-facing docs simple, concise, and action-oriented.
 - Keep internal docs practical and complete, but usually one page.
-- Split into three to five pages only when separate reader workflows justify it.
+- For long or PDF-like source material, draft one continuous Confluence article whenever practical.
+- Split into multiple Confluence pages only when separate reader workflows justify it; keep the set to five pages maximum and prefer fewer.
 - Include validation or expected result.
 - Include support path or ownership.
 - Link to sources rather than copying long source content.

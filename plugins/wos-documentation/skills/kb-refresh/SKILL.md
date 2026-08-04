@@ -52,7 +52,9 @@ If the user does not know whether the article is a Runbook KB article or Busines
 - Preserve the required section emojis when a built-in Infrastructure/DEV template is used.
 - Public-facing content must be simple, concise, employee-safe, and free of internal-only commands, privileged access steps, and internal escalation details.
 - Internal content should be practical and complete, but usually one page.
-- Do not split into multiple pages unless the article covers separate reader workflows; keep multi-page refreshes limited to three to five pages.
+- For long, unstructured, OneNote-derived, PDF-like, or multi-page source material, treat the source length as raw input only. The Confluence output should usually be one continuous article.
+- Be conservative with page splitting. Do not split into multiple Confluence pages unless the article covers separate reader workflows; keep any multi-page refresh to five pages maximum and prefer fewer.
+- If a split is necessary, explain why each page needs to exist before returning the refreshed structure.
 - Do not include secrets, credentials, tokens, or private personal data.
 
 ## Confluence Handling

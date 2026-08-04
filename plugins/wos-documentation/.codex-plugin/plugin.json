@@ -1,6 +1,6 @@
 {
   "name": "wos-documentation",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Workflow OS documentation standard for route-based drafting, reviewing, and publishing to assigned Confluence spaces and templates.",
   "author": {
     "name": "Workflow OS"
@@ -8,8 +8,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow OS - Documentation",
-    "shortDescription": "📚 v0.1.7 - KB Refresh for existing articles",
-    "longDescription": "Workflow OS Documentation standardizes how Help Desk, Infrastructure, DEV/DBA, and Athens employee-facing documentation is drafted, refreshed, reviewed, placed, and published in assigned Confluence spaces using route-specific or built-in AHI, Infrastructure, and DEV/DBA templates with defined section emojis, KB article type selection, internal/public audience routing, explicit TBD handling for the DEV/DBA space, and KB Refresh for existing articles.",
+    "shortDescription": "📚 v0.1.8 - Conservative long-doc refresh",
+    "longDescription": "Workflow OS Documentation standardizes how Help Desk, Infrastructure, DEV/DBA, and Athens employee-facing documentation is drafted, refreshed, reviewed, placed, and published in assigned Confluence spaces using route-specific or built-in AHI, Infrastructure, and DEV/DBA templates with defined section emojis, KB article type selection, internal/public audience routing, explicit TBD handling for the DEV/DBA space, KB Refresh for existing articles, and conservative long-source handling that prefers one continuous Confluence article with a five-page maximum only when splits are truly justified.",
     "developerName": "Workflow OS",
     "category": "Productivity",
     "capabilities": [
