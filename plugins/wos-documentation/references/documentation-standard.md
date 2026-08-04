@@ -2,6 +2,10 @@
 
 This standard applies to every document created or reviewed through the `wos-documentation` plugin.
 
+## Named Feature
+
+`KB Refresh` is the named feature for taking an existing KB article or Confluence page and updating it into the approved Workflow OS documentation structure. KB Refresh preserves correct source content, chooses the right route/template, removes stale or duplicated material, and returns a Confluence-ready article.
+
 ## Principles
 
 - Confluence is the system of record for published documentation.

@@ -23,14 +23,17 @@ Apply `setup-gate.md` before any publish preflight or Confluence read/write. If 
 Before any Confluence write:
 
 1. Ask which route this is for unless already explicit: Help Desk, Infrastructure, DEV/DBA team, or Public-facing for Athens employees.
-2. Identify the route-assigned Confluence space and template, or collect them through the per-document walkthrough.
-3. Identify whether the space is the route default or a one-request override.
-4. Ask where the page should be placed: root of the space, route default parent, existing parent page/folder, or a new parent page.
-5. Resolve and confirm the parent page when not publishing at the root.
-6. Identify page title and whether this is a create or update.
-7. Review the draft against the standard and selected route template.
-8. Show the proposed title, route, space, placement, and concise change summary.
-9. Ask for explicit user confirmation to create or update Confluence.
+2. For Infrastructure or DEV/DBA, confirm whether this is a Runbook KB article or Business Process KB article.
+3. For Infrastructure or DEV/DBA, confirm whether the page is internal or public-facing for Athens employees.
+4. Identify the route-assigned Confluence space and template, or collect them through the per-document walkthrough. Infrastructure internal documentation uses `Internal Infrastructure KB` / `IIK`; DEV/DBA internal documentation is to be decided and must not default to `IIK`.
+5. Identify whether the space is the route default or a one-request override.
+6. Ask where the page should be placed: root of the space, route default parent, existing parent page/folder, or a new parent page.
+7. Resolve and confirm the parent page when not publishing at the root.
+8. Identify page title and whether this is a create or update.
+9. Review the draft against the standard and selected route template.
+10. Confirm the selected built-in template's section emojis are present and in order when a built-in template is used.
+11. Show the proposed title, route, space, placement, and concise change summary.
+12. Ask for explicit user confirmation to create or update Confluence.
 
 Do not proceed on ambiguous approval. Draft approval is not publish approval.
 

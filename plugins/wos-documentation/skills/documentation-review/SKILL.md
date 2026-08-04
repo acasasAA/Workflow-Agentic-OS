@@ -5,7 +5,7 @@ description: Review an existing draft or Confluence page against the Workflow OS
 
 # `$documentation-review` - Documentation Review
 
-Use when the user asks for a documentation review, cleanup, readiness check, or standard compliance check.
+Use when the user asks for a documentation review, cleanup, readiness check, or standard compliance check. If the user wants an existing KB article rewritten into the approved structure, use `$kb-refresh`; KB Refresh is the named feature for that workflow.
 
 ## Required References
 
@@ -30,7 +30,13 @@ Identify or ask for the documentation route:
 
 Use the selected route's expected template and Confluence space as review criteria when available.
 
-If the document is a Help Desk or public-facing how-to, check it against `ahi_how_to`. If it is an internal agent troubleshooting guide, check it against `ahi_troubleshooting`.
+If the document is a Help Desk or public-facing how-to, check it against `ahi_how_to`. If it is an internal agent troubleshooting guide, check it against `ahi_troubleshooting`. If it is Infrastructure or DEV/DBA documentation, check it against `infra_dev_standard` or `infra_dev_break_fix_runbook` and verify the section emoji standard from `templates.md` is preserved.
+
+For Infrastructure or DEV/DBA documentation, verify the draft clearly identifies:
+
+- KB article type: Runbook KB article or Business Process KB article.
+- Audience: internal or public-facing for Athens employees.
+- Correct space routing: internal Infrastructure pages use `Internal Infrastructure KB` / `IIK`; internal DEV/DBA space is to be decided and must not default to `IIK`; public-facing pages use the configured public-facing route space.
 
 If reviewing a Confluence page:
 

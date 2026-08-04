@@ -1,6 +1,6 @@
 {
   "name": "wos-documentation",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "description": "Workflow OS documentation standard for route-based drafting, reviewing, and publishing to assigned Confluence spaces and templates.",
   "author": {
     "name": "Workflow OS"
@@ -8,18 +8,20 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Workflow OS - Documentation",
-    "shortDescription": "v0.1.2 - AHI template choices plus route-based documentation flow",
-    "longDescription": "Workflow OS Documentation standardizes how Help Desk, Infrastructure, DEV/DBA, and Athens employee-facing documentation is drafted, reviewed, placed, and published in assigned Confluence spaces using route-specific or built-in AHI how-to and troubleshooting templates.",
+    "shortDescription": "v0.1.6 - KB Refresh for existing articles",
+    "longDescription": "Workflow OS Documentation standardizes how Help Desk, Infrastructure, DEV/DBA, and Athens employee-facing documentation is drafted, refreshed, reviewed, placed, and published in assigned Confluence spaces using route-specific or built-in AHI, Infrastructure, and DEV/DBA templates with defined section emojis, KB article type selection, internal/public audience routing, explicit TBD handling for the DEV/DBA space, and KB Refresh for existing articles.",
     "developerName": "Workflow OS",
     "category": "Productivity",
     "capabilities": [
       "Confluence",
       "Documentation",
-      "Review"
+      "Review",
+      "KB Refresh"
     ],
     "defaultPrompt": [
       "Set up my route-based Confluence documentation defaults.",
       "Draft documentation for work I ran.",
+      "KB Refresh this existing article.",
       "Publish this doc to the right Confluence space."
     ]
   }

@@ -33,8 +33,8 @@ Briefly tell the user:
 Ask for the Confluence space key or space name for each route:
 
 - Help Desk.
-- Infrastructure.
-- DEV/DBA team.
+- Infrastructure. The confirmed Infrastructure team space is `Internal Infrastructure KB` / `IIK`.
+- DEV/DBA team. The DEV/DBA Confluence space is to be decided; record `TBD` if it is still not known.
 - Public-facing for Athens employees.
 
 If multiple routes share a space, record the same space on each route. If the user wants to leave a route unconfigured, allow it and make the skill ask for that space before publishing later.
@@ -53,8 +53,12 @@ Built-in choices:
 
 - `ahi_how_to` - Primary Help Desk how-to template; also valid for Infrastructure, DEV/DBA, and Public-facing Athens employee documentation.
 - `ahi_troubleshooting` - Internal agent troubleshooting guide; valid for Help Desk, Infrastructure, and DEV/DBA internal troubleshooting.
+- `infra_dev_standard` - Shared Infrastructure and DEV/DBA Business Process KB article template.
+- `infra_dev_break_fix_runbook` - Shared Infrastructure and DEV/DBA Runbook KB article template.
 
 If the user does not have a template for a route yet, record the best built-in choice rather than a vague `fallback`.
+
+During setup, Infrastructure and DEV/DBA routes can record a default template, but operational drafting must still ask whether each new document is a Runbook KB article or a Business Process KB article. After that, ask whether the document is internal or public-facing for Athens employees.
 
 ## Step 4 - Optional Default Parent Pages
 
@@ -77,14 +81,14 @@ Show the final profile in concise JSON-like form. Include a setup completion tim
     },
     "infrastructure": {
       "label": "Infrastructure",
-      "space": "SPACEKEY",
-      "template": "ahi_how_to",
+      "space": "IIK",
+      "template": "infra_dev_standard",
       "default_parent": null
     },
     "dev_dba": {
       "label": "DEV/DBA team",
-      "space": "SPACEKEY",
-      "template": "ahi_how_to",
+      "space": "TBD",
+      "template": "infra_dev_standard",
       "default_parent": null
     },
     "public_athens": {
