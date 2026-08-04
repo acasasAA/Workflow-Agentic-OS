@@ -11,7 +11,8 @@
       "Atlassian Rovo app connector",
       "Atlassian CLI",
       "Outlook Email connector",
-      "Outlook Calendar connector"
+      "Outlook Calendar connector",
+      "Zoom connector"
     ],
     "optional_role_based": [
       "SharePoint connector",
@@ -36,7 +37,8 @@
       "For team rollout, recommend optional role-based tools only to teammates whose selected role or director focus needs them.",
       "Atlassian CLI (`acli`) complements the Rovo connector and should be available on PATH for Jira fallback operations.",
       "Azure Boards is accessed through Azure DevOps tooling, normally the Azure CLI with the Azure DevOps extension plus any available Codex connector/MCP.",
-      "AWS connector/MCP availability depends on the user's Codex/plugin install set; the local detector can only verify the AWS CLI."
+      "AWS connector/MCP availability depends on the user's Codex/plugin install set; the local detector can only verify the AWS CLI.",
+      "Zoom is optional for task agenda capture; when unavailable, users can paste meeting notes, transcripts, or summaries."
     ]
   },
   "platform_discovery": {

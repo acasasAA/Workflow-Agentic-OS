@@ -1,6 +1,6 @@
 ---
 name: task-complete
-description: Complete or close a one-off Workflow OS task. Writes final task-state, optionally drafts/posts a Jira completion comment with confirmation, and clears active_task.
+description: Complete or close a Workflow OS task or agenda item. Writes final task-state, optionally drafts/posts a Jira completion comment with confirmation, and clears active_task when appropriate.
 ---
 
 # `$task-complete` — Complete One-Off Task
@@ -22,7 +22,7 @@ Resolve `memory_plugin_root` from `~/.codex/plugins/cache/workflow-os/wos-memory
 
 Call `${plugin_root}/scripts/active-task.ps1`. If `active_task` is null, ask for the task slug or Jira key and resolve via memory search.
 
-Show the task slug, Jira key, and current status. Ask for confirmation to complete.
+Show the task slug, Jira key if any, due date if any, and current status. Ask for confirmation to complete.
 
 ## Step 2 — Capture outcome
 
@@ -59,11 +59,11 @@ If a Jira key exists, ask whether to post a completion comment.
 
 If yes, load `${plugin_root}/../jira/references/emoji-format.md` and `${plugin_root}/../jira/references/jira-tooling.md`, draft a concise ✅ comment, show it, and get explicit confirmation. Then use the Atlassian Rovo Codex app connector's Jira comment tool if exposed in the current session. If no comment tool is exposed, use the `acli` fallback: write the approved comment to a temp file, run `acli jira workitem comment create --key "<key>" --body-file "<tempfile>"`, then remove the temp file.
 
-Do not transition the Jira ticket unless the user explicitly asks for a transition as a separate confirmed action.
+Do not transition the Jira ticket unless the user explicitly asks for a transition as a separate confirmed action. If the task belongs to a Jira-synced personal task board, update only the approved issue fields from the current-turn write manifest.
 
 ## Step 5 — Clear active_task
 
-Call `${plugin_root}/scripts/active-task.ps1 -Set ""`.
+Call `${plugin_root}/scripts/active-task.ps1 -Set ""` if the completed task is the active task. For an agenda containing multiple open items, keep the agenda active unless the user asks to clear it.
 
 ## Hard rules
 

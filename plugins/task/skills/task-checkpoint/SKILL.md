@@ -1,11 +1,11 @@
 ---
 name: task-checkpoint
-description: Write a deliberate checkpoint for the currently active one-off Workflow OS task. Use when the user wants a high-signal save point for ticket-sized work, capturing status, blockers, next action, and narrative.
+description: Write a deliberate checkpoint for the currently active Workflow OS task or agenda item. Use when the user wants a high-signal save point capturing status, due date, blockers, next action, and narrative.
 ---
 
 # `$task-checkpoint` — Task Checkpoint
 
-You are writing a deliberate checkpoint for a task. This is the task equivalent of `$project-checkpoint`, but lighter and focused on ticket-sized work.
+You are writing a deliberate checkpoint for a task. This is the task equivalent of `$project-checkpoint`, but lighter and focused on task or agenda-item work.
 
 ## Memory access rule
 
@@ -38,7 +38,7 @@ Call `mcp__memory-engine__memory_search`:
 { "type": "task-state", "project": "<task-slug>", "limit": 1 }
 ```
 
-Show the current status, Jira key, blocker, and next action. Confirm whether they are still accurate.
+Show the current status, Jira key if any, due date if any, blocker, and next action. Confirm whether they are still accurate.
 
 ## Step 3 — Gather checkpoint content
 
@@ -47,7 +47,8 @@ Ask for:
 1. **Status**: active, waiting, blocked, resolved, cancelled.
 2. **Blockers/dependencies**: empty if none.
 3. **Next action**: one concrete next step.
-4. **Narrative**: 2-4 sentences about what changed, what is known, and what needs attention.
+4. **Due date/time**: only if new or changed.
+5. **Narrative**: 2-4 sentences about what changed, what is known, and what needs attention.
 
 ## Step 4 — Write checkpoint
 
@@ -64,6 +65,7 @@ Call `mcp__memory-engine__memory_write`:
     "task_slug": "<task-slug>",
     "scope": "task",
     "status": "<status>",
+    "due": "<ISO-or-null>",
     "blockers": ["..."],
     "next_action": "<next action>"
   }

@@ -1,11 +1,11 @@
 ---
 name: task-update
-description: Lightly update the currently active one-off Workflow OS task. Use for quick status, blocker, or next-action refreshes. Use $task-checkpoint instead when the user wants a deliberate high-signal save point.
+description: Lightly update the currently active Workflow OS task or agenda item. Use for quick status, due date, blocker, or next-action refreshes. Use $task-agenda for table updates across multiple items and $task-checkpoint for deliberate high-signal save points.
 ---
 
 # `$task-update` — Lightweight Task Update
 
-You are making a lightweight task-state update for a ticket-sized task. Keep this short and operational. If the user wants a deliberate save point with narrative, blockers, and next-action capture, route them to `$task-checkpoint`.
+You are making a lightweight task-state update for a task or agenda item. Keep this short and operational. If the user wants to rebuild a full to-do table, route them to `$task-agenda`. If the user wants a deliberate save point with narrative, blockers, and next-action capture, route them to `$task-checkpoint`.
 
 ## Memory access rule
 
@@ -38,7 +38,7 @@ Call `mcp__memory-engine__memory_search`:
 { "type": "task-state", "project": "<task-slug>", "limit": 1 }
 ```
 
-Show current status and next action briefly.
+Show current status, due date if present, and next action briefly.
 
 ## Step 3 — Gather lightweight update
 
@@ -47,11 +47,12 @@ Ask:
 1. What changed?
 2. Current status: active, waiting, blocked, resolved, cancelled.
 3. Next action.
-4. Blockers, if any. Keep this brief.
+4. Due date/time, if changed.
+5. Blockers, if any. Keep this brief.
 
 ## Step 4 — Write updated task-state
 
-Call `memory_write` with `type: "task-state"`, `source: "wos-task"`, and `project: "<task-slug>"`. Include the new status, next action, blockers, and a concise update note in the body.
+Call `memory_write` with `type: "task-state"`, `source: "wos-task"`, and `project: "<task-slug>"`. Include the new status, due date if any, next action, blockers, and a concise update note in the body.
 
 ## Step 5 — Optional Jira comment
 

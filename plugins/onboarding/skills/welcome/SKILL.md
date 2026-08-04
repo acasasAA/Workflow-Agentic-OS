@@ -71,7 +71,7 @@ Use the answers to build:
 Run `${plugin_root}/scripts/detect-tools.ps1`. Summarize in three groups:
 
 - Required for Workflow OS core: Codex CLI, Git, Node.js.
-- Recommended for Athens users: GitHub Desktop, local Workflow OS memory engine, Atlassian Rovo app connector, Atlassian CLI (`acli`), Outlook Email connector, Outlook Calendar connector.
+- Recommended for Athens users: GitHub Desktop, local Workflow OS memory engine, Atlassian Rovo app connector, Atlassian CLI (`acli`), Outlook Email connector, Outlook Calendar connector, Zoom connector.
 - Optional / role-based: SharePoint MCP, Azure CLI, Azure DevOps CLI Extension, Azure Boards, AWS CLI or AWS MCP/connector, Power BI CLI/MCP, Power Automate CLI/MCP, Microsoft Learn MCP/CLI, Superpowers Plugin.
 
 For each item, report:
@@ -204,7 +204,7 @@ Ask which optional plugins the user wants to install, using a numbered picker:
 Optional Workflow OS plugins:
 1. wos-memory-engine - local SQLite receipt/log memory.
 2. wos-project - project lifecycle and Jira-backed orchestration.
-3. wos-task - one-off Jira ticket task lifecycle.
+3. wos-task - Codex task agenda, meeting action capture, and optional Jira task-board sync.
 4. None for now.
 ```
 
@@ -318,8 +318,9 @@ Summarize in 5 bullets max. Tell the user:
 - Start project-mode work with `$project-new`.
 - After a project plan is uploaded into Jira as phases, use `$project-orchestrate` when parallel orchestration may help.
 - Import an existing workspace with `$project-import`.
-- Start one-off ticket work with `$task-new`.
-- Use `$task-orchestrate` only for one-off tickets with clearly independent streams.
+- Manage to-do lists and meeting actions with `$task-agenda`.
+- Start one-off task or ticket work with `$task-new`.
+- Use `$task-orchestrate` only for one-off tasks or tickets with clearly independent streams.
 
 ## Failure modes
 
