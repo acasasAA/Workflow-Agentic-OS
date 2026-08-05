@@ -65,7 +65,7 @@ Inside Codex:
 ```
 /plugins
 ```
-Install `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation and first-use setup for the mandatory plugins (`wos-jira`, `wos-documentation`) and will ask which optional plugins to install (`wos-memory-engine`, `wos-project`, `wos-task`).
+Install `wos-onboarding` from the `workflow-os` marketplace. The onboarding skill will guide installation and first-use setup for the mandatory plugins (`wos-jira`, `wos-documentation`, `wos-dr`) and will ask which optional plugins to install (`wos-memory-engine`, `wos-project`, `wos-task`).
 
 ```
 $welcome
@@ -81,7 +81,7 @@ The onboarding skill (the only thing in `wos-onboarding`) asks for:
 - Foundation tool validation (Codex CLI, Git, Node.js required; GitHub Desktop, local Workflow OS memory engine, Atlassian Rovo app connector, Atlassian CLI, Outlook Email/Calendar recommended; other tools optional by role).
 - Paths (framework engine path, local data root, optional OneDrive backup/export folder, GitHub Desktop install).
 - Jira tenant URL and primary project keys, defaulting Athens users to ASD and TPM only.
-- Mandatory Jira setup and Documentation setup. `$welcome` does not finish until `$jira-setup` and `$documentation-setup` are complete.
+- Mandatory Jira setup, Documentation setup, and Disaster Recovery setup. `$welcome` does not finish until `$jira-setup`, `$documentation-setup`, and `$dr-setup` are complete.
 - Optional plugin selection for memory, project lifecycle, and one-off task lifecycle.
 
 Then it:
@@ -89,6 +89,7 @@ Then it:
 - Writes `<data_root>/.agent/local.json` with all answers.
 - Writes `<data_root>/memory/users/<username>/preferences.md`.
 - Installs mandatory plugins via the marketplace and records their setup completion markers.
+- Configures WOS DR v1 and creates the first OneDrive-backed snapshot.
 - Installs optional plugins only when selected, resolving dependencies such as project/task requiring memory-engine.
 - Marks itself complete (`plugin_state.wos-onboarding.disabled = true`).
 
@@ -104,7 +105,7 @@ After onboarding:
 
 ### Recovery on a future clean machine
 
-Same steps. Plus, before `$welcome`, restore the data repo:
+Same steps. Plus, before `$welcome`, restore from the latest WOS DR snapshot or restore the data repo:
 ```powershell
 git clone https://github.com/<you>/workflow-os-data.git
 ```
@@ -155,6 +156,6 @@ codex plugin marketplace list
 codex /plugins
 ```
 
-If marketplace lists `workflow-os`, `/plugins` shows `wos-onboarding`, `wos-jira`, and `wos-documentation` enabled, and any selected optional plugins are enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate project auto-resume when `wos-project` is selected.
+If marketplace lists `workflow-os`, `/plugins` shows `wos-onboarding`, `wos-jira`, `wos-documentation`, and `wos-dr` enabled, and any selected optional plugins are enabled, the install is correct. The first Codex session in a directory with a `WOS.md` marker will demonstrate project auto-resume when `wos-project` is selected.
 
 For supervised installs, see `docs/pilot-install.md`. For a Codex-driven setup prompt, see `docs/codex-setup-prompt.md`.

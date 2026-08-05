@@ -10,15 +10,16 @@ https://github.com/acasasAA/Workflow-Agentic-OS.git
 
 ## Goal
 
-Refresh the existing Workflow OS marketplace, update the WOS plugins the user already has installed, preserve local Workflow OS data, require the mandatory Jira and Documentation plugins, and offer any other missing plugins as choices.
+Refresh the existing Workflow OS marketplace, update the WOS plugins the user already has installed, preserve local Workflow OS data, require the mandatory Jira, Documentation, and Disaster Recovery plugins, configure DR v1, and offer any other missing plugins as choices.
 
-Do not rerun first-time onboarding unless the existing install is incomplete or broken. `wos-jira` and `wos-documentation` are mandatory and must be installed if missing. Do not install any other missing plugin unless the user explicitly chooses it.
+Do not rerun first-time onboarding unless the existing install is incomplete or broken. `wos-jira`, `wos-documentation`, and `wos-dr` are mandatory and must be installed if missing. Do not install any other missing plugin unless the user explicitly chooses it.
 
 ## Latest Expected Versions
 
-- `wos-onboarding` v0.1.7
+- `wos-onboarding` v0.1.9
 - `wos-jira` v0.2.5
 - `wos-documentation` v0.1.8
+- `wos-dr` v0.1.0
 - `wos-memory-engine` v0.1.3
 - `wos-project` v0.1.6
 - `wos-task` v0.1.5
@@ -77,29 +78,39 @@ Steps:
    - $env:USERPROFILE\.codex\config.toml
    - $env:USERPROFILE\.codex\plugins\cache\workflow-os
 10. Update or reinstall only the Workflow OS plugins the user already has installed so those installed plugins match the latest expected versions:
-    - wos-onboarding v0.1.7
+    - wos-onboarding v0.1.9
     - wos-jira v0.2.5
     - wos-documentation v0.1.8
+    - wos-dr v0.1.0
     - wos-memory-engine v0.1.3
     - wos-project v0.1.6
     - wos-task v0.1.5
-11. If either mandatory plugin is missing, install it. Do not ask the user to choose whether to install these two; they are required for the current Workflow OS baseline:
+11. If any mandatory plugin is missing, install it. Do not ask the user to choose whether to install these; they are required for the current Workflow OS baseline:
     - wos-jira
     - wos-documentation
+    - wos-dr
 12. If any optional Workflow OS plugins are missing, do not install them automatically. Show the user a short optional missing-plugin list and ask which, if any, they want to add:
     - wos-memory-engine
     - wos-project
     - wos-task
 13. If `wos-onboarding` is missing, explain that it is mainly for first-time setup and ask before installing it on an existing environment.
-14. Verify mandatory setup. If `wos-jira` setup is incomplete, run:
+14. Configure WOS DR v1 if it is not already configured:
+    $dr-setup
+    Use weekly snapshots by default. If the user wants faster coverage, use every-other-day snapshots. Use the user's OneDrive backup folder when available. If the user has a designated OneDrive folder for Codex project folders, provide that path during DR setup.
+15. Create an immediate first snapshot:
+    $dr-snapshot
+16. Verify DR status:
+    $dr-status
+17. Verify mandatory setup. If `wos-jira` setup is incomplete, run:
     $jira-setup
     If `wos-documentation` setup is incomplete, run:
     $documentation-setup
-15. If the user declines a missing optional plugin, move on and finish the update.
+18. If the user declines a missing optional plugin, move on and finish the update.
 
 Verification:
 - /plugins shows the latest expected versions for installed WOS plugins.
-- wos-jira and wos-documentation are installed at the latest expected versions.
+- wos-jira, wos-documentation, and wos-dr are installed at the latest expected versions.
+- WOS DR status shows a OneDrive-backed backup root, schedule, and latest snapshot.
 - Missing optional WOS plugins were offered to the user instead of installed automatically.
 - Jira and Documentation setup are complete.
 - Existing Workflow OS data path is preserved.
@@ -112,10 +123,12 @@ Verification:
 2. Upgrade or re-add the `workflow-os` marketplace.
 3. Restart Codex.
 4. Update only currently installed WOS plugins in `/plugins`.
-5. Install `wos-jira` and `wos-documentation` if either is missing; they are mandatory.
-6. Offer missing optional plugins as choices; do not install optional plugins automatically.
-7. Confirm Jira and Documentation setup is complete.
-8. Leave optional plugins alone unless the user wants them.
+5. Install `wos-jira`, `wos-documentation`, and `wos-dr` if any are missing; they are mandatory.
+6. Run `$dr-setup`, then `$dr-snapshot`.
+7. Run `$dr-status`.
+8. Offer missing optional plugins as choices; do not install optional plugins automatically.
+9. Confirm Jira and Documentation setup is complete.
+10. Leave optional plugins alone unless the user wants them.
 
 ## Common Outcomes
 
@@ -127,7 +140,7 @@ If this succeeds:
 codex plugin marketplace upgrade workflow-os
 ```
 
-restart Codex, update installed plugins from `/plugins`, install missing `wos-jira` and `wos-documentation`, and offer other missing plugins as choices.
+restart Codex, update installed plugins from `/plugins`, install missing `wos-jira`, `wos-documentation`, and `wos-dr`, configure DR, create a first snapshot, and offer other missing plugins as choices.
 
 ### Marketplace Is Not Git-Backed
 

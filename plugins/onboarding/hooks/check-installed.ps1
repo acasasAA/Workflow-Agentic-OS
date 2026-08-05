@@ -32,11 +32,13 @@ foreach ($root in $candidates) {
             $state = $cfg.plugin_state.'wos-onboarding'
             $jiraSetup = $cfg.plugin_state.'wos-jira'.setup_completed_at
             $documentationSetup = $cfg.plugin_state.'wos-documentation'.setup_completed_at
+            $drSetup = $cfg.plugin_state.'wos-dr'.setup_completed_at
             $optionalPlugins = @()
             if ($cfg.optional_plugins_selected) { $optionalPlugins = @($cfg.optional_plugins_selected) }
             $missingForRoot = @()
             if (-not $jiraSetup) { $missingForRoot += 'wos-jira setup' }
             if (-not $documentationSetup) { $missingForRoot += 'wos-documentation setup' }
+            if (-not $drSetup) { $missingForRoot += 'wos-dr setup' }
             if (($optionalPlugins -contains 'wos-memory-engine') -and -not (Test-Path $memoryDb)) {
                 $missingForRoot += 'wos-memory-engine verification'
             }
@@ -58,7 +60,7 @@ if (-not $installed) {
         @"
 [Workflow OS] Setup is not complete.
 Finish mandatory setup before continuing: $missingText.
-Run `$welcome`; if Jira or Documentation asks for setup, finish `$jira-setup` and `$documentation-setup`.
+Run `$welcome`; if Jira, Documentation, or DR asks for setup, finish `$jira-setup`, `$documentation-setup`, and `$dr-setup`.
 "@
         exit 0
     }

@@ -10,6 +10,8 @@ $script:WosRepoRelativeFiles = @(
     'plugins/onboarding/.codex-plugin/plugin.json',
     'plugins/memory-engine/.codex-plugin/plugin.json',
     'plugins/jira/.codex-plugin/plugin.json',
+    'plugins/wos-documentation/.codex-plugin/plugin.json',
+    'plugins/dr/.codex-plugin/plugin.json',
     'plugins/project/.codex-plugin/plugin.json',
     'plugins/task/.codex-plugin/plugin.json'
 )

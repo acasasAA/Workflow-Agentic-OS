@@ -15,7 +15,7 @@ https://github.com/acasasAA/Workflow-Agentic-OS.git
 
 Install Workflow OS plugins into Codex using the Git-backed marketplace.
 
-For general Athens IT users, start with **WOS Onboarding**. Onboarding installs and requires setup for **WOS Jira** and **WOS Documentation**. Memory, project, and task plugins are optional.
+For general Athens IT users, start with **WOS Onboarding**. Onboarding installs and requires setup for **WOS Jira**, **WOS Documentation**, and **WOS Disaster Recovery**. Memory, project, and task plugins are optional.
 
 Do not redesign Workflow OS. Do not delete, move, or rename user folders. If a command fails, stop and show the exact error.
 
@@ -109,7 +109,7 @@ Find **Workflow OS** and install:
 
 Expected visible onboarding version:
 
-- `wos-onboarding` v0.1.7
+- `wos-onboarding` v0.1.9
 
 ## Step 6: Run Onboarding
 
@@ -123,11 +123,17 @@ When onboarding asks, install mandatory plugins:
 
 - `wos-jira`
 - `wos-documentation`
+- `wos-dr`
 
-Then finish both mandatory setup flows:
+Then finish mandatory setup flows:
 
 - `$jira-setup`
 - `$documentation-setup`
+- `$dr-setup`
+
+Then create the first DR snapshot:
+
+- `$dr-snapshot`
 
 Recommended Athens Jira defaults:
 

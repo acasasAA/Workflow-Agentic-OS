@@ -1,11 +1,11 @@
 ---
 name: welcome
-description: Run the Workflow OS first-time setup. Use this when the user has just installed Workflow OS and needs role-tailored onboarding, foundation tool validation, local workflow-os-data scaffolding, mandatory Jira and Documentation setup, optional plugin selection, Jira defaults, OneDrive backup setup, and installation guidance. Should normally run once per machine.
+description: Run the Workflow OS first-time setup. Use this when the user has just installed Workflow OS and needs role-tailored onboarding, foundation tool validation, local workflow-os-data scaffolding, mandatory Jira, Documentation, and DR setup, optional plugin selection, Jira defaults, OneDrive backup setup, and installation guidance. Should normally run once per machine.
 ---
 
 # Workflow OS — First-Run Setup
 
-You are running the `welcome` skill from the `wos-onboarding` plugin. Your job is to complete a deployable, one-and-done Workflow OS setup for an Athens IT user. Do not skip steps. Ask concise questions, explain why each path/tool matters in plain language, and never run install commands or external writes without explicit confirmation. Do not mark onboarding complete until mandatory Jira setup and mandatory Documentation setup are both complete.
+You are running the `welcome` skill from the `wos-onboarding` plugin. Your job is to complete a deployable, one-and-done Workflow OS setup for an Athens IT user. Do not skip steps. Ask concise questions, explain why each path/tool matters in plain language, and never run install commands or external writes without explicit confirmation. Do not mark onboarding complete until mandatory Jira setup, mandatory Documentation setup, and mandatory DR setup are complete.
 
 ## References
 
@@ -18,7 +18,7 @@ Load these before asking role/tool questions:
 
 1. Run `${plugin_root}/scripts/detect-state.ps1`. Parse the JSON output.
 2. If `state == "installed"`, stop and tell the user Workflow OS is already installed. Suggest `$project-new`, `$project-import`, or `$project-resume` depending on what they want next. Do not offer destructive reset as a normal user flow.
-3. If `state == "partial"` and `setup_missing` is non-empty, tell the user Workflow OS setup is not complete. List the missing mandatory setup markers and route them through `$jira-setup` and/or `$documentation-setup` as needed. Do not continue to normal project/task/documentation/Jira work until mandatory setup is complete.
+3. If `state == "partial"` and `setup_missing` is non-empty, tell the user Workflow OS setup is not complete. List the missing mandatory setup markers and route them through `$jira-setup`, `$documentation-setup`, and/or `$dr-setup` as needed. Do not continue to normal project/task/documentation/Jira work until mandatory setup is complete.
 4. If `state == "partial"` for missing files only, list present vs missing files. Ask whether to repair the install. Wipe/restart is a developer-test recovery path only and requires explicit confirmation.
 5. Otherwise (`state == "missing"`), proceed with fresh install.
 
@@ -35,22 +35,31 @@ Ask one question at a time:
    - Project Management
    - Development / DBA
    - IT Leadership
-4. If role is **IT Leadership**, ask for subrole:
+4. **Team**, using polished labels from `role-manifests.json` `team_options`:
+   - Help Desk
+   - Infrastructure / Operations
+   - System Administration
+   - Project Management
+   - Development / DBA
+   - IT Leadership
+   - Other
+   Treat the team answer as the source for team-gated plugin availability. If the answer maps to Development / DBA, set `is_development_team: true` and make `wos-azure-boards` available later in the optional plugin picker. For every other team, keep `wos-azure-boards` hidden unless the user explicitly says they are setting up a development-team profile.
+5. If role is **IT Leadership**, ask for subrole:
    - Supervisor
    - Manager
    - Director
    - VP
    - Exec VP
-5. If the leadership subrole is **Director**, ask the director focus from the manifest:
+6. If the leadership subrole is **Director**, ask the director focus from the manifest:
    - Dev / DBA Director
    - Project Management Director
    - IT Director
-   Merge the selected focus's `recommended_tools` and `extra_questions` with the Director defaults. A Dev / DBA Director also inherits the Development / DBA expectation that both Azure Boards and Jira may be active tracking systems.
-6. Ask the Codex **Work mode** preference:
+   Merge the selected focus's `recommended_tools` and `extra_questions` with the Director defaults. A Dev / DBA Director also inherits the Development / DBA expectation that both Azure Boards and Jira may be active tracking systems, but `wos-azure-boards` still only appears in the plugin picker when the Team answer maps to Development / DBA.
+7. Ask the Codex **Work mode** preference:
    - **For coding**: more technical responses and control.
    - **For everyday work**: same power, less technical detail.
    Recommend the role's `codex_work_mode_guidance` when present, but let the user choose either mode. This setting is a Workflow OS preference; it mirrors the Codex Settings > General > Work mode UI and should guide tone/detail, not reduce safety checks or tool access.
-7. Ask the role's 3-5 tailoring questions from the manifest. For IT Leadership, use the selected subrole's questions plus any selected Director focus questions.
+8. Ask the role's 3-5 tailoring questions from the manifest. For IT Leadership, use the selected subrole's questions plus any selected Director focus questions.
 
 Use the answers to build:
 
@@ -58,10 +67,14 @@ Use the answers to build:
 - `role_label`
 - optional `leadership_subrole`
 - optional `director_focus`
+- `team_id`
+- `team_label`
+- `is_development_team`
 - `codex_work_mode_preference`
 - optional `tracking_systems`
 - optional `additional_platforms`
 - optional `additional_tool_recommendations`
+- `available_plugins` after applying team gates
 - `role_tailoring` object with question/answer pairs
 - `work_style` default from the role manifest, adjusted for the selected Work mode and only with details the user provided
 - `recommended_tools` from the role manifest, merged with Director focus tools when applicable
@@ -87,7 +100,8 @@ Rules:
 - Optional/role-based tools should only be suggested when the selected role makes them useful or the user asks for advanced tooling.
 - If optional role-based tools are missing on a maintainer or non-target machine, report them as "not needed for your selected role unless you want them." Keep them in team rollout guidance for teammates whose role needs them.
 - MCPs/connectors may require Codex plugin/connector UI setup rather than shell install. Do not pretend a CLI package exists if the detector cannot verify one.
-- Azure Boards is the Azure DevOps work-tracking equivalent to Jira. For Development / DBA and Dev / DBA Director users, ask whether Azure Boards, Jira, or both are used for day-to-day work, then keep both systems in the user's profile when they use both.
+- Azure Boards is the Azure DevOps work-tracking destination used by the development team. Jira remains the overall team-space platform across Athens IT; for Development / DBA users, Jira and Azure Boards may both be active day-to-day tracking systems and neither should be described as replacing or outranking the other for the dev team.
+- Only suggest Azure Boards tooling when `is_development_team` is true, when a Dev / DBA Director explicitly sets up a development-team profile, or when the user explicitly asks about Azure Boards. For Development / DBA team users, ask whether Azure Boards, Jira, or both are used for day-to-day work, then keep both systems in the user's profile when they use both.
 - AWS app connector/MCP availability depends on the current Codex install set. If unavailable, recommend AWS CLI now and note the connector/MCP as a future/additional setup item.
 - No install command runs without explicit confirmation in the current turn.
 
@@ -182,37 +196,45 @@ Mandatory plugin set for every role:
 
 - `wos-jira`
 - `wos-documentation`
+- `wos-dr`
 
 Try to install mandatory plugins only if a real headless install verb exists in this CLI. If not available, instruct the user:
 
-> Type `/plugins` in Codex, then install: `wos-jira` and `wos-documentation`. Press Enter here when both are installed.
+> Type `/plugins` in Codex, then install: `wos-jira`, `wos-documentation`, and `wos-dr`. Press Enter here when all three are installed.
 
-After both mandatory plugins are installed, run their first-use setup flows before continuing:
+After mandatory plugins are installed, run their first-use setup flows before continuing:
 
 1. Run the `$jira-setup` flow and capture the final Jira profile. Use the Jira tenant and project keys already collected in Step 5 as defaults, but still ask the Jira setup questions. If the user abandons or declines to finish Jira setup, stop onboarding and tell them Workflow OS cannot continue until `$jira-setup` is complete.
 2. Run the `$documentation-setup` flow and capture the final Documentation route profile. If the user does not know every route yet, allow specific routes to be marked unconfigured, but the setup flow itself must finish and record the profile shape. If the user abandons or declines to finish Documentation setup, stop onboarding and tell them Workflow OS cannot continue until `$documentation-setup` is complete.
+3. Run the `$dr-setup` flow and configure OneDrive-backed WOS DR v1 snapshots. Use weekly snapshots by default unless the user chooses every-other-day snapshots. If the user has a designated OneDrive folder for Codex project folders, provide that path during DR setup. Then run `$dr-snapshot` once. If the user abandons or declines to finish DR setup, stop onboarding and tell them Workflow OS cannot continue until `$dr-setup` is complete.
 
 Optional plugin set:
 
 - `wos-memory-engine`
 - `wos-project`
 - `wos-task`
+- `wos-azure-boards` **only when `is_development_team` is true**
 
 Ask which optional plugins the user wants to install, using a numbered picker:
 
 ```text
 Optional Workflow OS plugins:
 1. wos-memory-engine - local SQLite receipt/log memory.
-2. wos-project - project lifecycle and Jira-backed orchestration.
-3. wos-task - Codex task agenda, meeting action capture, and optional Jira task-board sync.
-4. None for now.
+2. wos-project - project lifecycle and destination-backed orchestration.
+3. wos-task - Codex task agenda, meeting action capture, and optional task-board sync.
+4. wos-azure-boards - Azure Boards destination tooling for the development team. [Show only for Development / DBA team profiles.]
+5. None for now.
 ```
+
+When `is_development_team` is false, omit `wos-azure-boards` from the visible picker and renumber "None for now" naturally.
 
 Resolve dependencies before saving:
 
 - Selecting `wos-project` automatically selects `wos-memory-engine`.
 - Selecting `wos-task` automatically selects `wos-memory-engine`.
-- `wos-jira` and `wos-documentation` remain mandatory regardless of optional selections.
+- Selecting `wos-azure-boards` does not automatically select `wos-project` or `wos-task`.
+- `wos-jira`, `wos-documentation`, and `wos-dr` remain mandatory regardless of optional selections.
+- For development-team profiles, explain that Jira is the shared Athens IT team-space platform while Azure Boards is the development team's delivery-tracking destination; the user may install either destination tooling they actually use, and may use both.
 
 Install selected optional plugins only when a real headless install verb exists in this CLI. If not available, instruct the user to install the resolved optional list through `/plugins`, then press Enter here when done. Do not pressure-install optional plugins the user did not select.
 
@@ -240,6 +262,9 @@ Create:
   "role_label": "<role label>",
   "leadership_subrole": "<subrole-or-null>",
   "director_focus": "<director-focus-or-null>",
+  "team_id": "<team id>",
+  "team_label": "<team label>",
+  "is_development_team": false,
   "codex_work_mode_preference": "for_coding|for_everyday_work",
   "role_tailoring": {},
   "work_style": "<role-tailored default>",
@@ -261,12 +286,14 @@ Create:
   "tool_status": {},
   "active_project": null,
   "active_task": null,
-  "installed_plugins": ["wos-onboarding", "wos-jira", "wos-documentation", "<selected optional plugins>"],
+  "available_plugins": ["wos-onboarding", "wos-jira", "wos-documentation", "wos-dr", "<team-gated optional plugins>"],
+  "installed_plugins": ["wos-onboarding", "wos-jira", "wos-documentation", "wos-dr", "<selected optional plugins>"],
   "optional_plugins_selected": ["<resolved optional plugin list>"],
   "plugin_state": {
     "wos-onboarding": { "disabled": true, "completed_at": "<ISO timestamp>" },
     "wos-jira": { "mandatory": true, "setup_completed_at": "<ISO timestamp>" },
-    "wos-documentation": { "mandatory": true, "setup_completed_at": "<ISO timestamp>" }
+    "wos-documentation": { "mandatory": true, "setup_completed_at": "<ISO timestamp>" },
+    "wos-dr": { "mandatory": true, "setup_completed_at": "<ISO timestamp>", "backup_root": "<onedrive-backup-path>", "frequency": "Weekly|EveryOtherDay", "latest_snapshot": "<snapshot-path>" }
   }
 }
 ```
@@ -274,15 +301,16 @@ Create:
 The preferences note must include frontmatter `type: preference`, then readable sections for:
 
 - identity and role
+- team profile and team-gated plugin availability
 - role-tailoring answers
 - Codex Work mode preference
 - work style
-- tracking systems, especially Jira and Azure Boards for developer/DBA roles
+- tracking systems, especially Jira and Azure Boards for Development / DBA team profiles
 - additional workflow platforms and matched CLI/MCP/app connector recommendations
 - Jira defaults
 - tool recommendations
 - backup choice
-- mandatory plugin setup status for `wos-jira` and `wos-documentation`
+- mandatory plugin setup status for `wos-jira`, `wos-documentation`, and `wos-dr`
 - optional plugin selections
 
 Update `~/.codex/workflow-os.json` with `data_root` and `installed: true`.
@@ -307,12 +335,15 @@ Confirm:
 - if `wos-memory-engine` was selected, `<data_path>/.index/memory.db` exists and the memory verifier wrote/found an onboarding `preference` receipt.
 - `plugin_state.wos-jira.setup_completed_at` exists.
 - `plugin_state.wos-documentation.setup_completed_at` exists.
+- `plugin_state.wos-dr.setup_completed_at` exists.
+- WOS DR has created a first snapshot in the configured OneDrive backup root.
 - sentinel points to the selected data root.
 - detector reports installed.
 
 Summarize in 5 bullets max. Tell the user:
 
-- Use Jira as the source of truth for active project, task, and action state.
+- Use Jira as the shared Athens IT team-space platform for active work visibility.
+- For Development / DBA team profiles that selected Azure Boards, use Azure Boards and Jira according to the profile's day-to-day tracking answer; neither is greater than the other for dev delivery work.
 - If `wos-memory-engine` was selected, use local Workflow OS memory as the receipt/log layer for conversation outcomes and decisions.
 - If `wos-memory-engine` was not selected, tell the user they can add it later from `/plugins` when they want local receipt memory.
 - Start project-mode work with `$project-new`.

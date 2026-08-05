@@ -107,7 +107,7 @@
           "id": "project-management-director",
           "label": "Project Management Director",
           "inherits_role_id": "project-management",
-          "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP", "Azure Boards"],
+          "recommended_tools": ["Atlassian Rovo app connector", "Atlassian CLI", "Outlook Email connector", "Outlook Calendar connector", "SharePoint connector", "Power BI CLI/MCP"],
           "extra_questions": [
             "Which project portfolios, boards, or delivery programs need director-level visibility?",
             "Should Workflow OS prioritize milestone rollups, dependency tracking, executive status, or project risk?",
@@ -166,6 +166,51 @@
           "What should always be escalated instead of buried in project detail?"
         ]
       }
+    }
+  ],
+  "team_options": [
+    {
+      "id": "help-desk",
+      "label": "Help Desk",
+      "enables_plugins": [],
+      "notes": "Front-line service desk and support team profile."
+    },
+    {
+      "id": "infrastructure-operations",
+      "label": "Infrastructure / Operations",
+      "enables_plugins": [],
+      "notes": "Infrastructure, operations, reliability, and systems coordination profile."
+    },
+    {
+      "id": "system-administration",
+      "label": "System Administration",
+      "enables_plugins": [],
+      "notes": "Server, endpoint, identity, access, automation, and infrastructure administration profile."
+    },
+    {
+      "id": "project-management",
+      "label": "Project Management",
+      "enables_plugins": [],
+      "notes": "Project planning, delivery tracking, risks, dependencies, and stakeholder coordination profile."
+    },
+    {
+      "id": "development-dba",
+      "label": "Development / DBA",
+      "enables_plugins": ["wos-azure-boards"],
+      "tracking_systems": ["Jira", "Azure Boards"],
+      "notes": "Development-team profile. Makes Azure Boards available as a destination plugin while keeping Jira as the shared Athens IT team-space platform."
+    },
+    {
+      "id": "it-leadership",
+      "label": "IT Leadership",
+      "enables_plugins": [],
+      "notes": "Leadership profile. Azure Boards remains hidden unless the user chooses the Development / DBA team or explicitly sets up a development-team profile."
+    },
+    {
+      "id": "other",
+      "label": "Other",
+      "enables_plugins": [],
+      "notes": "Use when the teammate's team is not represented by the packaged options; do not enable team-gated plugins by default."
     }
   ],
   "product_defaults": {

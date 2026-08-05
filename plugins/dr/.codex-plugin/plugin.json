@@ -1,0 +1,26 @@
+{
+  "name": "wos-dr",
+  "version": "0.1.0",
+  "description": "Workflow OS disaster recovery snapshots for WOS setup, memory, task/project continuity, and OneDrive-backed restore points.",
+  "author": {
+    "name": "Workflow OS"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workflow OS - Disaster Recovery",
+    "shortDescription": "🛟 v0.1.0 - OneDrive snapshots and restore",
+    "longDescription": "Workflow OS Disaster Recovery creates OneDrive-backed snapshots of WOS-owned setup state, local memory, task and project receipts, active pointers, plugin versions, and project marker inventories. Restore is explicit and user-confirmed.",
+    "developerName": "Workflow OS",
+    "capabilities": [
+      "OneDrive backup",
+      "Snapshot scheduling",
+      "WOS restore",
+      "Task recovery",
+      "Project continuity"
+    ],
+    "defaultPrompt": [
+      "Set up WOS disaster recovery snapshots."
+    ],
+    "category": "Productivity"
+  }
+}
