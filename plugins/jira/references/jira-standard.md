@@ -81,41 +81,47 @@ Use these as the default starting point, unless the user gives a more specific p
 
 Other projects are role- or user-specific. Do not assume them for general team use.
 
-## 4. TPM Creation Rules
+## 4. Project Board Creation Rules
 
-`TPM` is the IT project management board. Treat Epics as project containers and Tasks/Subtasks as the normal work items.
+Project boards such as `TPM`, `AJD`, `GPT`, `HMB`, and infrastructure boards should use their normal project-management shape. When a board supports Epics and Tasks, prioritize Epics, Tasks, and Subtasks instead of ASD-style AI request/issue types.
 
-Before creating anything in `TPM`:
+For project-board work:
 
 - Ask the user to double-check whether an existing Epic/project already exists.
-- Use the available context to search/list relevant existing `TPM` Epics before drafting a new Jira write.
+- Use the available context to search/list relevant existing Epics in the target project before drafting a new Jira write.
 - Show likely matching Epics and ask whether the new work belongs under one of them.
 - Prefer creating a Task under an existing Epic when the work belongs to an existing project.
 - Prefer creating a Subtask only when the work is a narrow execution step under an existing Task.
 - Do not create a new Epic unless the user explicitly confirms that this is a new project container.
 
-Team default: most users create Tasks or Subtasks in `TPM`. Epic creation is normally limited to users who own project structure, such as the current rollout owner, a designated project manager, or another explicitly authorized project owner.
+Team default: most users create Tasks or Subtasks in project boards. Epic creation is normally limited to users who own project structure, such as the current rollout owner, a designated project manager, or another explicitly authorized project owner.
 
 ## 5. ASD Creation Rules
 
-`ASD` is the IT Team Ticketing System. Use the ticketing defaults unless the user gives a more specific request type.
+`ASD` is the IT Team Ticketing System. Treat it as the service-desk path, not as a project board.
 
-Before creating anything in `ASD`, clarify whether the user needs:
+Before creating anything in `ASD`, ask the ASD ticket-type question the first time a team member asks Workflow OS to create an ASD ticket in the current setup/context:
 
-- `AI/Gen Issue`: use when the user is reporting a problem, symptom, incident, broken behavior, access issue, or something that needs investigation/resolution.
-- `AI/Gen Task`: use when the user is requesting planned work, setup, configuration, follow-up, or a non-incident action.
+- `AI Gen Issue`: use when the user is reporting a problem, symptom, incident, broken behavior, access issue, or something that needs investigation/resolution.
+- `AI Gen Request`: use when the user is requesting planned work, setup, configuration, fulfillment, follow-up, or a non-incident action.
 
-Ask this explicitly when the user's wording is ambiguous. Do not guess between `AI/Gen Issue` and `AI/Gen Task`.
+Ask this explicitly when the user's wording is ambiguous. Do not guess between issue and request.
 
-Important: for service desk projects, the user-facing request type and the Jira issue type may not be the same field. Before writing, show the user both values the tool will send:
+Important: for `ASD`, the Jira issue type and the user-facing service/request type may be separate fields. The exact display names may vary. Resolve available issue types and request types when tooling exposes them, then choose the matching AI-related value:
+
+- Jira issue type must be either an AI-related request type or an AI-related issue type, preferably `AI Gen Request` or `AI Gen Issue` when those exact names exist.
+- Service/request type must also be an AI-related request type when the selected create path supports service-desk request types.
+- If several request types contain `AI`, choose the one that matches the user's issue-vs-request answer; if still unclear, show the candidates and ask.
+
+Before writing, show the user both values the tool will send:
 
 ```text
 Project: ASD
 Jira issue type: <exact issue type that will be sent>
-Service/request type: AI/Gen Issue or AI/Gen Task
+Service/request type: <exact AI-related request type to send, or n/a if the tool path has no separate request type field>
 ```
 
-If the selected Rovo or `acli` create path cannot set the required `AI/Gen Issue` / `AI/Gen Task` request type, stop before writing and tell the user that the tool cannot guarantee the correct helpdesk type. Do not create a best-effort ticket with the wrong type.
+If the selected Rovo or `acli` create path cannot verify or set the required AI-related ASD issue/request type, stop before writing and tell the user that the tool cannot guarantee the correct helpdesk type. Do not create a best-effort ASD ticket with the wrong type.
 
 ## 6. Creation Quality Checklist
 
@@ -123,8 +129,8 @@ Before creating a Jira item, verify:
 
 - The project key is correct.
 - The issue type is correct.
-- For `TPM`, existing relevant Epics were checked before creating a new Epic or standalone Task.
-- For `ASD`, `AI/Gen Issue` vs `AI/Gen Task` was clarified and the actual Jira issue type/request type payload was shown.
+- For project boards, existing relevant Epics were checked before creating a new Epic or standalone Task.
+- For `ASD`, `AI Gen Issue` vs `AI Gen Request` was clarified and the actual AI-related Jira issue type/request type payload was shown.
 - The title has exactly one lead emoji and is action-oriented.
 - The objective explains why the work exists.
 - Scope says what is in and out where useful.

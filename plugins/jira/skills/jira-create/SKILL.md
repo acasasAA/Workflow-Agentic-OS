@@ -27,8 +27,8 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
 
 2. **Apply project-specific safeguards** from `jira-standard.md`:
 
-   - **For `TPM`**: before drafting a create payload, search/list relevant existing TPM Epics using the user's context. Show likely matching Epics and ask whether this work belongs under one of them. Prefer creating a Task under an existing Epic. Do not create a new Epic unless the user explicitly confirms there is no existing project/Epic and they are authorized to create a new project container.
-   - **For `ASD` or any helpdesk/service-desk project**: clarify whether the request should be `AI/Gen Issue` or `AI/Gen Task`. Use `AI/Gen Issue` for problems/symptoms/incidents/investigation. Use `AI/Gen Task` for planned work, setup, configuration, follow-up, or non-incident action. Ask when ambiguous. Before drafting the final payload, verify and show both the Jira issue type and the service/request type that the selected tool path will send. If the selected Rovo or `acli` create path cannot set the required `AI/Gen Issue` / `AI/Gen Task` request type, stop before writing instead of creating the ticket with a guessed or wrong type.
+   - **For project boards such as `TPM`, `AJD`, `GPT`, `HMB`, or infrastructure boards**: if the project supports Epics and Tasks, prioritize Epic / Task / Subtask creation. Before drafting a create payload, search/list relevant existing Epics in that project using the user's context. Show likely matching Epics and ask whether this work belongs under one of them. Prefer creating a Task under an existing Epic. Do not create a new Epic unless the user explicitly confirms there is no existing project/Epic and they are authorized to create a new project container. Do not use ASD-style AI issue/request types for these project boards unless the user explicitly says the target project is configured that way.
+   - **For `ASD`**: ask the ASD ticket-type question the first time a team member asks Workflow OS to create an ASD ticket in the current setup/context. Clarify whether the ticket should be an `AI Gen Issue` or an `AI Gen Request`. Use `AI Gen Issue` for problems/symptoms/incidents/investigation. Use `AI Gen Request` for planned work, setup, configuration, fulfillment, follow-up, or non-incident action. Ask when ambiguous. Resolve available issue/request types when tooling exposes them; if names differ, choose the matching AI-related type that contains `AI`. Before drafting the final payload, verify and show both the Jira issue type and the service/request type that the selected tool path will send. If the selected Rovo or `acli` create path cannot verify or set the required AI-related ASD issue/request type, stop before writing instead of creating the ticket with a guessed or wrong type.
 
 3. **Run the creation quality checklist** from `jira-standard.md`. If the project, issue type, title, objective, or acceptance/desired outcome is unclear, ask before drafting.
 
@@ -39,7 +39,7 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
    Type: <type>
    Project: <key>
    Jira issue type: <exact issue type to send>
-   Service/request type: <AI/Gen Issue, AI/Gen Task, or n/a>
+   Service/request type: <exact AI-related request type, or n/a>
    Parent: <key or none>
    Title: <title>
    Description:
@@ -59,6 +59,6 @@ Load `${plugin_root}/../references/jira-tooling.md` before choosing Jira tooling
 - **No secrets** in titles, descriptions, or comments.
 - **Authorization is per-action**: each create gets its own confirmation. Don't batch.
 - **If the project is wrong**, abort and ask. Don't guess.
-- **TPM safeguard**: do not create a new Epic/project container without first checking relevant existing TPM Epics and getting explicit user confirmation.
-- **ASD/helpdesk safeguard**: do not create an ASD/helpdesk ticket until `AI/Gen Issue` vs `AI/Gen Task` is clarified and the actual issue type/request type payload is verified. If the tool cannot set the correct request type, stop.
+- **Project-board safeguard**: for project boards such as `TPM`, `AJD`, `GPT`, `HMB`, or infrastructure boards, do not create a new Epic/project container without first checking relevant existing Epics and getting explicit user confirmation. Prefer Epic / Task / Subtask shapes over ASD-style AI issue/request types.
+- **ASD safeguard**: do not create an ASD ticket until `AI Gen Issue` vs `AI Gen Request` is clarified and the actual AI-related issue type/request type payload is verified. If the tool cannot verify or set the correct ASD issue/request type, stop.
 - **Standalone behavior**: this skill must work with only `wos-jira` installed. Do not require memory-engine, project, or task plugins.

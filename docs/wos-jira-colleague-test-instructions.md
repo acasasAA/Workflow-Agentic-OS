@@ -109,39 +109,42 @@ wos-jira v0.2.5
 That is the version with:
 
 - Mandatory first-use setup gate.
-- TPM Epic safeguards.
-- ASD `AI/Gen Issue` vs `AI/Gen Task` clarification.
-- ASD/helpdesk issue type and request type verification before creation.
+- Project-board Epic safeguards for `TPM`, `AJD`, `GPT`, `HMB`, infrastructure boards, and similar project spaces.
+- ASD `AI Gen Issue` vs `AI Gen Request` clarification.
+- ASD AI-related issue type and request type verification before creation.
 - Jira setup first.
 - Jira create second.
 - Jira update third.
 - Review and mod last.
 
-## 7. TPM Safeguard
+## 7. Project-Board Safeguard
 
-For `TPM`, do not create a new Epic by default.
+For project boards such as `TPM`, `AJD`, `GPT`, `HMB`, infrastructure boards, and similar project spaces, prioritize Epic / Task / Subtask shapes when those issue types are available. Do not create a new Epic by default.
 
-Before creating TPM work:
+Before creating project-board work:
 
-- Check/list relevant existing TPM Epics when context is available.
+- Check/list relevant existing Epics in the target project when context is available.
 - Ask whether the new work belongs under an existing Epic.
 - Prefer creating Tasks or Subtasks under existing Epics.
 - Create a new Epic only when the user explicitly confirms it is a new project container and they are authorized to create it.
+- Do not use ASD-style AI issue/request types for project boards unless the user explicitly says the target project is configured that way.
 
 ## 8. ASD Safeguard
 
-For `ASD`, clarify the request type before creating the ticket:
+For `ASD`, clarify the ticket type before creating the ticket, especially the first time a team member asks Workflow OS to create an ASD ticket:
 
-- `AI/Gen Issue`: use for problems, symptoms, incidents, broken behavior, access issues, investigation, or resolution.
-- `AI/Gen Task`: use for planned work, setup, configuration, follow-up, or non-incident action.
+- `AI Gen Issue`: use for problems, symptoms, incidents, broken behavior, access issues, investigation, or resolution.
+- `AI Gen Request`: use for planned work, setup, configuration, fulfillment, follow-up, or non-incident action.
 
 If ambiguous, ask before creating anything.
+
+If the exact ASD request type names differ, inspect the available issue/request types when tooling exposes them and choose the matching value that contains `AI`. If multiple AI-related candidates exist, show them and ask the user to choose.
 
 Before confirming the Jira write, show both:
 
 ```text
 Jira issue type: <exact issue type to send>
-Service/request type: AI/Gen Issue or AI/Gen Task
+Service/request type: <exact AI-related request type to send, or n/a>
 ```
 
 If the tool cannot set the correct request type, stop instead of creating a ticket with the wrong type.

@@ -174,6 +174,8 @@ Ask whether there are other Jira project keys the user wants Workflow OS to fact
 - If they ask whether adding a key gives Workflow OS write access, clarify that it only records a preference/default. Jira reads are allowed, but every Jira write still requires explicit confirmation in the current turn.
 - If they ask whether private, sensitive, or admin-only projects should be included, recommend including only the key and plain-language usage note; never store secrets, tokens, confidential field values, or sensitive ticket content in setup preferences.
 - If they mention a project by name instead of key, offer to help identify the key through Jira/Rovo lookup when available, or ask them to open one ticket and read the prefix.
+- If they add project-board keys such as `AJD`, `GPT`, `HMB`, an infrastructure board, or another board with Epics and Tasks, record them as project-tracking boards. Explain that Workflow OS will prioritize Epic / Task / Subtask shapes for those boards instead of ASD-style AI issue/request types.
+- If they use `ASD`, explain that ASD creation will ask whether the ticket is an `AI Gen Issue` or an `AI Gen Request`, then verify the exact AI-related issue/request type before writing.
 
 Record additional keys with plain-language notes, for example:
 

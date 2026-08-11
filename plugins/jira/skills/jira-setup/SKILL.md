@@ -99,6 +99,10 @@ HR -> HR technology support
 FIN -> Finance systems support
 ```
 
+If the user names project-board keys such as `AJD`, `GPT`, `HMB`, an infrastructure board, or another board with Epics and Tasks, record them as project-tracking boards. Explain that Workflow OS will prioritize Epic / Task / Subtask shapes for those boards instead of ASD-style AI issue/request types.
+
+If the user names `ASD`, record it as the service-desk path. Explain that ASD creation will ask whether the ticket is an `AI Gen Issue` or an `AI Gen Request`, then verify the exact AI-related issue/request type before writing.
+
 ## Step 6 — Tooling Check
 
 Check available Jira tooling when possible:
