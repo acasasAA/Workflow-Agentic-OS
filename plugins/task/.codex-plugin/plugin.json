@@ -1,7 +1,7 @@
 {
   "name": "wos-task",
   "version": "0.1.5",
-  "description": "Personal task keeper and agenda lifecycle for Workflow OS. Handles simple Codex-only to-do lists, meeting action capture for the current user, source pull from connectors, and separate optional Jira board sync.",
+  "description": "Personal task keeper and agenda lifecycle for Workflow OS. Handles simple Codex-only to-do lists, meeting action capture for the current user, source pull from connectors, optional Jira board sync, and an optional static dashboard template.",
   "author": {
     "name": "Workflow OS"
   },
@@ -10,13 +10,14 @@
   "interface": {
     "displayName": "Workflow OS — Task",
     "shortDescription": "⭐ v0.1.5 · Codex agenda plus optional Jira sync",
-    "longDescription": "Workflow OS Task manages personal task agendas, manual and meeting action capture for the current user, one-off ticket work, checkpoints, orchestration, completion, and a separate optional user-configured Jira task-board sync.",
+    "longDescription": "Workflow OS Task manages personal task agendas, manual and meeting action capture for the current user, one-off ticket work, checkpoints, orchestration, completion, a separate optional user-configured Jira task-board sync, and an optional GitHub Pages-ready dashboard template.",
     "developerName": "Workflow OS",
     "capabilities": [
       "Task agenda",
       "Meeting action capture",
       "Connector source pull",
       "Optional Jira board sync",
+      "Optional static dashboard template",
       "Checkpoints"
     ],
     "defaultPrompt": [
