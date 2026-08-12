@@ -32,7 +32,7 @@ Optional:
 - `wos-dr` v0.1.0
 - `wos-memory-engine` v0.1.3
 - `wos-project` v0.1.6
-- `wos-task` v0.1.5
+- `wos-task` v0.1.6
 
 ## Prompt To Give Their Codex
 
@@ -108,7 +108,7 @@ Verify at the end:
   - wos-dr v0.1.0
   - wos-memory-engine v0.1.3
   - wos-project v0.1.6
-  - wos-task v0.1.5
+  - wos-task v0.1.6
 ```
 
 ## Quick Human Checklist

@@ -901,7 +901,7 @@
   ]
 }</script>
   <script>
-    const seed = JSON.parse(document.getElementById("seed").textContent);
+    let seed = JSON.parse(document.getElementById("seed").textContent);
     const storageKey = "taskDashboardTemplate.v1";
     const lanes = [
       ["now", "Now"],
@@ -909,9 +909,25 @@
       ["waiting", "Waiting"],
       ["archive", "Archived"]
     ];
-    const baseTasks = seed.tasks.map(t => ({...t}));
+    let baseTasks = seed.tasks.map(t => ({...t}));
+    let seedSource = seed.sources && seed.sources.generatedBy ? "embedded WOS Task export" : "sample seed";
     let state = loadState();
     let expandedRows = new Set();
+
+    async function loadExternalSeed() {
+      if (location.protocol === "file:") return;
+      try {
+        const response = await fetch("data/tasks.json", { cache: "no-store" });
+        if (!response.ok) return;
+        const external = await response.json();
+        if (!external || !Array.isArray(external.tasks) || external.tasks.length === 0) return;
+        seed = { ...seed, ...external, sources: { ...(seed.sources || {}), ...(external.sources || {}) } };
+        baseTasks = seed.tasks.map(t => ({ ...t }));
+        seedSource = "data/tasks.json";
+      } catch {
+        seedSource = "sample seed";
+      }
+    }
 
     function loadState() {
       const empty = { overrides: {}, history: [], view: "board", listSort: { field: "displayId", dir: "asc" } };
@@ -1297,7 +1313,7 @@
       renderList(tasks);
       activateView(state.view);
       renderHistory();
-      document.getElementById("meta").textContent = `Generated ${new Date(seed.generatedAt).toLocaleString()} | ${baseTasks.length} tasks | Open Design connected`;
+      document.getElementById("meta").textContent = `Generated ${new Date(seed.generatedAt).toLocaleString()} | ${baseTasks.length} tasks | ${seedSource}`;
     }
     document.addEventListener("click", event => {
       const sortButton = event.target.closest("button[data-sort]");
@@ -1375,12 +1391,16 @@
       saveState();
       renderHistory();
     });
-    initFilters();
-    const hashView = location.hash.replace("#", "").replace(/^view-/, "");
-    if (["board", "matrix", "command", "list"].includes(hashView)) {
-      state.view = hashView;
+    async function start() {
+      await loadExternalSeed();
+      initFilters();
+      const hashView = location.hash.replace("#", "").replace(/^view-/, "");
+      if (["board", "matrix", "command", "list"].includes(hashView)) {
+        state.view = hashView;
+      }
+      render();
     }
-    render();
+    start();
   </script>
 </body>
 </html>

@@ -64,4 +64,4 @@ Stop at the first real failure and show the exact error plus the next recommende
 - `wos-dr` v0.1.0
 - `wos-memory-engine` v0.1.3
 - `wos-project` v0.1.6
-- `wos-task` v0.1.5
+- `wos-task` v0.1.6

@@ -11,10 +11,26 @@ It includes four switchable views:
 
 The app is intentionally backend-free. It stores user edits, archived items, notes, and view preferences in the browser with `localStorage`.
 
-## Quick Start
+## Quick Start With Existing WOS Tasks
+
+From the Workflow OS repository or installed `wos-task` plugin, run:
+
+```powershell
+plugins/task/scripts/Export-WosTaskDashboard.ps1 -OutputDir <dashboard-repo-or-folder>
+```
+
+For one agenda only:
+
+```powershell
+plugins/task/scripts/Export-WosTaskDashboard.ps1 -AgendaSlug personal-agenda -OutputDir <dashboard-repo-or-folder>
+```
+
+The exporter reads existing WOS Task `task-state` receipts, copies this template, writes `data/tasks.json`, and injects the same generated task data into `index.html`.
+
+## GitHub Pages Deploy
 
 1. Create a new GitHub repository for the dashboard.
-2. Copy everything in this folder into that repository root.
+2. Run the exporter with `-OutputDir` pointed at that repository folder.
 3. Commit and push.
 4. In GitHub, open `Settings` > `Pages`.
 5. Set `Source` to `GitHub Actions`.
@@ -33,7 +49,10 @@ No build step is required.
 
 ## Customize The Seed Data
 
-Open `index.html` and find:
+Use the exporter above when you want the dashboard to start with WOS Task data.
+
+For manual editing, open `index.html` and find:
+
 
 ```html
 <script id="seed" type="application/json">
@@ -53,6 +72,14 @@ Replace the JSON inside that script tag with your task data. Keep the same top-l
 See [docs/task-schema.md](docs/task-schema.md) for the task fields.
 
 ## Updating Data
+
+For a WOS Task workflow, rerun:
+
+```powershell
+plugins/task/scripts/Export-WosTaskDashboard.ps1 -OutputDir <dashboard-repo-or-folder>
+```
+
+Then commit and push the updated dashboard repo.
 
 For a manual workflow, edit the seed JSON and commit the updated `index.html`.
 
