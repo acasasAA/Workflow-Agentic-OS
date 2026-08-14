@@ -28,7 +28,7 @@ Optional:
 
 - `wos-onboarding` v0.1.9
 - `wos-jira` v0.2.5
-- `wos-documentation` v0.1.8
+- `wos-documentation` v0.1.9
 - `wos-dr` v0.1.0
 - `wos-memory-engine` v0.1.3
 - `wos-project` v0.1.6
@@ -104,7 +104,7 @@ Verify at the end:
 - Expected versions:
   - wos-onboarding v0.1.9
   - wos-jira v0.2.5
-  - wos-documentation v0.1.8
+  - wos-documentation v0.1.9
   - wos-dr v0.1.0
   - wos-memory-engine v0.1.3
   - wos-project v0.1.6

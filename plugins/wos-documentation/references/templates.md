@@ -15,6 +15,8 @@ Use these built-in template choices when a route does not have a configured Conf
 
 When documenting work that was run, ask the user which template choice applies after the route is selected if the route has more than one valid choice. For Help Desk, offer `ahi_how_to` first and `ahi_troubleshooting` second.
 
+Every built-in template must use its defined emoji section headings. Do not remove the emoji from a section title, even when the source material or user wording does not include emojis.
+
 Infrastructure and DEV/DBA share template structure only. They do not share Confluence spaces. Use the route-selected space from setup or the per-document walkthrough.
 
 For Infrastructure and DEV/DBA, ask whether the document is a Runbook KB article or a Business Process KB article:
@@ -31,14 +33,15 @@ Use for public-facing how-to documentation and as the primary Help Desk template
 ```text
 # <How-to title>
 
-## Instructions
+## 🛠 Instructions
 1. <First step>
 2. <Second step>
 3. <Third step>
 
-> Important: <Highlight important information here. In Confluence, use an info/warning panel and choose the appropriate panel color or style.>
+## ⚠️ Important
+<Highlight important information here. In Confluence, use an info/warning panel and choose the appropriate panel color or style.>
 
-## Related articles
+## 🔗 Related articles
 - <Related Confluence page, service guide, Jira issue, vendor article, or support page>
 ```
 
@@ -49,17 +52,24 @@ Use for internal agent troubleshooting guides, especially Help Desk internal tro
 ```text
 # <Troubleshooting title>
 
-## Problem
+## 🔴 Problem
 <Describe the symptom, error, requester impact, or condition being investigated.>
 
-## Solution
+## 🛠 Solution
 1. <First troubleshooting or resolution step>
 2. <Second troubleshooting or resolution step>
 3. <Third troubleshooting or resolution step>
 
-> Important: <Highlight important information here. In Confluence, use an info/warning panel and choose the appropriate panel color or style.>
+## ⚠️ Important
+<Highlight important information here. In Confluence, use an info/warning panel and choose the appropriate panel color or style.>
 
-## Related articles
+## ✅ Validation
+- <How to confirm the issue is resolved or the requested action succeeded>
+
+## 🚦 Escalation
+- <When to escalate and to whom>
+
+## 🔗 Related articles
 - <Related Confluence page, runbook, Jira issue, vendor article, dashboard, or support page>
 ```
 
@@ -151,29 +161,29 @@ Return the completed runbook in Markdown.
 ```text
 # <Service or issue>: <support action>
 
-## Purpose
+## 🎯 Purpose
 <What this helps the help desk resolve or complete.>
 
-## Applies to
+## 👥 Applies to
 - Queue/request type:
 - Users affected:
 - Systems involved:
 
-## Intake
+## 📥 Intake
 - <Information to gather from the requester>
 
-## Procedure
+## 🛠 Procedure
 1. <Step>
 2. <Step>
 3. <Step>
 
-## Validation
+## ✅ Validation
 - <How to confirm the issue is resolved>
 
-## Escalation
+## 🚦 Escalation
 - <When to escalate and to whom>
 
-## Related links
+## 🔗 Related links
 - <Jira, Confluence, vendor, or system link>
 ```
 
@@ -182,28 +192,28 @@ Return the completed runbook in Markdown.
 ```text
 # <System>: <operation>
 
-## Purpose
+## 🎯 Purpose
 <Why this operation exists.>
 
-## Scope
+## 📦 Scope
 - In scope:
 - Out of scope:
 
-## Prerequisites
+## 📋 Prerequisites
 - <Access, approval, tool, maintenance window, backup>
 
-## Procedure
+## 🛠 Procedure
 1. <Step>
 2. <Step>
 3. <Step>
 
-## Validation
+## ✅ Validation
 - <Monitoring, logs, service checks, user checks>
 
-## Recovery
+## ↩️ Recovery
 - <Rollback or failover path>
 
-## Ownership
+## 👤 Ownership
 <Team or escalation path.>
 ```
 
@@ -212,28 +222,28 @@ Return the completed runbook in Markdown.
 ```text
 # <Application, database, or integration>: <change or procedure>
 
-## Purpose
+## 🎯 Purpose
 <What this documents and why it matters.>
 
-## Scope
+## 📦 Scope
 - In scope:
 - Out of scope:
 
-## Technical context
+## 🧩 Technical context
 <Architecture, data flow, dependency, or implementation detail needed by the team.>
 
-## Procedure
+## 🛠 Procedure
 1. <Step>
 2. <Step>
 3. <Step>
 
-## Validation
+## ✅ Validation
 - <Test, query, deployment check, or log check>
 
-## Rollback or recovery
+## ↩️ Rollback or recovery
 - <How to revert or recover>
 
-## Related links
+## 🔗 Related links
 - <Jira, PR, repo, runbook, dashboard>
 ```
 
@@ -242,26 +252,26 @@ Return the completed runbook in Markdown.
 ```text
 # <Task or feature name>
 
-## What this helps you do
+## 🧭 What this helps you do
 <One or two sentences.>
 
-## Before you start
+## 📋 Before you start
 - <Requirement, access, or prerequisite>
 
-## Steps
+## 🛠 Steps
 1. <Step>
 2. <Step>
 3. <Step>
 
-## Expected result
+## ✅ Expected result
 <What success looks like.>
 
-## Troubleshooting
+## 🔎 Troubleshooting
 | Issue | What to try |
 |---|---|
 | <Issue> | <Resolution> |
 
-## Get help
+## 🛟 Get help
 <Support path or owner.>
 ```
 
@@ -270,32 +280,32 @@ Return the completed runbook in Markdown.
 ```text
 # <System or process>: <action>
 
-## Purpose
+## 🎯 Purpose
 <Why this page exists.>
 
-## Scope
+## 📦 Scope
 - In scope:
 - Out of scope:
 
-## Owner
+## 👤 Owner
 <Team, role, or escalation path.>
 
-## Preconditions
+## 📋 Preconditions
 - <Access, tool, approval, or dependency>
 
-## Procedure
+## 🛠 Procedure
 1. <Step>
 2. <Step>
 3. <Step>
 
-## Validation
+## ✅ Validation
 - <Check>
 - <Check>
 
-## Recovery
+## ↩️ Recovery
 - <Rollback, fallback, or escalation path>
 
-## Related links
+## 🔗 Related links
 - <Jira, PR, Confluence, source system>
 ```
 
@@ -304,20 +314,20 @@ Return the completed runbook in Markdown.
 ```text
 # Decision: <short decision>
 
-## Decision
+## ✅ Decision
 <The decision in one short paragraph.>
 
-## Context
+## 🧭 Context
 <Why the decision was needed.>
 
-## Options considered
+## ⚖️ Options considered
 | Option | Pros | Cons |
 |---|---|---|
 | <Option> | <Pros> | <Cons> |
 
-## Impact
+## 📣 Impact
 <Who or what changes because of this.>
 
-## Follow-up
+## ➡️ Follow-up
 - <Action, owner, or link>
 ```

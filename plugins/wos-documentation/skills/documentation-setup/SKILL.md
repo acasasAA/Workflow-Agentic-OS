@@ -32,10 +32,10 @@ Briefly tell the user:
 
 Ask for the Confluence space key or space name for each route:
 
-- Help Desk.
+- Help Desk. Known Help Desk defaults are `HelpDesk System Processes` / `AIH` for system-process and internal how-to documentation, `HelpDesk Troubleshooting` / `AHI` for troubleshooting articles, and `HelpDesk Public` / `AEHT` for public-facing Help Desk content.
 - Infrastructure. The confirmed Infrastructure team space is `Internal Infrastructure KB` / `IIK`.
-- DEV/DBA team. The DEV/DBA Confluence space is to be decided; record `TBD` if it is still not known.
-- Public-facing for Athens employees.
+- DEV/DBA team. The confirmed DEV/DBA team space is `Dev Team KB` / `DTK`.
+- Public-facing for Athens employees. The confirmed public-facing space is `HelpDesk Public` / `AEHT`.
 
 If multiple routes share a space, record the same space on each route. If the user wants to leave a route unconfigured, allow it and make the skill ask for that space before publishing later.
 
@@ -75,7 +75,12 @@ Show the final profile in concise JSON-like form. Include a setup completion tim
   "documentation_routes": {
     "help_desk": {
       "label": "Help Desk",
-      "space": "SPACEKEY",
+      "space": "AIH",
+      "spaces": {
+        "system_processes": "AIH",
+        "troubleshooting": "AHI",
+        "public": "AEHT"
+      },
       "template": "ahi_how_to",
       "default_parent": "https://..."
     },
@@ -87,13 +92,13 @@ Show the final profile in concise JSON-like form. Include a setup completion tim
     },
     "dev_dba": {
       "label": "DEV/DBA team",
-      "space": "TBD",
+      "space": "DTK",
       "template": "infra_dev_standard",
       "default_parent": null
     },
     "public_athens": {
       "label": "Public-facing for Athens employees",
-      "space": "SPACEKEY",
+      "space": "AEHT",
       "template": "ahi_how_to",
       "default_parent": "https://..."
     }

@@ -30,13 +30,13 @@ Identify or ask for the documentation route:
 
 Use the selected route's expected template and Confluence space as review criteria when available.
 
-If the document is a Help Desk or public-facing how-to, check it against `ahi_how_to`. If it is an internal agent troubleshooting guide, check it against `ahi_troubleshooting`. If it is Infrastructure or DEV/DBA documentation, check it against `infra_dev_standard` or `infra_dev_break_fix_runbook` and verify the section emoji standard from `templates.md` is preserved.
+If the document is a Help Desk or public-facing how-to, check it against `ahi_how_to`. If it is an internal agent troubleshooting guide, check it against `ahi_troubleshooting`. If it is Infrastructure or DEV/DBA documentation, check it against `infra_dev_standard` or `infra_dev_break_fix_runbook`. For every built-in template, verify the section emoji standard from `templates.md` is preserved.
 
 For Infrastructure or DEV/DBA documentation, verify the draft clearly identifies:
 
 - KB article type: Runbook KB article or Business Process KB article.
 - Audience: internal or public-facing for Athens employees.
-- Correct space routing: internal Infrastructure pages use `Internal Infrastructure KB` / `IIK`; internal DEV/DBA space is to be decided and must not default to `IIK`; public-facing pages use the configured public-facing route space.
+- Correct space routing: internal Infrastructure pages use `Internal Infrastructure KB` / `IIK`; internal DEV/DBA pages use `Dev Team KB` / `DTK`; public-facing pages use `HelpDesk Public` / `AEHT`; Help Desk troubleshooting pages use `HelpDesk Troubleshooting` / `AHI`; Help Desk system-process and internal how-to pages use `HelpDesk System Processes` / `AIH`.
 
 If reviewing a Confluence page:
 
@@ -64,6 +64,7 @@ Check:
 - Audience is clear.
 - Documentation route is clear.
 - Content follows the selected route's assigned or fallback template.
+- Built-in template section headings include the required emojis.
 - Page title matches the reader's task or object.
 - Public-facing content is concise and avoids unnecessary implementation detail.
 - Internal content is complete enough to operate from.

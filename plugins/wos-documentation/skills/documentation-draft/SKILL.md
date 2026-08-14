@@ -34,7 +34,15 @@ For Help Desk, offer:
 1. `ahi_how_to` - primary choice for how-to documentation.
 2. `ahi_troubleshooting` - internal agent troubleshooting guide.
 
+For Help Desk internal troubleshooting, use `ahi_troubleshooting` with the required emoji section headings from `templates.md`.
+
 For Public-facing for Athens employees, use `ahi_how_to`.
+
+Use these known Confluence spaces unless the user gives a temporary override:
+
+- Help Desk public-facing content: `HelpDesk Public` / `AEHT`.
+- Help Desk troubleshooting articles: `HelpDesk Troubleshooting` / `AHI`.
+- Help Desk system-process and internal how-to documentation: `HelpDesk System Processes` / `AIH`.
 
 For Infrastructure and DEV/DBA, offer:
 
@@ -56,17 +64,34 @@ Determine from the request or ask only when necessary:
 - KB article type for Infrastructure or DEV/DBA: Runbook KB article or Business Process KB article.
 - Audience: `public-facing` for `public_athens`; for Infrastructure or DEV/DBA, ask whether the specific page is internal or public-facing for Athens employees.
 - Topic and goal.
-- Target Confluence space: route-assigned space unless the user gives a temporary override. Infrastructure internal documentation uses `Internal Infrastructure KB` / `IIK`; DEV/DBA internal documentation is to be decided and requires a space selection before publishing; public-facing Infrastructure or DEV/DBA documentation uses the configured public-facing route space.
+- Target Confluence space: route-assigned space unless the user gives a temporary override. Infrastructure internal documentation uses `Internal Infrastructure KB` / `IIK`; DEV/DBA internal documentation uses `Dev Team KB` / `DTK`; public-facing documentation uses `HelpDesk Public` / `AEHT`; Help Desk troubleshooting uses `HelpDesk Troubleshooting` / `AHI`; Help Desk system-process and internal how-to documentation uses `HelpDesk System Processes` / `AIH`.
 - Template source: route-assigned Confluence template, supplied Confluence URL, `ahi_how_to`, `ahi_troubleshooting`, `infra_dev_standard`, or `infra_dev_break_fix_runbook`.
 - Intended placement, if the user already knows it: root, route default parent, existing parent page, or new parent page.
 - Source material: pasted notes, files, Jira tickets, Confluence pages, or user explanation.
 - Whether the user wants a draft only or wants to publish after review.
+
+## Required Question Gate
+
+Before drafting, check whether required information is missing. If it is missing, ask direct questions and stop. Do not output a completed draft after listing gaps.
+
+The phrase "let me know if there are gaps" means ask the missing questions first. It does not authorize a publish-ready draft with unresolved gaps.
+
+For Help Desk troubleshooting articles, ask direct questions when any of these are unclear:
+
+- Exact problem, symptom, error, or requested support action.
+- Known user/device/ticket/reference values and which should be placeholders.
+- Approved resolution path, including whether commands, Windows Settings, or admin actions are allowed.
+- Required access level or role.
+- Validation checks.
+- Escalation owner.
+- Confluence placement if publishing is requested.
 
 ## Drafting Rules
 
 - Use the configured route template or supplied Confluence template first when available.
 - Use `ahi_how_to` for public-facing how-tos and Help Desk how-to documentation.
 - Use `ahi_troubleshooting` for internal agent troubleshooting guides.
+- Preserve the exact emoji section headings for all built-in templates, including Help Desk templates.
 - Infrastructure and DEV/DBA share `infra_dev_standard` and `infra_dev_break_fix_runbook` templates, but not Confluence spaces.
 - For Infrastructure and DEV/DBA, use `infra_dev_break_fix_runbook` for Runbook KB articles and `infra_dev_standard` for Business Process KB articles.
 - For public-facing Infrastructure or DEV/DBA content, keep it employee-safe: concise, no internal-only commands, no privileged access steps, and no internal escalation detail that employees should not act on directly.
@@ -92,5 +117,7 @@ Include a short preface with:
 - Template used, if any.
 - Intended placement, if known.
 - Any source gaps or assumptions.
+
+Do not include a "Gaps To Confirm" section followed by a completed draft. If gaps are blocking, output only the questions to answer next.
 
 Do not publish unless the user explicitly asks and confirms the Confluence write in the current turn.

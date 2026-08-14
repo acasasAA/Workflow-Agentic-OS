@@ -18,7 +18,7 @@ Do not rerun first-time onboarding unless the existing install is incomplete or 
 
 - `wos-onboarding` v0.1.9
 - `wos-jira` v0.2.5
-- `wos-documentation` v0.1.8
+- `wos-documentation` v0.1.9
 - `wos-dr` v0.1.0
 - `wos-memory-engine` v0.1.3
 - `wos-project` v0.1.6
@@ -27,6 +27,8 @@ Do not rerun first-time onboarding unless the existing install is incomplete or 
 ## Documentation Update Notes
 
 `wos-documentation` v0.1.8 adds conservative long-document handling for KB Refresh and documentation drafting.
+
+`wos-documentation` v0.1.9 adds stricter intake behavior, Help Desk emoji section enforcement, and the confirmed public-facing and team Confluence space defaults.
 
 When `KB Refresh` or `$documentation-draft` receives long, unstructured, OneNote-derived, or PDF-like source material, the plugin treats the source as raw material instead of copying its length or page shape.
 
@@ -39,6 +41,11 @@ Expected behavior:
 - Do not exceed five pages when a split is truly required, and prefer fewer pages.
 - Preserve verified facts, exact errors, commands, paths, and required operational details.
 - Use `[TBD]` or `<PLACEHOLDER>` for missing information instead of inventing content.
+- Ask direct questions before drafting when required source details are missing.
+- Do not output a completed draft after a "Gaps To Confirm" list.
+- Preserve required emoji section headings for all built-in templates, including Help Desk how-to and troubleshooting templates.
+- Use confirmed WOS Documentation spaces by default: `HelpDesk Public` / `AEHT`, `HelpDesk Troubleshooting` / `AHI`, `HelpDesk System Processes` / `AIH`, `Internal Infrastructure KB` / `IIK`, and `Dev Team KB` / `DTK`.
+- Keep `JSM Optimization Advisory` out of WOS Documentation route defaults.
 
 ## Prompt To Give Their Codex
 
@@ -80,7 +87,7 @@ Steps:
 10. Update or reinstall only the Workflow OS plugins the user already has installed so those installed plugins match the latest expected versions:
     - wos-onboarding v0.1.9
     - wos-jira v0.2.5
-    - wos-documentation v0.1.8
+    - wos-documentation v0.1.9
     - wos-dr v0.1.0
     - wos-memory-engine v0.1.3
     - wos-project v0.1.6

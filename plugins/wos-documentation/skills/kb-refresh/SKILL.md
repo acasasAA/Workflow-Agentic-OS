@@ -34,8 +34,10 @@ Identify from the request or ask only when missing:
 - Documentation route: Help Desk, Infrastructure, DEV/DBA team, or Public-facing for Athens employees.
 - For Infrastructure or DEV/DBA: Runbook KB article or Business Process KB article.
 - For Infrastructure or DEV/DBA: internal or public-facing for Athens employees.
-- Target Confluence space: route default, public-facing route space, or one-request override.
+- Target Confluence space: route default, public-facing route space, or one-request override. Known defaults are `Internal Infrastructure KB` / `IIK`, `Dev Team KB` / `DTK`, `HelpDesk Public` / `AEHT`, `HelpDesk Troubleshooting` / `AHI`, and `HelpDesk System Processes` / `AIH`.
 - Intended placement if the user plans to publish: root, route default parent, existing parent page, or new parent page.
+
+If required information is missing, ask direct questions and stop before returning a refreshed KB. Do not output a completed KB after a "Gaps To Confirm" list. Treat "let me know if there are gaps" as a request to ask questions first.
 
 If the user does not know whether the article is a Runbook KB article or Business Process KB article, explain:
 
@@ -49,7 +51,7 @@ If the user does not know whether the article is a Runbook KB article or Busines
 - Use placeholders like `<PLACEHOLDER>` or `[TBD]` for missing values instead of inventing them.
 - Use the selected route's configured template when available.
 - Use the built-in template from `templates.md` when no configured template exists.
-- Preserve the required section emojis when a built-in Infrastructure/DEV template is used.
+- Preserve the required section emojis for every built-in template, including Help Desk templates.
 - Public-facing content must be simple, concise, employee-safe, and free of internal-only commands, privileged access steps, and internal escalation details.
 - Internal content should be practical and complete, but usually one page.
 - For long, unstructured, OneNote-derived, PDF-like, or multi-page source material, treat the source length as raw input only. The Confluence output should usually be one continuous article.
@@ -71,4 +73,4 @@ Return:
 - The refreshed KB article in Confluence-ready Markdown or Atlassian-document-friendly structure.
 - A short list of source gaps, removed stale content, or items needing owner confirmation when relevant.
 
-If the source document was too incomplete to refresh safely, return the best structured draft and mark missing information as `[TBD]`.
+If the source document is too incomplete to refresh safely, ask the missing questions first. Use `[TBD]` only for non-blocking values after the required intake questions have been answered.

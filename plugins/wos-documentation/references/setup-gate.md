@@ -22,6 +22,8 @@ If none of those are true, run the per-document walkthrough and collect:
 - Target Confluence space.
 - Placement: root, configured/default parent, existing parent page, or new parent page.
 
+If any required intake item is missing, ask direct questions before drafting. Do not output a full draft under a "Gaps To Confirm" list. Treat "let me know if there are gaps" as a request to ask the missing questions first.
+
 Do not claim the per-document walkthrough saved defaults. If the user wants the same choices reused later, send them to `$documentation-setup`.
 
 When setup completes, the profile must include:

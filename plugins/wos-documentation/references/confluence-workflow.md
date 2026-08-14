@@ -15,6 +15,12 @@ The selected route determines the default Confluence space and template for that
 
 After the route is selected, apply the route's configured template. If the route does not have a configured template, offer the built-in template choices from `templates.md`. Help Desk should offer the AHI How-To Guide first and the AHI Troubleshooting Article second. Public-facing Athens employee documentation should use the AHI How-To Guide. Infrastructure and DEV/DBA should offer the Infrastructure/DEV Standard Page first and the Infrastructure/DEV Break/Fix Runbook second; they share these templates but keep separate Confluence spaces.
 
+For Help Desk routing:
+
+- Public-facing Athens employee Help Desk content goes to `HelpDesk Public` / `AEHT`.
+- Help Desk troubleshooting articles go to `HelpDesk Troubleshooting` / `AHI`.
+- Help Desk process, system-process, and internal how-to documentation goes to `HelpDesk System Processes` / `AIH`.
+
 For Infrastructure and DEV/DBA routes, ask two follow-up questions before drafting:
 
 1. Ask whether the document is a Runbook KB article or a Business Process KB article.
@@ -27,18 +33,21 @@ If the user does not know the difference:
 
 Use `infra_dev_break_fix_runbook` for Runbook KB articles. Use `infra_dev_standard` for Business Process KB articles.
 
-If an Infrastructure or DEV/DBA document is internal, use that route's configured team space. The confirmed Infrastructure team space is `Internal Infrastructure KB` with space key `IIK`. If an Infrastructure or DEV/DBA document is public-facing for Athens employees, use the configured public-facing route space instead and keep the source team visible in the draft preface.
+If an Infrastructure or DEV/DBA document is internal, use that route's configured team space. The confirmed Infrastructure team space is `Internal Infrastructure KB` with space key `IIK`. The confirmed DEV/DBA team space is `Dev Team KB` with space key `DTK`. If an Infrastructure or DEV/DBA document is public-facing for Athens employees, use `HelpDesk Public` / `AEHT` instead and keep the source team visible in the draft preface.
 
 ## Route Configuration
 
 Each route has an assigned Confluence space and template. During setup, collect both for every route the user wants enabled.
 
-Current known route space:
+Current known route spaces:
 
+- Help Desk public-facing: `HelpDesk Public` / `AEHT`.
+- Help Desk system processes and internal how-to: `HelpDesk System Processes` / `AIH`.
+- Help Desk troubleshooting: `HelpDesk Troubleshooting` / `AHI`.
 - Infrastructure: `Internal Infrastructure KB` / `IIK`.
-- DEV/DBA: to be decided.
+- DEV/DBA: `Dev Team KB` / `DTK`.
 
-DEV/DBA must still be configured with its own Confluence space when that decision is made. Until then, treat DEV/DBA internal publishing as blocked on space selection. It may share Infrastructure template structure, but it must not automatically share the Infrastructure space unless the user explicitly configures it that way.
+DEV/DBA shares Infrastructure template structure, but it must not automatically share the Infrastructure space unless the user explicitly configures it that way.
 
 The setup profile shape is:
 
@@ -47,7 +56,12 @@ The setup profile shape is:
   "documentation_routes": {
     "help_desk": {
       "label": "Help Desk",
-      "space": "SPACEKEY",
+      "space": "AIH",
+      "spaces": {
+        "system_processes": "AIH",
+        "troubleshooting": "AHI",
+        "public": "AEHT"
+      },
       "template": "Confluence page URL, page id, named template, ahi_how_to, or ahi_troubleshooting",
       "default_parent": "optional Confluence page URL or page id"
     },
@@ -59,13 +73,13 @@ The setup profile shape is:
     },
     "dev_dba": {
       "label": "DEV/DBA team",
-      "space": "TBD",
+      "space": "DTK",
       "template": "Confluence page URL, page id, named template, infra_dev_standard, or infra_dev_break_fix_runbook",
       "default_parent": "optional Confluence page URL or page id"
     },
     "public_athens": {
       "label": "Public-facing for Athens employees",
-      "space": "SPACEKEY",
+      "space": "AEHT",
       "template": "Confluence page URL, page id, named template, or ahi_how_to",
       "default_parent": "optional Confluence page URL or page id"
     }
@@ -99,6 +113,22 @@ Legacy profile fields may exist from older versions:
 ```
 
 Treat those fields as fallback only. The route map is authoritative for new setup.
+
+## Required Questions Before Drafting
+
+When required information is missing, ask direct questions and wait for answers before creating the draft. Do not provide a completed KB draft after a "Gaps To Confirm" list.
+
+For Help Desk troubleshooting articles, required questions include:
+
+- What exact issue, symptom, error, or request should the KB solve?
+- What user, device, asset tag, ticket, or reference values are known and which should be placeholders?
+- What are the approved resolution steps, including whether any command, admin action, or Windows setting is allowed?
+- What access level or role should perform the steps?
+- What validation checks prove the issue is resolved?
+- Who owns escalation if the steps fail?
+- Where should the page be placed in Confluence if publishing is requested?
+
+If the user provides a screenshot, conversation, or short note and says to "let me know if there are gaps," ask these as questions first. Only draft after the user answers.
 
 ## Page Placement
 
@@ -140,6 +170,7 @@ When no template is available:
 - Use the built-in template choice that matches the selected route and document type.
 - For Infrastructure or DEV/DBA, use `infra_dev_standard` unless the user is documenting a break/fix incident or runbook, then use `infra_dev_break_fix_runbook`.
 - For public-facing Infrastructure or DEV/DBA content, remove internal-only implementation detail, commands, privileged access notes, and escalation details that employees should not use directly.
+- Do not include `JSM Optimization Advisory` in WOS Documentation route defaults unless a future request explicitly brings it into scope.
 
 ## Publishing Flow
 
